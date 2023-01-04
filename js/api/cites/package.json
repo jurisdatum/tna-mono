@@ -1,0 +1,12 @@
+{
+  "name": "cites-api",
+  "version": "0.1.0",
+  "description": "Citations API",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Jim Mangiafico",
+  "dependencies": {
+    "mysql": "^2.18.1"
+  }
+}

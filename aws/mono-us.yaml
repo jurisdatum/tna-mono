@@ -1,0 +1,9 @@
+Resources:
+  Cert2:
+    Type: AWS::CertificateManager::Certificate
+    Properties:
+      DomainName: www.tna.jurisdatum.com
+      ValidationMethod: DNS
+      DomainValidationOptions:
+        - DomainName: www.tna.jurisdatum.com
+          HostedZoneId: Z04617232K3KXU7UGL477

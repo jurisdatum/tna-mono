@@ -1,0 +1,68 @@
+
+# all patterns in this file must have exactly three groups,
+# the first of which much be a type: Regulation, Decision or Directive
+# the second and third must be integers
+
+# regulations
+
+Commission Implementing (Regulation) \(EC\) No\.? (\d+)/(\d+)
+Council Implementing (Regulation) \(EC\) No\.? (\d+)/(\d+)
+
+Commission Implementing (Regulation) \(EU\) No\.? (\d+)/(\d+)
+Council Implementing (Regulation) \(EU\) No\.? (\d+)/(\d+)
+
+Commission Implementing (Regulation) \(EC\) (\d+)/(\d+)
+Council Implementing (Regulation) \(EC\) (\d+)/(\d+)
+
+Commission Implementing (Regulation) \(EU\) (\d+)/(\d+)
+Council Implementing (Regulation) \(EU\) (\d+)/(\d+)
+
+Commission (Regulation) \(EC\) No\.? (\d+)/(\d+)
+Council (Regulation) \(EC\) No\.? (\d+)/(\d+)
+
+Commission (Regulation) \(EEC\) No\.? (\d+)/(\d+)
+Council (Regulation) \(EEC\) No\.? (\d+)/(\d+)
+
+Commission (Regulation) \(EU\) No\.? (\d+)/(\d+)
+Council (Regulation) \(EU\) No\.? (\d+)/(\d+)
+
+Implementing (Regulation) \(EEC\) No\.? (\d+)/(\d+)
+Implementing (Regulation) \(EU\) No\.? (\d+)/(\d+)
+
+(Regulation) \(EC\) No\.? (\d+)/(\d+)
+(Regulation) \(EU\) No\.? (\d+)/(\d+)
+(Regulation) \(EC\) No\.? (\d+)/(\d+)
+(Regulation) \(EC\) (\d+)/(\d+)
+(Regulation) \(EU\) (\d+)/(\d+)
+(Regulation) \(EC\) (\d+)/(\d+)
+
+# decisions
+
+Commission Implementing (Decision) \(EU\) (\d+)/(\d+)
+Council Implementing (Decision) \(EU\) (\d+)/(\d+)
+
+Commission Implementing (Decision) (\d+)/(\d+)/EU
+Council Implementing (Decision) (\d+)/(\d+)/CSFP
+Commission Implementing (Decision) (\d+)/(\d+)
+Council Implementing (Decision) (\d+)/(\d+)
+
+Commission (Decision) (\d+)/(\d+)/EC
+Commission (Decision) (\d+)/(\d+)/EU
+
+# directives
+
+Commission Implementing (Directive) (\d+)/(\d+)/EU
+Commission Implementing (Directive) \(EU\) (\d+)/(\d+)
+
+Implementing (Directive) (\d+)/(\d+)/EU
+Implementing (Directive) \(EU\) (\d+)/(\d+)
+
+Commission (Directive) (\d+)/(\d+)/EEC
+Commission (Directive) (\d+)/(\d+)/EC
+Commission (Directive) (\d+)/(\d+)/EU
+
+Council (Directive) (\d+)/(\d+)/EEC
+Council (Directive) (\d+)/(\d+)/EC
+Council (Directive) (\d+)/(\d+)
+(Directive) (\d+)/(\d+)/EEC
+(Directive) (\d+)/(\d+)/EC
