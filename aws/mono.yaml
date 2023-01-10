@@ -351,6 +351,28 @@ Resources:
                     description: internal error
               x-amazon-apigateway-integration:
                 $ref: '#/components/x-amazon-apigateway-integrations/integration1'
+          /document/{proxy+}:
+            get:
+              summary: Retrieve a document
+              parameters:
+                  - name: id
+                    in: query
+                    schema:
+                        type: string
+              responses:
+                  '200':
+                    description: the document
+                  '400':
+                    description: bad reqeust
+                  '404':
+                    description: not found
+                  '500':
+                    description: internal error
+              x-amazon-apigateway-integration:
+                type: HTTP_PROXY
+                httpMethod: GET
+                uri: 'https://lgu-enriched.s3.eu-west-2.amazonaws.com/{proxy}'
+                payloadFormatVersion: '1.0'
 
         x-amazon-apigateway-cors:
           allowOrigins:
