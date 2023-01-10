@@ -31,12 +31,13 @@ public class UpdateQueue {
         if (url == null)
             url = Queue.getQueueUrl(name);
         ObjectMapper objectMapper = new ObjectMapper();
-        Function<MessageBody, String> keyMapper = (message) -> message.id.replace('/', '_');
+        Function<MessageBody, String> keyMapper = (message) -> IdMapper.Instance.apply(message.id);
         Function<MessageBody, String> valueMapper = (message) -> { try { return objectMapper.writeValueAsString(message); } catch (JsonProcessingException e) { throw new RuntimeException(e); } };
         Map<String, String> bodies = messages.stream()
             .collect(Collectors.toMap(keyMapper, valueMapper));
         Queue.sendMessages(url, bodies);
     }
+
 
     public static class MessageBody {
 

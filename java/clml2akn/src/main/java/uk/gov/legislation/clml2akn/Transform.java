@@ -51,18 +51,27 @@ public class Transform {
             throw new RuntimeException(e);
         }
     }
+    private XdmNode transform(Source source) {
+        XdmDestination akn = new XdmDestination();
+        transform(source, akn);
+        return akn.getXdmNode();
+    }
+
+    public XdmNode transform(byte[] clml) {
+        ByteArrayInputStream bais = new ByteArrayInputStream(clml);
+        Source source = new StreamSource(bais);
+        return transform(source);
+    }
+
+    public XdmNode transform(org.w3c.dom.Document doc) {
+        Source source = new DOMSource(doc);
+        return transform(source);
+    }
 
     public void transform(InputStream clml, OutputStream akn) {
         Source source = new StreamSource(clml);
         Serializer serializer = executable.getProcessor().newSerializer(akn);
         transform(source, serializer);
-    }
-
-    public XdmNode transform(org.w3c.dom.Document doc) {
-        Source source = new DOMSource(doc);
-        XdmDestination akn = new XdmDestination();
-        transform(source, akn);
-        return akn.getXdmNode();
     }
 
     public static byte[] serialize(XdmNode akn) throws SaxonApiException {

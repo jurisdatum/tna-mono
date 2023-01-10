@@ -7,9 +7,9 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-public class EnrichmentQueue {
+public class TransformQueue {
 
-    public static final String name = "enrich";
+    public static final String name = "transform";
     private static String url;
 
     public static void enqueue(String id) {

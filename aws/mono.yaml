@@ -158,6 +158,11 @@ Resources:
                 Resource:
                   - 'arn:aws:s3:::lgu-enriched'
                   - 'arn:aws:s3:::lgu-enriched/*'
+              - Effect: Allow
+                Action:
+                  - sqs:GetQueueUrl
+                  - sqs:SendMessage
+                Resource: !GetAtt TransformQueue.Arn
 
   Lambda3:
     Type: AWS::Lambda::Function
@@ -260,6 +265,70 @@ Resources:
       Action: lambda:InvokeFunction
       Principal: events.amazonaws.com
       SourceArn: !GetAtt TriggerForLambda4.Arn
+
+
+# queue and lambda function for transforming documents
+  TransformQueue:
+    Type: AWS::SQS::Queue
+    Properties:
+      QueueName: transform
+      VisibilityTimeout: 3600 # six times the lambda function timeout
+  RoleForTransformLambda:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+          - Effect: Allow
+            Action: sts:AssumeRole
+            Principal:
+              Service: lambda.amazonaws.com
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/service-role/AWSLambdaVPCAccessExecutionRole
+      Policies:
+        - PolicyName: PolicyForLambda3
+          PolicyDocument:
+            Statement:
+              - Effect: Allow
+                Action:
+                  - sqs:ReceiveMessage
+                  - sqs:DeleteMessage
+                  - sqs:GetQueueAttributes
+                Resource: !GetAtt TransformQueue.Arn
+              - Effect: Allow
+                Action:
+                  - 's3:GetObject'
+                  - 's3:PutObject'
+                Resource:
+                  - 'arn:aws:s3:::lgu-enriched'
+                  - 'arn:aws:s3:::lgu-enriched/*'
+  TransformLambda:
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName: mono-transform1
+      Description: transform CLML to AkN and HTML
+      Runtime: java11
+      Code:
+        S3Bucket: mono-code
+        S3Key: 'db2-0.1.0.jar'
+      Handler: 'uk.gov.legislation.db2.lambda.Transform1::handleRequest'
+      MemorySize: 512
+      Role: !GetAtt RoleForTransformLambda.Arn
+      Timeout: 600
+      VpcConfig:
+        SecurityGroupIds:
+          - sg-0c3756eca9fa12c12 # may not be necessary in this case
+        SubnetIds:
+          - !Ref PrivateSubnetA
+          - !Ref PrivateSubnetB
+          - !Ref PrivateSubnetC
+  TransformTrigger:
+    Type: AWS::Lambda::EventSourceMapping
+    Properties:
+      BatchSize: 1
+      EventSourceArn: !GetAtt TransformQueue.Arn
+      FunctionName: !GetAtt TransformLambda.Arn
+
+
 
 ### networking ###
 
