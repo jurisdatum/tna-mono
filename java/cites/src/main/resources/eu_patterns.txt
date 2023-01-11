@@ -31,10 +31,8 @@ Implementing (Regulation) \(EU\) No\.? (\d+)/(\d+)
 
 (Regulation) \(EC\) No\.? (\d+)/(\d+)
 (Regulation) \(EU\) No\.? (\d+)/(\d+)
-(Regulation) \(EC\) No\.? (\d+)/(\d+)
 (Regulation) \(EC\) (\d+)/(\d+)
 (Regulation) \(EU\) (\d+)/(\d+)
-(Regulation) \(EC\) (\d+)/(\d+)
 
 # decisions
 

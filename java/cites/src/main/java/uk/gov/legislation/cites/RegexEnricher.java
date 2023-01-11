@@ -1,74 +1,42 @@
 package uk.gov.legislation.cites;
 
-import org.w3c.dom.*;
-import org.xml.sax.SAXException;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.Text;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
-import java.io.*;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.logging.Logger;
-import java.util.regex.MatchResult;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-abstract class RegexEnricher {
+abstract class RegexEnricher extends AbstractEnricher {
 
     protected Logger logger = Logger.getAnonymousLogger();
 
+    protected static Pattern[] readPatterns(String resource) {
+        InputStream stream = RegexEnricher.class.getResourceAsStream(resource);
+        String text;
+        try {
+            text = new String(stream.readAllBytes(), StandardCharsets.UTF_8);
+            stream.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return text.lines()
+            .map(line -> { int i = line.indexOf('#'); return i == -1 ? line : line.substring(0, i); })
+            .map(line -> line.trim())
+            .filter(line -> !line.isEmpty())
+            .map(line -> Pattern.compile(line))
+            .toArray(Pattern[]::new);
+    }
+
     protected abstract Pattern[] patterns();
-    protected abstract Cite parse(MatchResult match);
+    protected abstract Cite parse(Matcher match);
 
-    public byte[] enrich(InputStream stream) throws IOException, SAXException {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        enrich(stream, baos);
-        return baos.toByteArray();
-    }
-
-    public void enrich(InputStream input, OutputStream output) throws IOException, SAXException {
-        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        factory.setNamespaceAware(true);
-        DocumentBuilder builder;
-        try {
-            builder = factory.newDocumentBuilder();
-        } catch (ParserConfigurationException e) {
-            throw new RuntimeException(e);
-        }
-        Document doc = builder.parse(input);
-        enrich(doc);
-        DOMSource source = new DOMSource(doc);
-        StreamResult result = new StreamResult(output);
-        try {
-            Transformer transformer = TransformerFactory.newInstance().newTransformer();
-            transformer.transform(source, result);
-        } catch (TransformerException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public void enrich(Document doc) {
-        enrichNode(doc.getDocumentElement());
-    }
-
-    private void enrichNode(Node node) {
-        if (node instanceof Element) {
-            NodeList children = node.getChildNodes();
-            for (int i = 0; i < children.getLength(); i++)
-                enrichNode(children.item(i));
-            return;
-        }
-        if (node instanceof Text) {
-            Text text = (Text) node;
-            enrichText(text);
-        }
-    }
-
-    private void enrichText(Text node) {
+    @Override
+    protected final void enrichText(Text node) {
         if (!shouldEnrich(node))
             return;
         for (Pattern pattern : patterns()) {
@@ -79,56 +47,31 @@ abstract class RegexEnricher {
     }
 
     private boolean shouldEnrich(Text node) {
-        final Element parent = (Element) node.getParentNode();
+        if (node.getParentNode().getNodeType() != Node.ELEMENT_NODE)
+            return false;
+        Element parent = (Element) node.getParentNode();
         if ("Text".equals(parent.getTagName()))
             return true;
-        final Element grandparent = (Element) parent.getParentNode();
+        if (parent.getParentNode().getNodeType() != Node.ELEMENT_NODE)
+            return false;
+        Element grandparent = (Element) parent.getParentNode();
         if ("Title".equals(parent.getTagName()))
             return !grandparent.getTagName().endsWith("Prelims");
         return false;
     }
 
     private boolean enrich(Text node, Pattern pattern) {
-
         String text = node.getTextContent();
         Matcher matcher = pattern.matcher(text);
         if (!matcher.find())
             return false;
-        final Cite cite = parse(matcher.toMatchResult());
+        Cite cite = parse(matcher);
         if (cite == null)
             return false;
-        logger.info("found cite: " + cite.text());
-
-        Document doc = node.getOwnerDocument();
-        Node parent = node.getParentNode();
-
+        logger.info("found cite: \"" + cite.text() + "\" within line: " + node.getParentNode().getTextContent().replaceAll("\\s+", " ").trim());
         String beforeText = text.substring(0, matcher.start());
-        Text beforeNode = beforeText.isEmpty() ? null : doc.createTextNode(beforeText);
-        if (beforeNode != null)
-            parent.insertBefore(beforeNode, node);
-
-        Element citation = doc.createElementNS("http://www.legislation.gov.uk/namespaces/legislation", "Citation");
-        citation.setAttribute("Class", cite.type());
-        citation.setAttribute("Year", Integer.toString(cite.year()));
-        citation.setAttribute("Number", Integer.toString(cite.number()));
-        citation.appendChild(doc.createTextNode(cite.text()));
-        String url = cite.url();
-        if (url != null)
-            citation.setAttribute("URI", url);
-
-        parent.insertBefore(citation, node);
-
         String afterText = text.substring(matcher.end());
-        Text afterNode = afterText.isEmpty() ? null : doc.createTextNode(afterText);
-        if (afterNode != null)
-            parent.insertBefore(afterNode, node);
-
-        parent.removeChild(node);
-
-        if (beforeNode != null)
-            enrichText(beforeNode); // could add optimization to skip patterns already tried
-        if (afterNode != null)
-            enrichText(afterNode);
+        replaceNode(node, beforeText, cite, afterText, true);
         return true;
     }
 

@@ -1,0 +1,16 @@
+
+(?<year>\d{4}) c\. ?(?<num>\d+)
+(?<year>\d{4}) \(c\. ?(?<num>\d+)\)
+
+(?<type>S\.S\.I\.) (?<year>\d{4})/(?<num>\d+)
+
+(?<type>S\.I\.) (?<year>\d{4})/(?<num>\d+) \((?<type2>N\.I\.) ?(?<num2>\d+)\)
+
+(?<type>S\.I\.) (?<year>\d{4})/(?<num>\d+)
+
+(?<year>\d{4}) (?<type>asp) (?<num>\d+)
+(?<year>\d{4}) \((?<type>asp) (?<num>\d+)\)
+
+(?<type>S\.R\. \(N\.I\.\)) (?<year>\d{4}) No\. (?<num>\d+)
+
+(?<year>\d{4}) c\. (?<num>\d+) \((?<type>N\.I\.)\)

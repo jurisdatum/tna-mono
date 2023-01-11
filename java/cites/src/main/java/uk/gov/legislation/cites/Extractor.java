@@ -44,7 +44,7 @@ public class Extractor {
     }
 
     private void extractFromNode(Node node) {
-        if (node instanceof Element) {
+        if (node.getNodeType() == Node.ELEMENT_NODE) {
             Element element = (Element) node;
             extractFromElement(element);
         }
@@ -78,23 +78,23 @@ public class Extractor {
     }
 
     private String getSection(Node node) {
-        if (node instanceof Document)
+        if (node.getNodeType() == Node.DOCUMENT_NODE)
             return null;
-        if (!(node instanceof Element))
-            return getSection(node.getParentNode());
+        Node parent = node.getParentNode();
+        if (node.getNodeType() != Node.ELEMENT_NODE)
+            return getSection(parent);
         Element element = (Element) node;
+        String tag = element.getTagName();
         // skip some elements?
         String id = element.getAttribute("id");
         if (id != null && !id.isEmpty())
             return id;
-        String tag = element.getTagName();
-        if (tag.equals("SecondaryPrelims"))
+        if (tag.endsWith("Prelims"))
             return "introduction";
         if (tag.equals("SignedSection"))
             return "signature";
         if (tag.equals("ExplanatoryNotes"))
             return "note";
-        Node parent = element.getParentNode();
         return getSection(parent);
     }
 
