@@ -2,9 +2,7 @@ package uk.gov.legislation.db2.rds;
 
 import java.sql.*;
 import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
-
+import java.util.*;
 
 public class Document {
 
@@ -57,6 +55,46 @@ public class Document {
 	}
 	public void setLastChecked(Date checked) {
 		this.checked = checked;
+	}
+
+	public static List<Document> fetch(String type) throws SQLException {
+		List<Document> docs = new LinkedList<>();
+		String sql = "SELECT * FROM documents WHERE type = ? ORDER BY year DESC, number";
+		Connection connection = MySQL.getConnection();
+		try {
+			PreparedStatement statement = connection.prepareStatement(sql);
+			statement.setString(1, type);
+			ResultSet result = statement.executeQuery();
+			while (result.next()) {
+				Document doc = new Document(result);
+				docs.add(doc);
+			}
+			result.close();
+			statement.close();
+		} finally {
+			connection.close();
+		}
+		return docs;
+	}
+
+	public static NavigableSet<Integer> getYears(String type) throws SQLException {
+		TreeSet<Integer> years = new TreeSet<>();
+		String sql = "SELECT DISTINCT year FROM documents WHERE type = ?";
+		Connection connection = MySQL.getConnection();
+		try {
+			PreparedStatement statement = connection.prepareStatement(sql);
+			statement.setString(1, type);
+			ResultSet result = statement.executeQuery();
+			while (result.next()) {
+				int year = result.getInt(1);
+				years.add(year);
+			}
+			result.close();
+			statement.close();
+		} finally {
+			connection.close();
+		}
+		return years;
 	}
 
 	public static List<Document> fetch(String type, int year) throws SQLException {
@@ -135,6 +173,26 @@ public class Document {
 		} finally {
 			connection.close();
 		}
+	}
+
+	public static Date getLastUpdated(String type) throws SQLException {
+		Date date;
+		String sql = "SELECT MAX(updated) FROM documents WHERE type = ?";
+		Connection connection = MySQL.getConnection();
+		try {
+			PreparedStatement statement = connection.prepareStatement(sql);
+			statement.setString(1, type);
+			ResultSet result = statement.executeQuery();
+			if (result.next())
+				date = result.getTimestamp(1);
+			else
+				date = null;
+			result.close();
+			statement.close();
+		} finally {
+			connection.close();
+		}
+		return date;
 	}
 
 }
