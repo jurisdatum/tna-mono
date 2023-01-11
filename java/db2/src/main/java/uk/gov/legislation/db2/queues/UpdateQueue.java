@@ -8,6 +8,7 @@ import uk.gov.legislation.aws.Queue;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Map;
+import java.util.TimeZone;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -42,6 +43,10 @@ public class UpdateQueue {
     public static class MessageBody {
 
         public static final SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+        static {
+            TimeZone tz = TimeZone.getTimeZone("UTC");
+            format.setTimeZone(tz);
+        }
 
         public String id;
 
