@@ -58,6 +58,7 @@ public class Update1 implements RequestHandler<SQSEvent, SQSBatchResponse> {
             logger.log(e.getLocalizedMessage());
             e.printStackTrace();
         }
+        logger.log("done");
     }
 
 }

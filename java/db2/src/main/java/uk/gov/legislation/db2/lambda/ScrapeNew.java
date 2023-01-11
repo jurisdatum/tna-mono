@@ -61,6 +61,7 @@ public class ScrapeNew implements RequestHandler<ScheduledEvent, Void> {
                 break;
             }
         }
+        logger.log("done");
         return null;
     }
 
