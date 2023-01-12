@@ -12,6 +12,10 @@ import java.net.URL;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -143,11 +147,9 @@ public class Atom {
         }
 
         private static final DateFormat format1 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
-        private static final DateFormat format2 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSS'Z'");
+        private static final DateTimeFormatter format2 = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.nnnnnn'Z'").withZone(ZoneId.of("UTC"));
         static {
-            TimeZone tz = TimeZone.getTimeZone("UTC");
-            format1.setTimeZone(tz);
-            format2.setTimeZone(tz);
+            format1.setTimeZone(TimeZone.getTimeZone("UTC"));
         }
 
         public Date updated() {
@@ -157,8 +159,9 @@ public class Atom {
                 return format1.parse(updated);
             } catch (ParseException e1) {
                 try {
-                    return format2.parse(updated);
-                } catch (ParseException e2) {
+                    ZonedDateTime zdt = ZonedDateTime.parse(updated, format2);
+                    return Date.from(zdt.toInstant());
+                } catch (DateTimeParseException e2) {
                     throw new RuntimeException("unexpected date format: " + updated, e1);
                 }
             }
