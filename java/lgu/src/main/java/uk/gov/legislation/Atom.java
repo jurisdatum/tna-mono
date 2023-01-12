@@ -146,25 +146,11 @@ public class Atom {
             return Whitespace.collapseWhitespace(title);
         }
 
-        private static final DateFormat format1 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
-        private static final DateTimeFormatter format2 = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.nnnnnn'Z'").withZone(ZoneId.of("UTC"));
-        static {
-            format1.setTimeZone(TimeZone.getTimeZone("UTC"));
-        }
-
         public Date updated() {
             String expression = "updated";
             String updated = Xpath.eval1(compiler, entry, expression).getStringValue();
-            try {
-                return format1.parse(updated);
-            } catch (ParseException e1) {
-                try {
-                    ZonedDateTime zdt = ZonedDateTime.parse(updated, format2);
-                    return Date.from(zdt.toInstant());
-                } catch (DateTimeParseException e2) {
-                    throw new RuntimeException("unexpected date format: " + updated, e1);
-                }
-            }
+            ZonedDateTime zdt = ZonedDateTime.parse(updated);
+            return Date.from(zdt.toInstant());
         }
     }
 
