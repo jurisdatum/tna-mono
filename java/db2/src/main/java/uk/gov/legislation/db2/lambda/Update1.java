@@ -41,7 +41,7 @@ public class Update1 implements RequestHandler<SQSEvent, SQSBatchResponse> {
     private void processMessage(SQSEvent.SQSMessage message, LambdaLogger logger) throws JsonProcessingException, ParseException, SQLException {
         UpdateQueue.MessageBody body = new ObjectMapper().readValue(message.getBody(), UpdateQueue.MessageBody.class);
         logger.log(body.id);
-        Date updated = UpdateQueue.MessageBody.format.parse(body.updated);
+        Date updated = UpdateQueue.MessageBody.parseDate(body.updated);
         Document doc = Document.get(body.id);
         if (doc != null && !doc.getLastUpdated().before(updated)) {
             logger.log("skipping " + body.id);

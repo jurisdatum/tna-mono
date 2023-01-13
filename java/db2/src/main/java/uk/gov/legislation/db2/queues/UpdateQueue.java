@@ -5,10 +5,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import uk.gov.legislation.Atom;
 import uk.gov.legislation.aws.Queue;
 
-import java.text.SimpleDateFormat;
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.TimeZone;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -42,10 +43,13 @@ public class UpdateQueue {
 
     public static class MessageBody {
 
-        public static final SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
-        static {
-            TimeZone tz = TimeZone.getTimeZone("UTC");
-            format.setTimeZone(tz);
+        public static String format(Date date) {
+            OffsetDateTime odt = date.toInstant().atOffset(ZoneOffset.UTC);
+            return odt.toString();
+        }
+        public static Date parseDate(String date) {
+            OffsetDateTime odt = OffsetDateTime.parse(date);
+            return Date.from(odt.toInstant());
         }
 
         public String id;
@@ -61,7 +65,7 @@ public class UpdateQueue {
             message.id = entry.shortId();
             message.year = entry.year();
             message.title = entry.title();
-            message.updated = UpdateQueue.MessageBody.format.format(entry.updated());
+            message.updated = format(entry.updated());
             return message;
         }
     }

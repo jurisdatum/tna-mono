@@ -9,13 +9,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
+import java.time.OffsetDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -149,8 +143,8 @@ public class Atom {
         public Date updated() {
             String expression = "updated";
             String updated = Xpath.eval1(compiler, entry, expression).getStringValue();
-            ZonedDateTime zdt = ZonedDateTime.parse(updated);
-            return Date.from(zdt.toInstant());
+            OffsetDateTime odt = OffsetDateTime.parse(updated);
+            return Date.from(odt.toInstant());
         }
     }
 
