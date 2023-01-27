@@ -11,6 +11,7 @@ import uk.gov.legislation.CLML;
 import uk.gov.legislation.db2.files.LGUCache;
 import uk.gov.legislation.db2.queues.UpdateQueue;
 import uk.gov.legislation.db2.rds.Document;
+import uk.gov.legislation.db2.rds.Version;
 
 import java.sql.SQLException;
 import java.text.ParseException;
@@ -40,10 +41,10 @@ public class Update1 implements RequestHandler<SQSEvent, SQSBatchResponse> {
 
     private void processMessage(SQSEvent.SQSMessage message, LambdaLogger logger) throws JsonProcessingException, ParseException, SQLException {
         UpdateQueue.MessageBody body = new ObjectMapper().readValue(message.getBody(), UpdateQueue.MessageBody.class);
-        logger.log(body.id);
+        logger.log(message.getBody());
         Date updated = UpdateQueue.MessageBody.parseDate(body.updated);
         Document doc = Document.get(body.id);
-        if (doc != null && !doc.getLastUpdated().before(updated)) {
+        if (!body.force && doc != null && !doc.getLastUpdated().before(updated)) {
             logger.log("skipping " + body.id);
             return;
         }
@@ -54,6 +55,7 @@ public class Update1 implements RequestHandler<SQSEvent, SQSBatchResponse> {
             byte[] clml = CLML.getBytes(body.id);
             LGUCache.saveClml(body.id, clml);
             doc.put();
+            Version.save(body.id, new CLML(clml).getVersions());
         } catch (Exception e) {
             logger.log(e.getLocalizedMessage());
             e.printStackTrace();

@@ -1,5 +1,6 @@
 package uk.gov.legislation.db2.queues;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import uk.gov.legislation.Atom;
@@ -59,6 +60,21 @@ public class UpdateQueue {
         public String title;
 
         public String updated;
+
+        @JsonProperty(value="force")
+        public boolean force;
+
+        public MessageBody() { }
+
+        @Override
+        public String toString() {
+            ObjectMapper mapper = new ObjectMapper();
+            try {
+                return mapper.writeValueAsString(this);
+            } catch (JsonProcessingException e) {
+                throw new RuntimeException(e);
+            }
+        }
 
         public static MessageBody make(Atom.Entry entry) {
             UpdateQueue.MessageBody message = new UpdateQueue.MessageBody();

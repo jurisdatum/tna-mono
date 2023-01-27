@@ -9,7 +9,7 @@ import com.amazonaws.services.lambda.runtime.events.SQSEvent;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class SWSEventHandler implements RequestHandler<SQSEvent, SQSBatchResponse> {
+public abstract class SQSEventHandler implements RequestHandler<SQSEvent, SQSBatchResponse> {
 
     @Override
     public SQSBatchResponse handleRequest(SQSEvent event, Context context) {

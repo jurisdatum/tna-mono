@@ -19,7 +19,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
-public class Enrich1 extends SWSEventHandler {
+public class Enrich1 extends SQSEventHandler {
 
     Enricher enricher = new Enricher();
 

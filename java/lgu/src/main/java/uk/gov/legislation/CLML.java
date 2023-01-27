@@ -1,11 +1,19 @@
 package uk.gov.legislation;
 
+import net.sf.saxon.s9api.*;
+
+import javax.xml.transform.Source;
+import javax.xml.transform.stream.StreamSource;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 public class CLML {
 
@@ -58,6 +66,28 @@ public class CLML {
 		} finally {
 			connection.disconnect();
 		}
+	}
+
+	private final XPathCompiler compiler;
+
+	private final XdmNode root;
+
+	public CLML(byte[] xml) throws SaxonApiException {
+		Processor processor = new Processor(false);
+		compiler = processor.newXPathCompiler();
+		for (Map.Entry<String, String> namespace : namespaces.entrySet())
+			compiler.declareNamespace(namespace.getKey(), namespace.getValue());
+		Source source = new StreamSource(new ByteArrayInputStream(xml));
+		root = processor.newDocumentBuilder().build(source);
+	}
+
+	public Set<String> getVersions() {
+		XdmValue titles = Xpath.eval(compiler, root, "/Legislation/ukm:Metadata/atom:link[@rel='http://purl.org/dc/terms/hasVersion']/@title");
+		if (!titles.isEmpty())
+			return titles.stream().map(item -> item.getStringValue()).collect(Collectors.toSet());
+		String href = Xpath.eval1(compiler, root, "/Legislation/ukm:Metadata/atom:link[@rel='self']/@href").getStringValue();
+		String[] parts = href.split("/");
+		return Collections.singleton( parts[parts.length-2] );
 	}
 
 }

@@ -11,7 +11,7 @@ import uk.gov.legislation.db2.files.EnrichedBucket;
 import java.io.IOException;
 import java.sql.SQLException;
 
-public class Transform1 extends SWSEventHandler {
+public class Transform1 extends SQSEventHandler {
 
     uk.gov.legislation.clml2akn.Transform clml2akn = new uk.gov.legislation.clml2akn.Transform();
     uk.gov.legislation.akn2html.Transform akn2html = new uk.gov.legislation.akn2html.Transform(clml2akn.processor());

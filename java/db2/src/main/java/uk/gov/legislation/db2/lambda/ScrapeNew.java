@@ -9,6 +9,7 @@ import uk.gov.legislation.CLML;
 import uk.gov.legislation.db2.files.LGUCache;
 import uk.gov.legislation.db2.queues.EnrichmentQueue;
 import uk.gov.legislation.db2.rds.Document;
+import uk.gov.legislation.db2.rds.Version;
 
 import java.sql.SQLException;
 import java.util.Iterator;
@@ -54,6 +55,7 @@ public class ScrapeNew implements RequestHandler<ScheduledEvent, Void> {
                 byte[] clml = CLML.getBytes(id);
                 LGUCache.saveClml(id, clml);
                 doc.put();
+                Version.save(id, new CLML(clml).getVersions());
                 EnrichmentQueue.enqueue(id);
             } catch (Exception e) {
                 logger.log(e.getLocalizedMessage());

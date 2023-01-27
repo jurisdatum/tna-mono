@@ -35,6 +35,7 @@ Resources:
               Resource:
                 - !GetAtt UpdateQueue.Arn
                 - !GetAtt EnrichmentQueue.Arn
+                - !GetAtt CheckQueue.Arn
       UserName: Mono
 
   Lambda1:
@@ -327,6 +328,66 @@ Resources:
       BatchSize: 1
       EventSourceArn: !GetAtt TransformQueue.Arn
       FunctionName: !GetAtt TransformLambda.Arn
+
+# queue and lambda function for checking atom feeds for changes
+  CheckQueue:
+    Type: AWS::SQS::Queue
+    Properties:
+      QueueName: check
+      VisibilityTimeout: 3600 # six times the lambda function timeout
+  RoleForCheckLambda:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+          - Effect: Allow
+            Action: sts:AssumeRole
+            Principal:
+              Service: lambda.amazonaws.com
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/service-role/AWSLambdaVPCAccessExecutionRole
+        - arn:aws:iam::128539174500:policy/ReadSecrets
+      Policies:
+        - PolicyName: PolicyForCheckFunction
+          PolicyDocument:
+            Statement:
+              - Effect: Allow
+                Action:
+                  - sqs:ReceiveMessage
+                  - sqs:DeleteMessage
+                  - sqs:GetQueueAttributes
+                Resource: !GetAtt CheckQueue.Arn
+              - Effect: Allow
+                Action:
+                  - sqs:GetQueueUrl
+                  - sqs:SendMessage
+                Resource: !GetAtt UpdateQueue.Arn
+  CheckLambda:
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName: mono-check-known
+      Description: check for updates to documents
+      Runtime: java11
+      Code:
+        S3Bucket: mono-code
+        S3Key: 'db2-0.1.0.jar'
+      Handler: 'uk.gov.legislation.db2.lambda.CheckKnown::handleRequest'
+      MemorySize: 512
+      Role: !GetAtt RoleForCheckLambda.Arn
+      Timeout: 600
+      VpcConfig:
+        SecurityGroupIds:
+          - sg-0c3756eca9fa12c12
+        SubnetIds:
+          - !Ref PrivateSubnetA
+          - !Ref PrivateSubnetB
+          - !Ref PrivateSubnetC
+  CheckTrigger:
+    Type: AWS::Lambda::EventSourceMapping
+    Properties:
+      BatchSize: 1
+      EventSourceArn: !GetAtt CheckQueue.Arn
+      FunctionName: !GetAtt CheckLambda.Arn
 
 
 
