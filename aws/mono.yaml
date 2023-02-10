@@ -389,6 +389,67 @@ Resources:
       EventSourceArn: !GetAtt CheckQueue.Arn
       FunctionName: !GetAtt CheckLambda.Arn
 
+#
+  ApiLambdaTypesGet:
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName: mono-api-types-get
+      Description: fetch document types from MySQL
+      Runtime: nodejs18.x
+      Code:
+        S3Bucket: mono-code
+        S3Key: api.zip
+      Handler: endpoints/types.handler
+      MemorySize: 128
+      Role: arn:aws:iam::128539174500:role/ReadSecrets
+      Timeout: 15
+      VpcConfig:
+        SecurityGroupIds:
+          - sg-0c3756eca9fa12c12 # needed to access MySQL
+        SubnetIds:
+          - subnet-0924c3b54d85bae8a
+          - subnet-0b0e18a368b73bf30
+          - subnet-0c08732b81facb560
+  ApiLambdaYearsGet:
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName: mono-api-years-get
+      Description: fetch document years from MySQL
+      Runtime: nodejs18.x
+      Code:
+        S3Bucket: mono-code
+        S3Key: api.zip
+      Handler: endpoints/years.handler
+      MemorySize: 128
+      Role: arn:aws:iam::128539174500:role/ReadSecrets
+      Timeout: 15
+      VpcConfig:
+        SecurityGroupIds:
+          - sg-0c3756eca9fa12c12 # needed to access MySQL
+        SubnetIds:
+          - subnet-0924c3b54d85bae8a
+          - subnet-0b0e18a368b73bf30
+          - subnet-0c08732b81facb560
+  ApiLambdaDocsGet:
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName: mono-api-docs-get
+      Description: fetch document metadata from MySQL
+      Runtime: nodejs18.x
+      Code:
+        S3Bucket: mono-code
+        S3Key: api.zip
+      Handler: endpoints/docs.handler
+      MemorySize: 128
+      Role: arn:aws:iam::128539174500:role/ReadSecrets
+      Timeout: 15
+      VpcConfig:
+        SecurityGroupIds:
+          - sg-0c3756eca9fa12c12 # needed to access MySQL
+        SubnetIds:
+          - subnet-0924c3b54d85bae8a
+          - subnet-0b0e18a368b73bf30
+          - subnet-0c08732b81facb560
 
 
 ### networking ###
@@ -503,6 +564,56 @@ Resources:
                 httpMethod: GET
                 uri: 'https://lgu-enriched.s3.eu-west-2.amazonaws.com/{proxy}'
                 payloadFormatVersion: '1.0'
+          /legislation/types:
+            get:
+              summary: Retrieve available document types
+              responses:
+                  '200':
+                    description: the types
+                  '400':
+                    description: bad reqeust
+                  '500':
+                    description: internal error
+              x-amazon-apigateway-integration:
+                $ref: '#/components/x-amazon-apigateway-integrations/int-leg-types'
+          /legislation/years/{type}:
+            get:
+              summary: Retrieve years available for a document type
+              parameters:
+                  - name: type
+                    in: path
+                    schema:
+                        type: string
+              responses:
+                  '200':
+                    description: the years
+                  '400':
+                    description: bad reqeust
+                  '500':
+                    description: internal error
+              x-amazon-apigateway-integration:
+                $ref: '#/components/x-amazon-apigateway-integrations/int-leg-years'
+          /legislation/docs/{type}/{year}:
+            get:
+              summary: Retrieve docs available for a document type and year
+              parameters:
+                  - name: type
+                    in: path
+                    schema:
+                        type: string
+                  - name: year
+                    in: path
+                    schema:
+                        type: string
+              responses:
+                  '200':
+                    description: the documents
+                  '400':
+                    description: bad reqeust
+                  '500':
+                    description: internal error
+              x-amazon-apigateway-integration:
+                $ref: '#/components/x-amazon-apigateway-integrations/int-leg-docs'
 
         x-amazon-apigateway-cors:
           allowOrigins:
@@ -518,6 +629,18 @@ Resources:
             integration1:
               type: 'aws_proxy'
               uri: !GetAtt Lambda1.Arn
+              payloadFormatVersion: '2.0'
+            int-leg-types:
+              type: 'aws_proxy'
+              uri: !GetAtt ApiLambdaTypesGet.Arn
+              payloadFormatVersion: '2.0'
+            int-leg-years:
+              type: 'aws_proxy'
+              uri: !GetAtt ApiLambdaYearsGet.Arn
+              payloadFormatVersion: '2.0'
+            int-leg-docs:
+              type: 'aws_proxy'
+              uri: !GetAtt ApiLambdaDocsGet.Arn
               payloadFormatVersion: '2.0'
 
   ApiStage:
@@ -543,7 +666,58 @@ Resources:
             - !Ref AWS::AccountId
             - ':'
             - !Ref Api
-            - '*/*/cites'
+            - '*/*/cites' # start with / ?
+  LambdaPermissionForLegislationTypesEndpoint:
+    Description: Allows /legislation/types endpoint to invoke mono-api-types-get function
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: 'lambda:InvokeFunction'
+      FunctionName: !Ref ApiLambdaTypesGet
+      Principal: 'apigateway.amazonaws.com'
+      SourceArn:
+        !Join
+          - ''
+          - - 'arn:aws:execute-api:'
+            - !Ref AWS::Region
+            - ':'
+            - !Ref AWS::AccountId
+            - ':'
+            - !Ref Api
+            - '/*/*/legislation/types'
+  LambdaPermissionForLegislationYearsEndpoint:
+    Description: Allows /legislation/years endpoint to invoke mono-api-years-get function
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: 'lambda:InvokeFunction'
+      FunctionName: !Ref ApiLambdaYearsGet
+      Principal: 'apigateway.amazonaws.com'
+      SourceArn:
+        !Join
+          - ''
+          - - 'arn:aws:execute-api:'
+            - !Ref AWS::Region
+            - ':'
+            - !Ref AWS::AccountId
+            - ':'
+            - !Ref Api
+            - '/*/*/legislation/years/{type}'
+  LambdaPermissionForLegislationDocsEndpoint:
+    Description: Allows /legislation/{type}/{year} endpoint to invoke mono-api-docs-get function
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: 'lambda:InvokeFunction'
+      FunctionName: !Ref ApiLambdaDocsGet
+      Principal: 'apigateway.amazonaws.com'
+      SourceArn:
+        !Join
+          - ''
+          - - 'arn:aws:execute-api:'
+            - !Ref AWS::Region
+            - ':'
+            - !Ref AWS::AccountId
+            - ':'
+            - !Ref Api
+            - '/*/*/legislation/docs/{type}/{year}'
 
 # custom domain for api
   Cert:
