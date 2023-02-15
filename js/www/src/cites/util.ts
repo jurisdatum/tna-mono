@@ -6,6 +6,8 @@ export function longToShortType(type: string): string | null {
             return "aep"
         case "GreatBritainAct":
             return "apgb"
+        case "GreatBritainLocalAct":
+            return "gbla"
         case "IrelandAct":
             return "aip"
         case "NorthernIrelandAct":

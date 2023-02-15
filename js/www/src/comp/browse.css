@@ -1,0 +1,35 @@
+
+#browse { display: flex }
+
+#browse ul { list-style-type: none }
+#browse li:hover, #browse li.selected { background-color: lavender }
+
+#browse > ul {
+    height: calc(100vh - 2em - 16px);
+    overflow-y: scroll;
+    padding-left: 1em;
+}
+
+#browse > ul:first-child > li { margin-right: 1ch; padding: 3pt 6pt }
+#browse > ul:nth-child(2) > li { margin-right: 1ch; padding: 2pt 6pt }
+#browse > ul:nth-child(3) > li { padding: 1pt 6pt }
+
+#browse > ul:nth-child(3) > li > a > span:first-child {
+    display: inline-block;
+    min-width: 3em;
+    padding-right: 1ch;
+    text-align: right
+}
+#browse > ul:nth-child(3) {
+    width: 80%
+}
+#browse > ul:nth-child(3) > li > a > span:last-child {
+    display: inline-block;
+    width: 90%;
+    white-space: nowrap;
+    overflow-x: clip;
+    text-overflow: ellipsis
+}
+
+#browse a { text-decoration: none; color: inherit }
+#browse a:hover { color: inherit }
