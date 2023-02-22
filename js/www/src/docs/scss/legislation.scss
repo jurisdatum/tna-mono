@@ -1,0 +1,15 @@
+
+@import 'primary.scss';
+@import 'secondary.scss';
+@import 'euretained.scss';
+
+
+#panel {
+    position: absolute;
+    top: 1em;
+    right: 1em;
+    background-color: lavender
+}
+#panel p { margin: 0; padding: 6pt }
+#panel p + p { border-top: thin solid white }
+#panel a { text-decoration: none; color: inherit }

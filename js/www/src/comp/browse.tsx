@@ -1,6 +1,6 @@
 
 import { Suspense, useEffect, useState } from 'react';
-import { Link, Outlet, useLoaderData, useParams, Params, Await, defer, useLocation } from 'react-router-dom';
+import { Link, Outlet, useLoaderData, useParams, Params, Await, NavLink } from 'react-router-dom';
 
 import { fetchYears, fetchDocs } from '../server';
 import { Loading } from './shared';
@@ -16,14 +16,13 @@ export function Browse() {
     const params = useParams();
     const types = useLoaderData() as string[];
     const [selectedType, setSelectedType] = useState(params.type);
-    const location = useLocation();
 
-    useEffect(() => { setSelectedType(params.type); }, [location]);
+    useEffect(() => { setSelectedType(params.type); }, [ params ]);
 
     return <div id='browse'>
         <ul>
             { types.map(tp => <li key={ tp } className={ tp === selectedType ? 'selected' : undefined }>
-                <Link to={ tp } onClick={ () => setSelectedType(tp) }>{ tp }</Link>
+                <NavLink to={ tp } onClick={ () => setSelectedType(tp) }>{ tp }</NavLink>
             </li>) }
         </ul>
         <Outlet />
@@ -33,7 +32,7 @@ export function Browse() {
 
 export function loadYears({ params }: { params: Params }) {
     const type = params.type as string;
-    return defer({ years: fetchYears(type) });
+    return { years: fetchYears(type) };
 }
 
 export function Years() {
@@ -41,9 +40,8 @@ export function Years() {
     const params = useParams() as { type: string, year: string };
     const { years } = useLoaderData() as { years: Promise<number[]> };
     const [selectedYear, setSelectedYear] = useState(params.year ? parseInt(params.year) : undefined);
-    const location = useLocation();
 
-    useEffect(() => { setSelectedYear(params.year ? parseInt(params.year) : undefined); }, [location]);
+    useEffect(() => { setSelectedYear(params.year ? parseInt(params.year) : undefined); }, [ params ]);
 
     return <Suspense fallback={ <ul><li><Loading/></li></ul> }>
         <Await resolve={ years } errorElement={ <ul><li>error</li></ul> }>
@@ -63,7 +61,7 @@ export function Years() {
 export function loadDocs({ params }: { params: Params }) {
     const type = params.type as string;
     const year = parseInt(params.year as string);
-    return defer({ docs: fetchDocs(type, year) });
+    return { docs: fetchDocs(type, year) };
 }
 
 export function Docs() {

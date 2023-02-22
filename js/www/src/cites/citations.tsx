@@ -2,7 +2,7 @@
 import { Suspense, useState } from 'react';
 import { Await, defer, Link, useLoaderData, useNavigate, useSearchParams } from 'react-router-dom';
 
-import { Server } from './server';
+import { getCitesFrom, getCitesTo } from './server';
 import { Cite, groupCitesByDocumentCited, groupCitesBySource } from './cites';
 import * as Util from './util';
 import { Loading } from '../comp/shared';
@@ -15,16 +15,16 @@ export function loadCitations({ request }: { request: Request }) {
     const url = new URL(request.url);
     const to = url.searchParams.get('to');
     if (to && re.test(to))
-        return defer({ cites: Server.getCitesTo(to) });
+        return { cites: getCitesTo(to) };
     const from = url.searchParams.get('from');
     if (from && re.test(from))
-        return defer({ cites: Server.getCitesFrom(from) });
-    return defer({ cites: Promise.resolve([]) });
+        return { cites: getCitesFrom(from) };
+    return { cites: Promise.resolve([]) };
 }
 
 export default function Citations() {
 
-    const data = useLoaderData() as { cites: Promise<Cite[]> };
+    const { cites } = useLoaderData() as { cites: Promise<Cite[]> };
 
     const [ searchParams ] = useSearchParams();
     let docId: string | null;
@@ -41,12 +41,10 @@ export default function Citations() {
         from = false;
     }
 
-    return (
-        <div className="citations">
-            <SearchBar docId={ docId } from={ from } />
-            { docId ? <SearchResults cites={ data.cites } docId={ docId } from={ from } /> : <></> }
-        </div>
-    );
+    return <div className="citations">
+        <SearchBar docId={ docId } from={ from } />
+        { docId ? <SearchResults cites={ cites } docId={ docId } from={ from } /> : <></> }
+    </div>;
 
 }
 
@@ -57,6 +55,14 @@ function SearchBar(props: { docId: string | null, from: boolean }) {
     const [input, setInput] = useState(props.docId || '');
     const [from, setFrom] = useState(props.from);
 
+    const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+        if (event.key !== 'Enter')
+            return;
+        if (!re.test(input))
+            return;
+        navigate('/citations?' + (from ? 'from' : 'to') + '=' + input);
+    };
+
     return <header>
         <h1>Citations</h1>
         <p>
@@ -66,9 +72,9 @@ function SearchBar(props: { docId: string | null, from: boolean }) {
                 <option value="to">to</option>
             </select>
             <span> document: </span>
-            <input type="text" placeholder="type/year/num" pattern="[a-z]{3,5}/\d{4}/\d+" value={ input } onChange={ e => setInput(e.target.value) } />
+            <input type="text" placeholder="type/year/num" pattern="[a-z]{3,5}/\d{4}/\d+" value={ input } onChange={ e => setInput(e.target.value) } onKeyDown={ handleKeyDown } />
             <span> </span>
-            <button disabled={ !re.test(input) } onClick={ () => { const p = from ? 'from' : 'to'; navigate('/citations?' + p + '=' + input) } }>Search</button>
+            <button disabled={ !re.test(input) } onClick={ () => { navigate('/citations?' + (from ? 'from' : 'to') + '=' + input); } }>Search</button>
         </p>
     </header>;
 }
@@ -77,9 +83,10 @@ function SearchResults({ cites, docId, from }: { cites: Promise<Cite[]>, docId: 
 
     return <Suspense fallback={ <p>loading citations <Loading /></p> }>
         <Await resolve={ cites } errorElement={ <p>error</p> }>
-            { (cites) => from ? <FromTable cites={ cites } docId={ docId } /> : <ToTable cites={ cites } docId={ docId } /> }
+            { (cites) => from ? <FromTable cites={ cites } docId={ docId as string } /> : <ToTable cites={ cites } docId={ docId as string } /> }
         </Await>
     </Suspense>;
+
 }
 
 // function FromTable({ cites, docId }: { cites: Cites.Cite[], docId: string }) {
@@ -102,6 +109,8 @@ function SearchResults({ cites, docId, from }: { cites: Promise<Cite[]>, docId: 
 //     </table>;
 // }
 function FromTable({ cites, docId }: { cites: Cite[], docId: string }) {
+    if (cites.length === 0)
+        return <p style={ { textAlign: 'center' } }>There are no citations within { docId }</p>
     const groups = groupCitesByDocumentCited(cites);
     return <table className="within">
         <caption>Citations within document { docId }</caption>
@@ -127,6 +136,8 @@ function FromTable({ cites, docId }: { cites: Cite[], docId: string }) {
 }
 
 function ToTable({ cites, docId }: { cites: Cite[], docId: string }) {
+    if (cites.length === 0)
+        return <p style={ { textAlign: 'center' } }>There are no citations to { docId }</p>
     const groups = groupCitesBySource(cites);
     return <table className="to">
         <caption>Citations to document { docId }</caption>

@@ -1,44 +1,45 @@
 
-import { Suspense } from 'react';
-import { Await, useLocation } from 'react-router-dom';
+import { Suspense, useEffect } from 'react';
+import { Await, useLoaderData, useLocation } from 'react-router-dom';
 
+import { fetchDoc } from '../server';
 import { Loading } from '../comp/shared';
 
-import './scss/primary.scss';
-import './scss/secondary.scss';
-import './scss/euretained.scss';
+import './scss/legislation.scss';
+
+export function loadDocument({ request }: { request: Request }) {
+    const path = new URL(request.url).pathname;
+    return { html: fetchDoc(path) };
+}
 
 export default function Document() {
 
+    const { html } = useLoaderData() as { html: Promise<string | null> };
+
     const location = useLocation();
 
-    const fetchDoc = async () => {
-        const url = 'https://lgu-enriched.s3.eu-west-2.amazonaws.com' + location.pathname + '/data.html';
-        let response = await fetch(url);
-        if (!response.ok)
-            return null;
-        let html = await response.text();
-        html = extractArticle(html);
-        return html;
-    }
-
-    const html = fetchDoc();
+    useEffect(() => {
+        const target = document.getElementById(location.hash.substring(1));
+        if (!target)
+            return;
+        setTimeout(() => { target.scrollIntoView(); }, 100);
+    }, [ location ]);
 
     return <Suspense fallback={ <p>loading <Loading/></p> }>
         <Await resolve={ html } errorElement={ <p>There was an error</p> }>
             { (html: string | null) =>
-                html ? <div id="legislation" dangerouslySetInnerHTML={ { __html: html } }></div> : <p>Not found</p>
+                html ? <div>
+                    <div id="panel">
+                        <p>
+                            <a href={ 'https://lgu-enriched.s3.eu-west-2.amazonaws.com' + location.pathname + '/data.xml' } target="_blank" rel="noreferrer">CLML</a>
+                        </p>
+                        <p>
+                            <a href={ 'https://lgu-enriched.s3.eu-west-2.amazonaws.com' + location.pathname + '/data.akn' } target="_blank" rel="noreferrer">AKN</a>
+                        </p>
+                    </div>
+                    <div id="legislation" dangerouslySetInnerHTML={ { __html: html } }></div>
+                </div> : <p>Not found</p>
             }
         </Await>
     </Suspense>;
-}
-
-function extractArticle(html: string): string {
-    const i1 = html.indexOf('<article');
-    const i2 = html.lastIndexOf('</article>');
-    if (i1 === -1)
-        return html;
-    if (i2 === -1)
-        return html;
-    return html.substring(i1, i2 + 10);
 }
