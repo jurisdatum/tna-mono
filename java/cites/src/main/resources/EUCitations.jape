@@ -1,17 +1,18 @@
 Phase: pass1
 Input: Token
 Options: control = brill
-Rule: EUCitation
+
+Rule: EURegulation
 Priority: 1
 (
 	( { Token.string == "Commission" } | { Token.string == "Council" } ) ?
 	( { Token.string == "Implementing" } ) ?
 	{ Token.string == "Regulation" }
-	{ Token.string == "(" }
-	( { Token.string == "EU" } | { Token.string == "EC" } | { Token.string == "EEC" } )
-	{ Token.string == ")" }
-	{ Token.string == "No" }
-	( { Token.string == "." } ) ?
+	( { Token.string == "(" }
+	  ( { Token.string == "EU" } | { Token.string == "EC" } | { Token.string == "EEC" } )
+	  { Token.string == ")" } ) ?
+	( { Token.string == "No" }
+	  ( { Token.string == "." } ) ? ) ?
 	( { Token.kind == "number" } ): number
 	{ Token.string == "/" }
 	( { Token.kind == "number" } ): year
@@ -23,6 +24,86 @@ Priority: 1
 	Annotation number = bindings.get("number").iterator().next();
 	FeatureMap features = Factory.newFeatureMap();
 	features.put("Class", "EuropeanUnionRegulation");
+	features.put("Year", year.getFeatures().get("string"));
+	features.put("Number", number.getFeatures().get("string"));
+	features.put("new", "true");
+	outputAS.add(match.firstNode(), match.lastNode(), "Citation", features);
+}
+
+Rule: EUDecision
+Priority: 1
+(
+	( { Token.string == "Commission" } | { Token.string == "Council" } ) ?
+	( { Token.string == "Implementing" } ) ?
+	{ Token.string == "Decision" }
+	( { Token.string == "No" }
+	  ( { Token.string == "." } ) ? ) ?
+	( { Token.kind == "number" } ): number
+	{ Token.string == "/" }
+	( { Token.kind == "number" } ): year
+): cite --> {
+	AnnotationSet match = bindings.get("cite");
+	if (!doc.getNamedAnnotationSets().get("Original markups").get("Citation", match.firstNode().getOffset(), match.lastNode().getOffset()).isEmpty())
+		return;
+	Annotation year = bindings.get("year").iterator().next();
+	Annotation number = bindings.get("number").iterator().next();
+	FeatureMap features = Factory.newFeatureMap();
+	features.put("Class", "EuropeanUnionDecision");
+	features.put("Year", year.getFeatures().get("string"));
+	features.put("Number", number.getFeatures().get("string"));
+	features.put("new", "true");
+	outputAS.add(match.firstNode(), match.lastNode(), "Citation", features);
+}
+
+Rule: EUDirective
+Priority: 1
+(
+	( { Token.string == "Commission" } | { Token.string == "Council" } ) ?
+	( { Token.string == "Implementing" } ) ?
+	{ Token.string == "Directive" }
+	( { Token.string == "(" }
+	  { Token.string == "EU" }
+	  { Token.string == ")" } ) ?
+	( { Token.string == "No" }
+	  ( { Token.string == "." } ) ? ) ?
+	( { Token.kind == "number" } ): number
+	{ Token.string == "/" }
+	( { Token.kind == "number" } ): year
+): cite --> {
+	AnnotationSet match = bindings.get("cite");
+	if (!doc.getNamedAnnotationSets().get("Original markups").get("Citation", match.firstNode().getOffset(), match.lastNode().getOffset()).isEmpty())
+		return;
+	Annotation year = bindings.get("year").iterator().next();
+	Annotation number = bindings.get("number").iterator().next();
+	FeatureMap features = Factory.newFeatureMap();
+	features.put("Class", "EuropeanUnionDirective");
+	features.put("Year", year.getFeatures().get("string"));
+	features.put("Number", number.getFeatures().get("string"));
+	features.put("new", "true");
+	outputAS.add(match.firstNode(), match.lastNode(), "Citation", features);
+}
+
+Rule: EUDirective2
+Priority: 2
+(
+	( { Token.string == "Commission" } | { Token.string == "Council" } ) ?
+	( { Token.string == "Implementing" } ) ?
+	{ Token.string == "Directive" }
+	( { Token.string == "No" }
+	  ( { Token.string == "." } ) ? ) ?
+	( { Token.kind == "number" } ): number
+	{ Token.string == "/" }
+	( { Token.kind == "number" } ): year
+	( { Token.string == "/" }
+	  ( { Token.string == "EU" } | { Token.string == "EC" } | { Token.string == "EEC" } ) )
+): cite --> {
+	AnnotationSet match = bindings.get("cite");
+	if (!doc.getNamedAnnotationSets().get("Original markups").get("Citation", match.firstNode().getOffset(), match.lastNode().getOffset()).isEmpty())
+		return;
+	Annotation year = bindings.get("year").iterator().next();
+	Annotation number = bindings.get("number").iterator().next();
+	FeatureMap features = Factory.newFeatureMap();
+	features.put("Class", "EuropeanUnionDirective");
 	features.put("Year", year.getFeatures().get("string"));
 	features.put("Number", number.getFeatures().get("string"));
 	features.put("new", "true");
