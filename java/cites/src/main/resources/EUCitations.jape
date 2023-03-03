@@ -6,7 +6,7 @@ Rule: EURegulation
 Priority: 1
 (
 	( { Token.string == "Commission" } | { Token.string == "Council" } ) ?
-	( { Token.string == "Implementing" } ) ?
+	( { Token.string == "Implementing" } | { Token.string == "Delegated" } ) ?
 	{ Token.string == "Regulation" }
 	( { Token.string == "(" }
 	  ( { Token.string == "EU" } | { Token.string == "EC" } | { Token.string == "EEC" } )
@@ -34,7 +34,7 @@ Rule: EUDecision
 Priority: 1
 (
 	( { Token.string == "Commission" } | { Token.string == "Council" } ) ?
-	( { Token.string == "Implementing" } ) ?
+	( { Token.string == "Implementing" } | { Token.string == "Delegated" } ) ?
 	{ Token.string == "Decision" }
 	( { Token.string == "No" }
 	  ( { Token.string == "." } ) ? ) ?
@@ -59,7 +59,7 @@ Rule: EUDirective
 Priority: 1
 (
 	( { Token.string == "Commission" } | { Token.string == "Council" } ) ?
-	( { Token.string == "Implementing" } ) ?
+	( { Token.string == "Implementing" } | { Token.string == "Delegated" } ) ?
 	{ Token.string == "Directive" }
 	( { Token.string == "(" }
 	  { Token.string == "EU" }
@@ -87,7 +87,7 @@ Rule: EUDirective2
 Priority: 2
 (
 	( { Token.string == "Commission" } | { Token.string == "Council" } ) ?
-	( { Token.string == "Implementing" } ) ?
+	( { Token.string == "Implementing" } | { Token.string == "Delegated" } ) ?
 	{ Token.string == "Directive" }
 	( { Token.string == "No" }
 	  ( { Token.string == "." } ) ? ) ?
