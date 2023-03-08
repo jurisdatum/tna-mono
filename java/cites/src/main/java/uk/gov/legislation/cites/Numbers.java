@@ -34,14 +34,14 @@ public class Numbers {
         int firstAsFourDigitYear = normalizeYear(first);
         int secondAsFourDigitYear = normalizeYear(second);
 
-        // a year after than 2014 should not be in the second position
+        // a year after 2014 should not be in the second position
         if (firstAsFourDigitYear >= 2015 && secondAsFourDigitYear > 2014)
             return new Numbers(firstAsFourDigitYear, second);
-        // a year before than 2015 should not be in the first position
+        // a year before 2015 should not be in the first position
         if (firstAsFourDigitYear < 2015 && secondAsFourDigitYear <= 2014)
             return new Numbers(secondAsFourDigitYear, first);
 
-        // a year greater than 1998 should not be expressed in two digits
+        // a year after 1998 should not be expressed in two digits
         boolean firstIsTwoDigitsThatWouldBeAfter1998 = first < 100 && firstAsFourDigitYear > 1998;
         boolean secondIsTwoDigitsThatWouldBeAfter1998 = second < 100 && secondAsFourDigitYear > 1998;
         if (firstIsTwoDigitsThatWouldBeAfter1998 && !secondIsTwoDigitsThatWouldBeAfter1998)
@@ -49,7 +49,7 @@ public class Numbers {
         if (secondIsTwoDigitsThatWouldBeAfter1998 && !firstIsTwoDigitsThatWouldBeAfter1998)
             return new Numbers(firstAsFourDigitYear, second);
 
-        // a year before than 1999 was probably expressed in two digits
+        // a year before 1999 was probably expressed in two digits
         boolean firstIsFourDigitsBefore1999 = first > 1000 && first < 1999;
         boolean secondIsFourDigitsBefore1999 = second > 1000 && second < 1999;
         if (firstIsFourDigitsBefore1999 && !secondIsFourDigitsBefore1999)
