@@ -65,6 +65,8 @@ function shortToLongType(t) {
             return "EnglandAct"
         case "apgb":
             return "GreatBritainAct"
+        case "gbla":
+            return "GreatBritainLocalAct"
         case "aip":
             return "IrelandAct"
         case "nia":
