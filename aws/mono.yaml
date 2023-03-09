@@ -191,6 +191,9 @@ Resources:
     Properties:
       QueueName: enrich
       VisibilityTimeout: 1800 # six times the lambda function timeout
+      RedrivePolicy:
+        deadLetterTargetArn: !GetAtt EnrichmentDeadLetterQueue.Arn
+        maxReceiveCount: 2
 
   EnrichmentTrigger:
     Type: AWS::Lambda::EventSourceMapping
@@ -198,6 +201,12 @@ Resources:
       BatchSize: 1
       EventSourceArn: !GetAtt EnrichmentQueue.Arn
       FunctionName: !GetAtt Lambda3.Arn
+
+  EnrichmentDeadLetterQueue:
+    Type: AWS::SQS::Queue
+    Properties:
+      QueueName: enrich-dead-letter
+      VisibilityTimeout: 1800 # six times the lambda function timeout
 
 #
 
