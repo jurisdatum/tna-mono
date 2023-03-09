@@ -1,13 +1,15 @@
-package uk.gov.legislation.cites;
+package uk.gov.legislation.cites.regex;
+
+import uk.gov.legislation.cites.Cite;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-class EURegexEnricher extends RegexEnricher {
+public class EURegexEnricher extends RegexEnricher {
 
     final Pattern[] patterns;
 
-    EURegexEnricher() {
+    public EURegexEnricher() {
         patterns = RegexEnricher.readPatterns("/eu_patterns.txt");
     }
 

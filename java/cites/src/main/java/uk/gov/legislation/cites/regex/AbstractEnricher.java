@@ -1,7 +1,8 @@
-package uk.gov.legislation.cites;
+package uk.gov.legislation.cites.regex;
 
 import org.w3c.dom.*;
 import org.xml.sax.SAXException;
+import uk.gov.legislation.cites.Cite;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;

@@ -1,4 +1,6 @@
-package uk.gov.legislation.cites;
+package uk.gov.legislation.cites.regex;
+
+import uk.gov.legislation.cites.Cite;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

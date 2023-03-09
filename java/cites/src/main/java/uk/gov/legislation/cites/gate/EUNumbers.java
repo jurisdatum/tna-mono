@@ -1,9 +1,9 @@
-package uk.gov.legislation.cites;
+package uk.gov.legislation.cites.gate;
 
 import java.time.Year;
 import java.util.logging.Logger;
 
-public class Numbers {
+public class EUNumbers {
 
     private static final Logger logger = Logger.getAnonymousLogger();
 
@@ -16,49 +16,49 @@ public class Numbers {
     public int year() { return year; }
     public int number() { return number; }
 
-    private Numbers(int year, int number) {
+    private EUNumbers(int year, int number) {
         this.year = year;
         this.number = number;
     }
 
-    public static Numbers interpret(int first, int second) {
+    public static EUNumbers interpret(int first, int second) {
         boolean possible1 = isPossibleYear(first);
         boolean possible2 = isPossibleYear(second);
         if (!possible1 && !possible2)
             throw new IllegalArgumentException(first + "/" + second);
         if (!possible2)
-            return new Numbers(normalizeYear(first), second);
+            return new EUNumbers(normalizeYear(first), second);
         if (!possible1)
-            return new Numbers(normalizeYear(second), first);
+            return new EUNumbers(normalizeYear(second), first);
 
         int firstAsFourDigitYear = normalizeYear(first);
         int secondAsFourDigitYear = normalizeYear(second);
 
         // a year after 2014 should not be in the second position
         if (firstAsFourDigitYear >= 2015 && secondAsFourDigitYear > 2014)
-            return new Numbers(firstAsFourDigitYear, second);
+            return new EUNumbers(firstAsFourDigitYear, second);
         // a year before 2015 should not be in the first position
         if (firstAsFourDigitYear < 2015 && secondAsFourDigitYear <= 2014)
-            return new Numbers(secondAsFourDigitYear, first);
+            return new EUNumbers(secondAsFourDigitYear, first);
 
         // a year after 1998 should not be expressed in two digits
         boolean firstIsTwoDigitsThatWouldBeAfter1998 = first < 100 && firstAsFourDigitYear > 1998;
         boolean secondIsTwoDigitsThatWouldBeAfter1998 = second < 100 && secondAsFourDigitYear > 1998;
         if (firstIsTwoDigitsThatWouldBeAfter1998 && !secondIsTwoDigitsThatWouldBeAfter1998)
-            return new Numbers(secondAsFourDigitYear, first);
+            return new EUNumbers(secondAsFourDigitYear, first);
         if (secondIsTwoDigitsThatWouldBeAfter1998 && !firstIsTwoDigitsThatWouldBeAfter1998)
-            return new Numbers(firstAsFourDigitYear, second);
+            return new EUNumbers(firstAsFourDigitYear, second);
 
         // a year before 1999 was probably expressed in two digits
         boolean firstIsFourDigitsBefore1999 = first > 1000 && first < 1999;
         boolean secondIsFourDigitsBefore1999 = second > 1000 && second < 1999;
         if (firstIsFourDigitsBefore1999 && !secondIsFourDigitsBefore1999)
-            return new Numbers(secondAsFourDigitYear, first);
+            return new EUNumbers(secondAsFourDigitYear, first);
         if (secondIsFourDigitsBefore1999 && !firstIsFourDigitsBefore1999)
-            return new Numbers(firstAsFourDigitYear, second);
+            return new EUNumbers(firstAsFourDigitYear, second);
 
         logger.warning("ambiguous numbers: " + first + "/" + second);
-        return new Numbers(normalizeYear(first), second);
+        return new EUNumbers(normalizeYear(first), second);
     }
 
     static boolean isPossibleYear(int num) {

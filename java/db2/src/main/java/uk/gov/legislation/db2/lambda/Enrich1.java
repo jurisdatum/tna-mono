@@ -6,7 +6,7 @@ import com.amazonaws.services.lambda.runtime.events.SQSEvent;
 import net.sf.saxon.s9api.SaxonApiException;
 import org.xml.sax.SAXException;
 import uk.gov.legislation.cites.EmbeddedCite;
-import uk.gov.legislation.cites.Enricher;
+import uk.gov.legislation.cites.regex.Enricher;
 import uk.gov.legislation.cites.Extractor;
 import uk.gov.legislation.cites.Util;
 import uk.gov.legislation.db2.files.EnrichedBucket;

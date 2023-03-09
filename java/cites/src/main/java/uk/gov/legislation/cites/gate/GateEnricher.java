@@ -1,4 +1,4 @@
-package uk.gov.legislation.gate;
+package uk.gov.legislation.cites.gate;
 
 import gate.creole.ExecutionException;
 import gate.creole.ResourceInstantiationException;

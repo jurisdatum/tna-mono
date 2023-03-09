@@ -1,4 +1,4 @@
-package uk.gov.legislation.gate;
+package uk.gov.legislation.cites.gate;
 
 import gate.*;
 import gate.creole.ExecutionException;
@@ -8,7 +8,6 @@ import gate.creole.SerialAnalyserController;
 import gate.util.GateException;
 
 import uk.gov.legislation.ClmlBeautifier;
-import uk.gov.legislation.cites.Numbers;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -112,9 +111,9 @@ public class EUCiteEnricher extends GateEnricher {
 
             int num1 = Integer.parseInt((String) features.get("Number"));
             int num2 = Integer.parseInt((String) features.get("Year"));
-            Numbers numbers;
+            EUNumbers numbers;
             try {
-                numbers = Numbers.interpret(num1, num2);
+                numbers = EUNumbers.interpret(num1, num2);
             } catch (IllegalArgumentException e) {
                 logger.log(Level.WARNING, "removing cite: \"" + text + "\"", e);
                 iterator.remove();

@@ -1,8 +1,9 @@
-package uk.gov.legislation.cites;
+package uk.gov.legislation.cites.regex;
 
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.Text;
+import uk.gov.legislation.cites.Cite;
 
 import java.util.HashMap;
 import java.util.HashSet;
