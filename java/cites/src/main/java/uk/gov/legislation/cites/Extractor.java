@@ -59,7 +59,12 @@ public class Extractor {
         }
         String text = element.getTextContent();
         String type = element.getAttribute("Class");
-        int year = Integer.parseInt(element.getAttribute("Year"));
+        int year;
+        try {
+            year = Integer.parseInt(element.getAttribute("Year"));
+        } catch (NumberFormatException e) {
+            return;
+        }
         String number = element.getAttribute("Number");
         if (number == null)
             return;
@@ -72,9 +77,33 @@ public class Extractor {
             e.printStackTrace();
             return;
         }
+        EmbeddedCite.Part part = getPart(element.getParentNode());
         String section = getSection(element.getParentNode());
-        EmbeddedCite embedded = new EmbeddedCite(section, cite);
+        EmbeddedCite embedded = new EmbeddedCite(part, section, cite);
         cites.add(embedded);
+    }
+
+    private EmbeddedCite.Part getPart(Node node) {
+        if (node.getNodeType() == Node.DOCUMENT_NODE)
+            return null;
+        Node parent = node.getParentNode();
+        if (node.getNodeType() != Node.ELEMENT_NODE)
+            return getPart(parent);
+        Element element = (Element) node;
+        String tag = element.getTagName();
+        if (tag.equals("Body") || tag.equals("Appendix") || tag.equals("Schedules"))
+            return EmbeddedCite.Part.Main;
+        if (tag.equals("EUBody") || tag.equals("Attachments"))
+            return EmbeddedCite.Part.Main;
+        if (tag.equals("PrimaryPrelims") || tag.equals("SecondaryPrelims") || tag.equals("EUPrelims"))
+            return EmbeddedCite.Part.Intro;
+        if (tag.equals("ExplanatoryNotes") || tag.equals("EarlierOrders"))
+            return EmbeddedCite.Part.EN;
+        if (tag.equals("Footnotes") || tag.equals("MarginNotes"))
+            return EmbeddedCite.Part.FN;
+        if (tag.equals("Commentaries"))
+            return EmbeddedCite.Part.Comm;
+        return getPart(parent);
     }
 
     private String getSection(Node node) {

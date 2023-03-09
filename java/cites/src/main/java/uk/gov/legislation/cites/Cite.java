@@ -14,32 +14,32 @@ public class Cite {
     public String text() {
         return text;
     }
-    public void setText(String text) {
-        this.text = text;
-    }
+//    public void setText(String text) {
+//        this.text = text;
+//    }
 
     public String type() {
         return type;
     }
-    public void setType(String type) {
-        this.type = type;
-    }
+//    public void setType(String type) {
+//        this.type = type;
+//    }
 
     public int year() {
         return year;
     }
-    public void setYear(int year) {
-        this.year = year;
-    }
+//    public void setYear(int year) {
+//        this.year = year;
+//    }
 
     public int number() {
         return number;
     }
-    public void setNumber(int number) {
-        this.number = number;
-    }
+//    public void setNumber(int number) {
+//        this.number = number;
+//    }
 
-    Cite(String text, String type, int year, int number) {
+    public Cite(String text, String type, int year, int number) {
         this.text = text;
         this.type = type;
         this.year = year;
