@@ -16,7 +16,7 @@ import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class EUCiteEnricher extends GateEnricher {
+public class EUCiteEnricher {
 
     private static final String AnnotationSet = "New markups";
     private static final String Grammar = "/EUCitations.jape";
@@ -29,7 +29,12 @@ public class EUCiteEnricher extends GateEnricher {
         Gate.init();
         sac = (SerialAnalyserController) Factory.createResource("gate.creole.SerialAnalyserController");
 
-        Gate.getCreoleRegister().registerPlugin(new Plugin.Maven("uk.ac.gate.plugins", "annie", "9.1"));
+        /*
+        * Plugin.Maven is a plugin that is a single JAR ﬁle speciﬁed via its group:artifact:version “coordinates”,
+        * and which is downloaded from a Maven repository at runtime by GATE the ﬁrst time the plugin is loaded.
+        */
+//        Gate.getCreoleRegister().registerPlugin(new Plugin.Maven("uk.ac.gate.plugins", "annie", "9.1"));
+        Gate.getCreoleRegister().registerPlugin(new Plugin.Directory(getClass().getResource("/annie/")));
 
         ProcessingResource tokenizer = (ProcessingResource) Factory.createResource("gate.creole.tokeniser.DefaultTokeniser");
         sac.add(tokenizer);
@@ -44,7 +49,6 @@ public class EUCiteEnricher extends GateEnricher {
         sac.setCorpus(corpus);
     }
 
-    @Override
     public String enrich(String clml) throws IOException, ResourceInstantiationException, ExecutionException {
         clml = beautifier.transform(clml);
         Path temp = Files.createTempFile("clml", ".xml");
@@ -52,6 +56,17 @@ public class EUCiteEnricher extends GateEnricher {
         Document doc = Factory.newDocument(temp.toUri().toURL());
         String enriched = enrich(doc);
         enriched = beautifier.transform(enriched);
+        Files.delete(temp);
+        return enriched;
+    }
+
+    public byte[] enrich(byte[] clml) throws IOException, ResourceInstantiationException, ExecutionException {
+        clml = beautifier.transform(clml);
+        Path temp = Files.createTempFile("clml", ".xml");
+        Files.write(temp, clml);
+        Document doc = Factory.newDocument(temp.toUri().toURL());
+        String enriched1 = enrich(doc);
+        byte[] enriched = beautifier.transformToBytes(enriched1);
         Files.delete(temp);
         return enriched;
     }

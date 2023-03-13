@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!-- $Id: creole.xml 19208 2016-04-08 07:02:01Z markagreenwood $ -->
+<!-- creole.xml directory file for ANNIE Processing resources -->
+<CREOLE-DIRECTORY>
+
+	<JAR>annie-9.1.jar</JAR><!-- is this necessary? -->
+
+    <RESOURCE>
+		<CLASS>gate.creole.tokeniser.SimpleTokeniser</CLASS>
+	</RESOURCE>
+
+    <RESOURCE>
+		<CLASS>gate.creole.tokeniser.DefaultTokeniser</CLASS>
+	</RESOURCE>
+
+	<RESOURCE>
+		<CLASS>gate.creole.Transducer</CLASS>
+	</RESOURCE>
+
+	<RESOURCE>
+		<CLASS>gate.creole.ANNIETransducer</CLASS>
+	</RESOURCE>
+
+</CREOLE-DIRECTORY>

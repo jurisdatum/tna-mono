@@ -9,6 +9,7 @@ import org.xml.sax.SAXException;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.LinkedList;
@@ -19,6 +20,11 @@ public class Extractor {
     private final List<EmbeddedCite> cites = new LinkedList<>();
 
     private Extractor() { }
+
+    public static List<EmbeddedCite> extract(byte[] xml) throws IOException, SAXException {
+        ByteArrayInputStream input = new ByteArrayInputStream(xml);
+        return extract(input);
+    }
 
     public static List<EmbeddedCite> extract(InputStream input) throws IOException, SAXException {
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();

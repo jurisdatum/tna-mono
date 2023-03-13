@@ -42,7 +42,11 @@
             <groupId>uk.ac.gate.plugins</groupId>
             <artifactId>annie</artifactId>
             <version>9.1</version>
-            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>uk.ac.gate</groupId>
+            <artifactId>gate-compiler-jdt</artifactId>
+            <version>3.24.0</version>
         </dependency>
     </dependencies>
 

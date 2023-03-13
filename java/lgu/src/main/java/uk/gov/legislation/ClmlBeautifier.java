@@ -47,11 +47,25 @@ public class ClmlBeautifier {
         transform(source, serializer);
     }
 
+    public byte[] transform(byte[] input) {
+        ByteArrayInputStream bais = new ByteArrayInputStream(input);
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        transform(bais, baos);
+        return baos.toByteArray();
+    }
+
     public String transform(String input) {
-        ByteArrayInputStream bais = new ByteArrayInputStream(input.getBytes());
+        ByteArrayInputStream bais = new ByteArrayInputStream(input.getBytes(StandardCharsets.UTF_8));
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         transform(bais, baos);
         return baos.toString(StandardCharsets.UTF_8);
+    }
+
+    public byte[] transformToBytes(String input) {
+        ByteArrayInputStream bais = new ByteArrayInputStream(input.getBytes(StandardCharsets.UTF_8));
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        transform(bais, baos);
+        return baos.toByteArray();
     }
 
     private static class X extends net.sf.saxon.serialize.XMLEmitter {

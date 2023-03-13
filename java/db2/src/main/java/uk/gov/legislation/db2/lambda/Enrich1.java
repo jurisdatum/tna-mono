@@ -3,12 +3,12 @@ package uk.gov.legislation.db2.lambda;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.LambdaLogger;
 import com.amazonaws.services.lambda.runtime.events.SQSEvent;
-import net.sf.saxon.s9api.SaxonApiException;
+import gate.util.GateException;
 import org.xml.sax.SAXException;
+
 import uk.gov.legislation.cites.EmbeddedCite;
-import uk.gov.legislation.cites.regex.Enricher;
 import uk.gov.legislation.cites.Extractor;
-import uk.gov.legislation.cites.Util;
+import uk.gov.legislation.cites.gate.EUCiteEnricher;
 import uk.gov.legislation.db2.files.EnrichedBucket;
 import uk.gov.legislation.db2.files.LGUCache;
 import uk.gov.legislation.db2.queues.TransformQueue;
@@ -21,10 +21,15 @@ import java.util.List;
 
 public class Enrich1 extends SQSEventHandler {
 
-    Enricher enricher = new Enricher();
+    private EUCiteEnricher _enricher;
+    private EUCiteEnricher getEnricher() throws GateException {
+        if (_enricher == null)
+            _enricher = new EUCiteEnricher();
+        return _enricher;
+    }
 
     @Override
-    void processMessage(SQSEvent.SQSMessage message, Context context) throws SQLException, IOException, SAXException, SaxonApiException {
+    void processMessage(SQSEvent.SQSMessage message, Context context) throws SQLException, IOException, GateException, SAXException {
         LambdaLogger logger = context.getLogger();
         String id = message.getBody();
         logger.log("enriching " + id);
@@ -34,10 +39,9 @@ public class Enrich1 extends SQSEventHandler {
             return;
         }
         byte[] clml = LGUCache.getClml(id);
-        org.w3c.dom.Document doc = Util.parse(clml);
-        enricher.enrich(doc);
-        EnrichedBucket.saveClml(id, Util.serialize(doc));
-        List<EmbeddedCite> cites = Extractor.extract(doc);
+        byte[] enriched = getEnricher().enrich(clml);
+        EnrichedBucket.saveClml(id, enriched);
+        List<EmbeddedCite> cites = Extractor.extract(enriched);
         Citations.save(id, cites);
 
         logger.log("enqueuing for transform");

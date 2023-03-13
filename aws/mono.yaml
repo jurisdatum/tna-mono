@@ -175,7 +175,7 @@ Resources:
         S3Bucket: mono-code
         S3Key: 'db2-0.1.0.jar'
       Handler: 'uk.gov.legislation.db2.lambda.Enrich1::handleRequest'
-      MemorySize: 512
+      MemorySize: 4096
       Role: !GetAtt RoleForLambda3.Arn
       Timeout: 300
       VpcConfig:
