@@ -23,3 +23,24 @@ Priority: 1
 	Year = :year.Token.string,
 	Number = :number.Token.string
 }
+
+Rule: SuccessiveCitation
+Priority: 1
+(
+	( { Token.string == "," } | { Token.string == "and" } )
+	(
+	  ( { Token.string == "(" }
+	    ( { Token.string == "EU" } | { Token.string == "EC" } | { Token.string == "EEC" } )
+	    { Token.string == ")" } ) ?
+	  ( { Token.string == "No" }
+	    ( { Token.string == "." } ) ? ) ?
+	  ( { Token.kind == "number" } ) :number
+	  { Token.string == "/" }
+	  ( { Token.kind == "number" } ) :year
+	  ( { Token.string == "/" }
+	    ( { Token.string == "EU" } | { Token.string == "EC" } | { Token.string == "EEC" } ) ) ?
+	): cite
+) --> :cite.SuccessiveCitation = {
+	Year = :year.Token.string,
+	Number = :number.Token.string
+}

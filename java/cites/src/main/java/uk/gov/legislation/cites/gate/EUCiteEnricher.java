@@ -1,6 +1,7 @@
 package uk.gov.legislation.cites.gate;
 
 import gate.*;
+import gate.annotation.AnnotationSetImpl;
 import gate.creole.ExecutionException;
 import gate.creole.Plugin;
 import gate.creole.ResourceInstantiationException;
@@ -74,9 +75,11 @@ public class EUCiteEnricher {
     private String enrich(Document doc) throws ExecutionException {
         sac.getCorpus().add(doc);
         sac.execute();
-        AnnotationSet newCites = doc.getAnnotations(AnnotationSet);
+        AnnotationSet newCites = doc.getAnnotations(AnnotationSet).get("Citation");
         removeCertainCites(newCites);
         correctFeatures(newCites);
+        AnnotationSet successive = doc.getAnnotations(AnnotationSet).get("SuccessiveCitation");
+        correctSuccessive(successive);
         String enriched = serialize(doc);
         sac.getCorpus().remove(doc);
         return enriched;
@@ -168,6 +171,49 @@ public class EUCiteEnricher {
         long open = before.chars().filter(ch -> ch == '“').count();
         long close = before.chars().filter(ch -> ch == '”').count();
         return open > close;
+    }
+
+    private void correctSuccessive(AnnotationSet successives) {
+        Document doc = successives.getDocument();
+        AnnotationSet originalMarkups = doc.getNamedAnnotationSets().get("Original markups");
+        AnnotationSet newMarkups = doc.getAnnotations(AnnotationSet);
+        Iterator<Annotation> iterator = successives.iterator();
+        while (iterator.hasNext()) {
+            Annotation successive = iterator.next();
+            if (isWithinMetadata(doc, successive))
+                continue;
+            if (isWithinOriginalCitation(doc, successive))
+                continue;
+            // the following finds the last <Citation> element preceding this successive cite within the same <Text>
+            AnnotationSet text = originalMarkups.get("Text", successive.getStartNode().getOffset(), successive.getEndNode().getOffset());
+            if (text.isEmpty())
+                continue;
+            AnnotationSet origCites = originalMarkups.get("Citation", text.firstNode().getOffset(), successive.getStartNode().getOffset());
+            AnnotationSet newCites = newMarkups.get("Citation", text.firstNode().getOffset(), successive.getStartNode().getOffset());
+            AnnotationSetImpl combined = new AnnotationSetImpl(origCites);
+            combined.addAll(newCites);
+            if (combined.isEmpty())
+                continue;
+            Annotation fullCite = combined.inDocumentOrder().get(combined.size() - 1);
+            String citeClass = (String) fullCite.getFeatures().get("Class");
+            if (!citeClass.startsWith("EuropeanUnion"))
+                continue;
+            int num1 = Integer.parseInt((String) successive.getFeatures().get("Number"));
+            int num2 = Integer.parseInt((String) successive.getFeatures().get("Year"));
+            EUNumbers numbers;
+            try {
+                numbers = EUNumbers.interpret(num1, num2);
+            } catch (IllegalArgumentException e) {
+                continue;
+            }
+            FeatureMap newFeatures = Factory.newFeatureMap();
+            newFeatures.put("Class", citeClass);
+            newFeatures.put("Year", numbers.year());
+            newFeatures.put("Number", numbers.number());
+            newMarkups.add(successive.getStartNode(), successive.getEndNode(), "Citation", newFeatures);
+            logger.info("found successive cite: " + gate.Utils.stringFor(doc, successive) + " " + newFeatures.toString());
+        }
+        newMarkups.removeAll(successives);
     }
 
     private String serialize(Document doc) {
