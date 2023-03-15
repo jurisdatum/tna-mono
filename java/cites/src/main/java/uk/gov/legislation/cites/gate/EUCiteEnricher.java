@@ -75,34 +75,34 @@ public class EUCiteEnricher {
     private String enrich(Document doc) throws ExecutionException {
         sac.getCorpus().add(doc);
         sac.execute();
-        AnnotationSet newCites = doc.getAnnotations(AnnotationSet).get("Citation");
-        removeCertainCites(newCites);
-        correctFeatures(newCites);
-        AnnotationSet successive = doc.getAnnotations(AnnotationSet).get("SuccessiveCitation");
-        correctSuccessive(successive);
+        AnnotationSet newAnnotations = doc.getAnnotations(AnnotationSet);
+        removeCertainCites(newAnnotations.get("Citation"));
+        correctFeatures(newAnnotations.get("Citation"));    // only those that remain after removeCertainCites()
+        replaceSuccessive(newAnnotations.get("SuccessiveCitation"));
         String enriched = serialize(doc);
         sac.getCorpus().remove(doc);
         return enriched;
     }
 
-    private void removeCertainCites(AnnotationSet newCites) {
-        Document doc = newCites.getDocument();
-        Iterator<Annotation> iterator = newCites.iterator();
+    private void removeCertainCites(AnnotationSet newFullCites) {
+        Document doc = newFullCites.getDocument();
+        AnnotationSetImpl toRemove = new AnnotationSetImpl(doc);
+        Iterator<Annotation> iterator = newFullCites.iterator();
         while (iterator.hasNext()) {
             Annotation cite = iterator.next();
             if (isWithinMetadata(doc, cite)) {
                 logger.info("removing cite: \"" + gate.Utils.stringFor(doc, cite) + "\" because it's in the metadata");
-                iterator.remove();
+                toRemove.add(cite);
                 continue;
             }
             if (isWithinOriginalCitation(doc, cite)) {
                 logger.info("removing cite: \"" + gate.Utils.stringFor(doc, cite) + "\" because it's within another cite");
-                iterator.remove();
+                toRemove.add(cite);
                 continue;
             }
             if (isWithinTitleElement(doc, cite)) {
                 logger.info("removing cite: \"" + gate.Utils.stringFor(doc, cite) + "\" because it's in a title");
-                iterator.remove();
+                toRemove.add(cite);
                 continue;
             }
 //            if (isWithinQuotation(doc, cite)) {
@@ -111,14 +111,17 @@ public class EUCiteEnricher {
 //                continue;
 //            }
         }
+        doc.getAnnotations(AnnotationSet).removeAll(toRemove);
     }
 
     // correct @Class, @Year and @Number attributes
-    private void correctFeatures(AnnotationSet newCites) {
-        Iterator<Annotation> iterator = newCites.iterator();
+    private void correctFeatures(AnnotationSet newFullCites) {
+        Document doc = newFullCites.getDocument();
+        AnnotationSetImpl toRemove = new AnnotationSetImpl(doc);
+        Iterator<Annotation> iterator = newFullCites.iterator();
         while (iterator.hasNext()) {
             Annotation cite = iterator.next();
-            String text = gate.Utils.stringFor(newCites.getDocument(), cite);
+            String text = gate.Utils.stringFor(doc, cite);
             FeatureMap features = cite.getFeatures();
 
             String c = (String) features.get("Class");
@@ -134,7 +137,7 @@ public class EUCiteEnricher {
                 numbers = EUNumbers.interpret(num1, num2);
             } catch (IllegalArgumentException e) {
                 logger.log(Level.WARNING, "removing cite: \"" + text + "\"", e);
-                iterator.remove();
+                toRemove.add(cite);
                 continue;
             }
             features.put("Year", numbers.year());
@@ -142,6 +145,7 @@ public class EUCiteEnricher {
             logger.info("found cite: " + text + " " + features.toString());
             cite.setFeatures(features);
         }
+        doc.getAnnotations(AnnotationSet).removeAll(toRemove);
     }
 
     private boolean isWithinMetadata(Document doc, Annotation cite) {
@@ -173,11 +177,11 @@ public class EUCiteEnricher {
         return open > close;
     }
 
-    private void correctSuccessive(AnnotationSet successives) {
-        Document doc = successives.getDocument();
+    private void replaceSuccessive(AnnotationSet newSuccessiveCites) {
+        Document doc = newSuccessiveCites.getDocument();
         AnnotationSet originalMarkups = doc.getNamedAnnotationSets().get("Original markups");
         AnnotationSet newMarkups = doc.getAnnotations(AnnotationSet);
-        Iterator<Annotation> iterator = successives.iterator();
+        Iterator<Annotation> iterator = newSuccessiveCites.iterator();
         while (iterator.hasNext()) {
             Annotation successive = iterator.next();
             if (isWithinMetadata(doc, successive))
@@ -213,7 +217,7 @@ public class EUCiteEnricher {
             newMarkups.add(successive.getStartNode(), successive.getEndNode(), "Citation", newFeatures);
             logger.info("found successive cite: " + gate.Utils.stringFor(doc, successive) + " " + newFeatures.toString());
         }
-        newMarkups.removeAll(successives);
+        newMarkups.removeAll(newSuccessiveCites);
     }
 
     private String serialize(Document doc) {
