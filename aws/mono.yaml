@@ -164,6 +164,10 @@ Resources:
                   - sqs:GetQueueUrl
                   - sqs:SendMessage
                 Resource: !GetAtt TransformQueue.Arn
+              - Effect: Allow
+                Action:
+                  - sqs:SendMessage
+                Resource: !GetAtt EnrichmentDeadLetterQueue.Arn
 
   Lambda3:
     Type: AWS::Lambda::Function
@@ -185,6 +189,8 @@ Resources:
           - !Ref PrivateSubnetA
           - !Ref PrivateSubnetB
           - !Ref PrivateSubnetC
+      DeadLetterConfig:
+        TargetArn: !GetAtt EnrichmentDeadLetterQueue.Arn
 
   EnrichmentQueue:
     Type: AWS::SQS::Queue
