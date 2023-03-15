@@ -4,7 +4,7 @@
    xmlns="http://www.legislation.gov.uk/namespaces/legislation"
    xmlns:gate="http://www.gate.ac.uk" exclude-result-prefixes="gate">
 
-<xsl:output method="xml" version="1.0" encoding="utf-8" omit-xml-declaration="no" indent="yes" suppress-indentation="Number Title Text" />
+<xsl:output method="xml" version="1.0" encoding="utf-8" omit-xml-declaration="no" indent="yes" /> <!-- suppress-indentation="Number Title Text" -->
 
 <xsl:strip-space elements="*" />
 <xsl:preserve-space elements="Text Emphasis Strong Underline SmallCaps Superior Inferior Uppercase Underline Expanded Strike Definition Proviso Abbreviation Acronym Term Span Citation CitationSubRef InternalLink ExternalLink InlineAmendment Addition Substitution Repeal" />
