@@ -6,6 +6,7 @@ import com.amazonaws.services.lambda.runtime.events.SQSEvent;
 import gate.util.GateException;
 import org.xml.sax.SAXException;
 
+import uk.gov.legislation.cites.EUCiteRemover;
 import uk.gov.legislation.cites.EmbeddedCite;
 import uk.gov.legislation.cites.Extractor;
 import uk.gov.legislation.cites.gate.EUCiteEnricher;
@@ -21,7 +22,13 @@ import java.util.List;
 
 public class Enrich1 extends SQSEventHandler {
 
+    private EUCiteRemover _remover;
     private EUCiteEnricher _enricher;
+    private EUCiteRemover getRemover() {
+        if (_remover == null)
+            _remover = new EUCiteRemover();
+        return _remover;
+    }
     private EUCiteEnricher getEnricher() throws GateException {
         if (_enricher == null)
             _enricher = new EUCiteEnricher();
@@ -32,16 +39,22 @@ public class Enrich1 extends SQSEventHandler {
     void processMessage(SQSEvent.SQSMessage message, Context context) throws SQLException, IOException, GateException, SAXException {
         LambdaLogger logger = context.getLogger();
         String id = message.getBody();
-        logger.log("enriching " + id);
+        logger.log("received " + id);
         Document leg = Document.get(id);
         if (leg == null) {
             logger.log(id + " does not exists");
             return;
         }
         byte[] clml = LGUCache.getClml(id);
+        logger.log("removing original EU citations");
+        clml = getRemover().remove(clml);
+        logger.log("enriching");
         byte[] enriched = getEnricher().enrich(clml);
+        logger.log("saving");
         EnrichedBucket.saveClml(id, enriched);
+        logger.log("extracting citations");
         List<EmbeddedCite> cites = Extractor.extract(enriched);
+        logger.log("saving citations to MySQL");
         Citations.save(id, cites);
 
         logger.log("enqueuing for transform");
