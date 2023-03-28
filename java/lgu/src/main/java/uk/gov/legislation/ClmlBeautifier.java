@@ -61,12 +61,6 @@ public class ClmlBeautifier {
         return baos.toString(StandardCharsets.UTF_8);
     }
 
-    public byte[] transformToBytes(String input) {
-        ByteArrayInputStream bais = new ByteArrayInputStream(input.getBytes(StandardCharsets.UTF_8));
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        transform(bais, baos);
-        return baos.toByteArray();
-    }
 
     private static class X extends net.sf.saxon.serialize.XMLEmitter {
         @Override

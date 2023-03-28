@@ -24,6 +24,7 @@ public class EUCiteEnricher {
     private static final Logger logger = Logger.getAnonymousLogger();
 
     private final SerialAnalyserController sac;
+    private final GateArtifactRemover artifactRemover = new GateArtifactRemover();
     private final ClmlBeautifier beautifier = new ClmlBeautifier();
 
     public EUCiteEnricher() throws GateException {
@@ -50,24 +51,14 @@ public class EUCiteEnricher {
         sac.setCorpus(corpus);
     }
 
-    public String enrich(String clml) throws IOException, ResourceInstantiationException, ExecutionException {
-        clml = beautifier.transform(clml);
-        Path temp = Files.createTempFile("clml", ".xml");
-        Files.writeString(temp, clml);
-        Document doc = Factory.newDocument(temp.toUri().toURL());
-        String enriched = enrich(doc);
-        enriched = beautifier.transform(enriched);
-        Files.delete(temp);
-        return enriched;
-    }
-
     public byte[] enrich(byte[] clml) throws IOException, ResourceInstantiationException, ExecutionException {
         clml = beautifier.transform(clml);
         Path temp = Files.createTempFile("clml", ".xml");
         Files.write(temp, clml);
         Document doc = Factory.newDocument(temp.toUri().toURL());
         String enriched1 = enrich(doc);
-        byte[] enriched = beautifier.transformToBytes(enriched1);
+        byte[] withGateArtifactsRemoved = artifactRemover.remove(enriched1);
+        byte[] enriched = beautifier.transform(withGateArtifactsRemoved);
         Files.delete(temp);
         return enriched;
     }
