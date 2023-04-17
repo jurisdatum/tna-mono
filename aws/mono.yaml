@@ -36,6 +36,7 @@ Resources:
                 - !GetAtt UpdateQueue.Arn
                 - !GetAtt EnrichmentQueue.Arn
                 - !GetAtt CheckQueue.Arn
+                - !GetAtt TransformQueue.Arn
       UserName: Mono
 
   Lambda1:
