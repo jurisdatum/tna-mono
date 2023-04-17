@@ -121,6 +121,13 @@ public class EUCiteEnricher {
             c = "EuropeanUnion" + c;
             features.put("Class", c);
 
+            if (c.equals("EuropeanUnionOfficialJournal")) {
+                boolean ok = correctOJCite(cite);
+                if (!ok)
+                    toRemove.add(cite);
+                continue;
+            }
+
             int num1 = Integer.parseInt((String) features.get("Number"));
             int num2 = Integer.parseInt((String) features.get("Year"));
             EUNumbers numbers;
@@ -137,6 +144,35 @@ public class EUCiteEnricher {
             cite.setFeatures(features);
         }
         doc.getAnnotations(AnnotationSet).removeAll(toRemove);
+    }
+
+    private boolean correctOJCite(Annotation cite) {
+        FeatureMap features = cite.getFeatures();
+        String series = (String) features.get("Series");
+        String issue = (String) features.get("Issue");
+        int year = Integer.parseInt((String) features.get("Year"));
+        int month = Integer.parseInt((String) features.get("Month"));
+        int day = Integer.parseInt((String) features.get("Day"));
+        String page = (String) features.get("Page");
+        try {
+            year = EUNumbers.normalizeYear(year);
+        } catch (IllegalArgumentException e) {
+            return false;
+        }
+        if (month < 1 || month > 12)
+            return false;
+        if (day < 1 || day > 31)
+            return false;
+        features.remove("Series");
+        features.remove("Issue");
+        features.put("Year", year);
+        features.remove("Month");
+        features.remove("Day");
+        features.remove("Page");
+        String date = year + "-" + String.format("%02d", month) + "-" + String.format("%02d", day);
+        features.put("Date", date);
+        features.put("Locator", series + issue + " p. " + page);
+        return true;
     }
 
     private boolean isWithinMetadata(Document doc, Annotation cite) {

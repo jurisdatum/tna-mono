@@ -44,3 +44,34 @@ Priority: 1
 	Year = :year.Token.string,
 	Number = :number.Token.string
 }
+
+Rule: OJCitation
+Priority: 1
+(
+	{ Token.string == "O" }
+	{ Token.string == "." }
+	{ Token.string == "J" }
+	{ Token.string == "." }
+	{ Token.string == "No" }
+	{ Token.string == "." }
+	( { Token.string == "L" } | { Token.string == "C" } ) :series
+	( { Token.kind == "number" } ) :issue
+	{ Token.string == "," }
+	( { Token.kind == "number" } ) :day
+	{ Token.string == "." }
+	( { Token.kind == "number" } ) :month
+	{ Token.string == "." }
+	( { Token.kind == "number" } ) :year
+	{ Token.string == "," }
+	{ Token.string == "p" }
+	{ Token.string == "." }
+	( { Token.kind == "number" } ) :page
+): cite --> :cite.Citation = {
+	Class = "OfficialJournal",
+	Series = :series.Token.string,
+	Issue = :issue.Token.string,
+	Year = :year.Token.string,
+	Month = :month.Token.string,
+	Day = :day.Token.string,
+	Page = :page.Token.string
+}
