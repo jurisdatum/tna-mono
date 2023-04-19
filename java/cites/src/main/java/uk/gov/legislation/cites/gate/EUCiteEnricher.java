@@ -19,7 +19,7 @@ import java.util.logging.Logger;
 
 public class EUCiteEnricher {
 
-    private static final String AnnotationSet = "New markups";
+    static final String AnnotationSet = "New markups";
     private static final String Grammar = "/EUCitations.jape";
     private static final Logger logger = Logger.getAnonymousLogger();
 
@@ -68,6 +68,7 @@ public class EUCiteEnricher {
         sac.execute();
         AnnotationSet newAnnotations = doc.getAnnotations(AnnotationSet);
         removeCertainCites(newAnnotations.get("Citation"));
+        correctOJCites(newAnnotations.get("Citation"));
         correctFeatures(newAnnotations.get("Citation"));    // only those that remain after removeCertainCites()
         replaceSuccessive(newAnnotations.get("SuccessiveCitation"));
         String enriched = serialize(doc);
@@ -75,6 +76,10 @@ public class EUCiteEnricher {
         return enriched;
     }
 
+    /**
+     * Removes new annotations that are in the metadata section, within other citations, or
+     * within Title elements.
+     */
     private void removeCertainCites(AnnotationSet newFullCites) {
         Document doc = newFullCites.getDocument();
         AnnotationSetImpl toRemove = new AnnotationSetImpl(doc);
@@ -105,7 +110,10 @@ public class EUCiteEnricher {
         doc.getAnnotations(AnnotationSet).removeAll(toRemove);
     }
 
-    // correct @Class, @Year and @Number attributes
+    /**
+     * Adjusts the @Class, @Year and @Number attributes of cites that are not OJ cites,
+     * and removes those with bad dates
+     */
     private void correctFeatures(AnnotationSet newFullCites) {
         Document doc = newFullCites.getDocument();
         AnnotationSetImpl toRemove = new AnnotationSetImpl(doc);
@@ -116,23 +124,27 @@ public class EUCiteEnricher {
             FeatureMap features = cite.getFeatures();
 
             String c = (String) features.get("Class");
+            if (c.equals("EuropeanUnionOfficialJournal"))
+                continue;
             if (c.endsWith("s"))
                 c = c.substring(0, c.length() - 1);
             c = "EuropeanUnion" + c;
             features.put("Class", c);
 
-            if (c.equals("EuropeanUnionOfficialJournal")) {
-                boolean ok = correctOJCite(cite);
-                if (!ok)
-                    toRemove.add(cite);
-                continue;
+            // get year from OJ cite
+            Integer ojYear;
+            Annotation next = Util.getNextNewCite(cite, doc, 50);
+            if (next != null && "EuropeanUnionOfficialJournal".equals(next.getFeatures().get("Class"))) {
+                ojYear = (Integer) next.getFeatures().get("Year");
+            } else {
+                ojYear = null;
             }
 
             int num1 = Integer.parseInt((String) features.get("Number"));
             int num2 = Integer.parseInt((String) features.get("Year"));
             EUNumbers numbers;
             try {
-                numbers = EUNumbers.interpret(num1, num2);
+                numbers = EUNumbers.interpret(num1, num2, ojYear);
             } catch (IllegalArgumentException e) {
                 logger.log(Level.WARNING, "removing cite: \"" + text + "\"", e);
                 toRemove.add(cite);
@@ -146,8 +158,29 @@ public class EUCiteEnricher {
         doc.getAnnotations(AnnotationSet).removeAll(toRemove);
     }
 
+    private void correctOJCites(AnnotationSet newFullCites) {
+        Document doc = newFullCites.getDocument();
+        AnnotationSetImpl toRemove = new AnnotationSetImpl(doc);
+        Iterator<Annotation> iterator = newFullCites.iterator();
+        while (iterator.hasNext()) {
+            Annotation cite = iterator.next();
+            String c = (String) cite.getFeatures().get("Class");
+            if (!c.equals("OfficialJournal"))
+                continue;
+            boolean ok = correctOJCite(cite);
+            if (!ok)
+                toRemove.add(cite);
+        }
+        doc.getAnnotations(AnnotationSet).removeAll(toRemove);
+    }
+
     private boolean correctOJCite(Annotation cite) {
         FeatureMap features = cite.getFeatures();
+        String c = (String) features.get("Class");
+        if (!c.startsWith("EuropeanUnion")) {
+            c = "EuropeanUnion" + c;
+            features.put("Class", c);
+        }
         String series = (String) features.get("Series");
         String issue = (String) features.get("Issue");
         int year = Integer.parseInt((String) features.get("Year"));
@@ -233,7 +266,7 @@ public class EUCiteEnricher {
             int num2 = Integer.parseInt((String) successive.getFeatures().get("Year"));
             EUNumbers numbers;
             try {
-                numbers = EUNumbers.interpret(num1, num2);
+                numbers = EUNumbers.interpret(num1, num2, null);
             } catch (IllegalArgumentException e) {
                 continue;
             }

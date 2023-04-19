@@ -21,7 +21,18 @@ public class EUNumbers {
         this.number = number;
     }
 
-    public static EUNumbers interpret(int first, int second) {
+    /**
+     * Tries to determine which of two numbers is a year, and ensures that it has four-digits.
+     * If both numbers are possible years, if a hint is provided, and if one of the numbers equals the hint,
+     * then the hint will be used for the year. Otherwise, other attempts are made to disambiguate.
+     *
+     * @param first the first number
+     * @param second the second number
+     * @param hint null or a four-digit year
+     * @return the disambiguated numbers
+     * @throws IllegalArgumentException if neither number is a possible year
+     */
+    public static EUNumbers interpret(int first, int second, Integer hint) throws IllegalArgumentException {
         boolean possible1 = isPossibleYear(first);
         boolean possible2 = isPossibleYear(second);
         if (!possible1 && !possible2)
@@ -33,6 +44,11 @@ public class EUNumbers {
 
         int firstAsFourDigitYear = normalizeYear(first);
         int secondAsFourDigitYear = normalizeYear(second);
+
+        if (hint != null && hint.intValue() == firstAsFourDigitYear)
+            return new EUNumbers(firstAsFourDigitYear, second);
+        if (hint != null && hint.intValue() == secondAsFourDigitYear)
+            return new EUNumbers(secondAsFourDigitYear, first);
 
         // a year after 2014 should not be in the second position
         if (firstAsFourDigitYear >= 2015 && secondAsFourDigitYear > 2014)
