@@ -208,6 +208,8 @@ Resources:
       BatchSize: 1
       EventSourceArn: !GetAtt EnrichmentQueue.Arn
       FunctionName: !GetAtt Lambda3.Arn
+      FunctionResponseTypes:
+        - ReportBatchItemFailures
 
   EnrichmentDeadLetterQueue:
     Type: AWS::SQS::Queue
