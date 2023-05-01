@@ -41,16 +41,14 @@ public class Enrich1 extends SQSEventHandler {
         String id = message.getBody();
         logger.log("received " + id);
         Document leg = Document.get(id);
-        if (leg == null) {
-            logger.log(id + " does not exists");
-            return;
-        }
+        if (leg == null)
+            throw new RuntimeException(id + " does not exist");
         byte[] clml = LGUCache.getClml(id);
         logger.log("removing original EU citations");
         clml = getRemover().remove(clml);
-        logger.log("enriching");
+        logger.log("enriching XML");
         byte[] enriched = getEnricher().enrich(clml);
-        logger.log("saving");
+        logger.log("saving enriched XML");
         EnrichedBucket.saveClml(id, enriched);
         logger.log("extracting citations");
         List<EmbeddedCite> cites = Extractor.extract(enriched);

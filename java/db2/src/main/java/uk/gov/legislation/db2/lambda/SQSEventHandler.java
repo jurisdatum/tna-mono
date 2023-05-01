@@ -21,7 +21,8 @@ public abstract class SQSEventHandler implements RequestHandler<SQSEvent, SQSBat
             } catch (Exception e) {
                 logger.log(e.getLocalizedMessage());
                 e.printStackTrace();
-                failures.add(new SQSBatchResponse.BatchItemFailure(message.getMessageId()));
+                SQSBatchResponse.BatchItemFailure failure = new SQSBatchResponse.BatchItemFailure(message.getMessageId());
+                failures.add(failure);
             }
         }
         return new SQSBatchResponse(failures);
