@@ -131,17 +131,9 @@ public class EUCiteEnricher {
             c = "EuropeanUnion" + c;
             features.put("Class", c);
 
-            // get year from OJ cite
-            Integer ojYear;
-            Annotation next = Util.getNextNewCite(cite, doc, 50);
-            if (next != null && "EuropeanUnionOfficialJournal".equals(next.getFeatures().get("Class"))) {
-                ojYear = (Integer) next.getFeatures().get("Year");
-            } else {
-                ojYear = null;
-            }
-
             int num1 = Integer.parseInt((String) features.get("Number"));
             int num2 = Integer.parseInt((String) features.get("Year"));
+            Integer ojYear = getYearFromFollowingOJCite(cite, doc);
             EUNumbers numbers;
             try {
                 numbers = EUNumbers.interpret(num1, num2, ojYear);
@@ -204,8 +196,41 @@ public class EUCiteEnricher {
         features.remove("Page");
         String date = year + "-" + String.format("%02d", month) + "-" + String.format("%02d", day);
         features.put("Date", date);
-        features.put("Locator", series + issue + " p. " + page);
         return true;
+    }
+
+    private Integer getYearFromFollowingOJCite(Annotation cite, Document doc) {
+        Annotation next = Util.getNextNewCite(cite, doc, 50);
+        // should also check that there are no annotations in between?
+        if (next != null && "EuropeanUnionOfficialJournal".equals(next.getFeatures().get("Class"))) {
+            logger.info("using year from following OJ cite: " + gate.Utils.stringFor(doc, next) + " " + next.getFeatures().toString());
+            return (Integer) next.getFeatures().get("Year");
+        }
+        return getYearFromOJCiteInFollowingFootnote(cite, doc);
+    }
+
+    private Integer getYearFromOJCiteInFollowingFootnote(Annotation cite, Document doc) {
+        Annotation fnRef = Util.getNextFootnoteRef(cite, doc);
+        if (fnRef == null)
+            return null;
+        AnnotationSet originalMarkups = doc.getAnnotations(Util.OriginalMarkupsAnnotationSetName);
+        AnnotationSet newAnnotations = doc.getAnnotations(AnnotationSet);
+        // if there is another citation before the footnote ref, don't consider the footnote
+        Annotation next = Util.getNextAnnotationWithinSameText(cite, originalMarkups, "Citation");
+        if (next != null && next.getStartNode().getOffset() < fnRef.getStartNode().getOffset())
+            return null;
+        next = Util.getNextAnnotationWithinSameText(cite, newAnnotations, "Citation");
+        if (next != null && next.getStartNode().getOffset() < fnRef.getStartNode().getOffset())
+            return null;
+        String footnoteId = (String) fnRef.getFeatures().get("Ref");
+        Annotation cite2 = Util.getNewCitationFromFootnote(doc, footnoteId);
+        if (cite2 == null)
+            return null;
+        if ("EuropeanUnionOfficialJournal".equals(cite2.getFeatures().get("Class"))) {
+            logger.info("using year from OJ cite in footnote " + footnoteId + ": " + gate.Utils.stringFor(doc, cite2) + " " + cite2.getFeatures().toString());
+            return (Integer) cite2.getFeatures().get("Year");
+        }
+        return null;
     }
 
     private boolean isWithinMetadata(Document doc, Annotation cite) {

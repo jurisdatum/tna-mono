@@ -49,6 +49,8 @@ public class EUNumbers {
             return new EUNumbers(firstAsFourDigitYear, second);
         if (hint != null && hint.intValue() == secondAsFourDigitYear)
             return new EUNumbers(secondAsFourDigitYear, first);
+        if (hint != null)
+            logger.warning("hint year matches neither number: " + first + ", " + second + ", " + hint.toString());
 
         // a year after 2014 should not be in the second position
         if (firstAsFourDigitYear >= 2015 && secondAsFourDigitYear > 2014)

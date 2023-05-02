@@ -27,7 +27,7 @@ Priority: 1
 Rule: SuccessiveCitation
 Priority: 1
 (
-	( { Token.string == "," } | { Token.string == "and" } )
+	( { Token.string == "," } | { Token.string == "and" } | { Token.string == "or" } )
 	(
 	  ( { Token.string == "(" }
 	    ( { Token.string == "EU" } | { Token.string == "EC" } | { Token.string == "EEC" } )
