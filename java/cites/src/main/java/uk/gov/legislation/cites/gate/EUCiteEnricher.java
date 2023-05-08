@@ -41,6 +41,8 @@ public class EUCiteEnricher {
         ProcessingResource tokenizer = (ProcessingResource) Factory.createResource("gate.creole.tokeniser.DefaultTokeniser");
         sac.add(tokenizer);
 
+        DateAnnotator.add(sac);
+
         FeatureMap japeFeature = Factory.newFeatureMap();
         japeFeature.put("grammarURL", EUCiteEnricher.class.getResource(Grammar));
         japeFeature.put("outputASName", AnnotationSet);
@@ -133,10 +135,12 @@ public class EUCiteEnricher {
 
             int num1 = Integer.parseInt((String) features.get("Number"));
             int num2 = Integer.parseInt((String) features.get("Year"));
-            Integer ojYear = getYearFromFollowingOJCite(cite, doc);
+            Integer year = getYearFromFollowingDate(cite, doc);
+            if (year == null)
+                year = getYearFromFollowingOJCite(cite, doc);
             EUNumbers numbers;
             try {
-                numbers = EUNumbers.interpret(num1, num2, ojYear);
+                numbers = EUNumbers.interpret(num1, num2, year);
             } catch (IllegalArgumentException e) {
                 logger.log(Level.WARNING, "removing cite: \"" + text + "\"", e);
                 toRemove.add(cite);
@@ -231,6 +235,13 @@ public class EUCiteEnricher {
             return (Integer) cite2.getFeatures().get("Year");
         }
         return null;
+    }
+
+    private Integer getYearFromFollowingDate(Annotation cite, Document doc) {
+        Annotation date = DateAnnotator.getFollowingDate(cite, doc, 20);
+        if (date == null)
+            return null;
+        return DateAnnotator.getYear(date);
     }
 
     private boolean isWithinMetadata(Document doc, Annotation cite) {

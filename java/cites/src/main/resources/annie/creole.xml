@@ -21,4 +21,8 @@
 		<CLASS>gate.creole.ANNIETransducer</CLASS>
 	</RESOURCE>
 
+	<RESOURCE>
+		<CLASS>gate.creole.gazetteer.DefaultGazetteer</CLASS>
+	</RESOURCE>
+
 </CREOLE-DIRECTORY>

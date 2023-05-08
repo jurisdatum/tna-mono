@@ -1,0 +1,15 @@
+Phase: pass1
+Input: Token Lookup
+Options: control = appelt
+
+Rule: Date
+Priority: 1
+(
+	( { Token.string =~ "^[1-9][0-9]?(st|nd|rd|th)?$" } ) :day
+	( { Lookup.minorType == month } ) :month
+	( { Token.kind == "number", Token.length == 4 } ) :year
+): date --> :date.Date = {
+    Year = :year.Token.string,
+    Month = :month.Lookup@string,
+    Day = :day.Token.string
+}
