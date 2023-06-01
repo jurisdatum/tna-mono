@@ -77,24 +77,43 @@ public class Document {
 		return docs;
 	}
 
-	public static NavigableSet<Integer> getYears(String type) throws SQLException {
+	public static NavigableSet<Integer> getYears(Connection connection, String type) throws SQLException {
 		TreeSet<Integer> years = new TreeSet<>();
 		String sql = "SELECT DISTINCT year FROM documents WHERE type = ?";
+		PreparedStatement statement = connection.prepareStatement(sql);
+		statement.setString(1, type);
+		ResultSet result = statement.executeQuery();
+		while (result.next()) {
+			int year = result.getInt(1);
+			years.add(year);
+		}
+		result.close();
+		statement.close();
+		return years;
+	}
+	public static NavigableSet<Integer> getYears(String type) throws SQLException {
 		Connection connection = MySQL.getConnection();
 		try {
-			PreparedStatement statement = connection.prepareStatement(sql);
-			statement.setString(1, type);
-			ResultSet result = statement.executeQuery();
-			while (result.next()) {
-				int year = result.getInt(1);
-				years.add(year);
-			}
-			result.close();
-			statement.close();
+			return getYears(connection, type);
 		} finally {
 			connection.close();
 		}
-		return years;
+	}
+
+	public static List<Document> fetch(Connection connection, String type, int year) throws SQLException {
+		List<Document> docs = new LinkedList<>();
+		String sql = "SELECT * FROM documents WHERE type = ? AND year = ? ORDER BY number";
+		PreparedStatement statement = connection.prepareStatement(sql);
+		statement.setString(1, type);
+		statement.setInt(2, year);
+		ResultSet result = statement.executeQuery();
+		while (result.next()) {
+			Document doc = new Document(result);
+			docs.add(doc);
+		}
+		result.close();
+		statement.close();
+		return docs;
 	}
 
 	public static List<Document> fetch(String type, int year) throws SQLException {

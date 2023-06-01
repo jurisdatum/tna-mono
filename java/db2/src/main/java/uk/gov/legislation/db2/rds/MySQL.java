@@ -10,7 +10,7 @@ import uk.gov.legislation.aws.Secrets;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-class MySQL {
+public class MySQL {
 
 	private static final Region region = Region.EU_WEST_2;
 	private static final String CredentialsSecretName = "mysql1-credentials-java";
@@ -69,7 +69,7 @@ class MySQL {
 		}
 	}
 
-	static Connection getConnection() throws SQLException {
+	public static Connection getConnection() throws SQLException {
 		return db.getConnection();
 	}
 
