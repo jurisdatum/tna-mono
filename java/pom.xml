@@ -16,6 +16,9 @@
         <module>clml2akn</module>
         <module>akn2html</module>
         <module>db2</module>
+        <module>tables</module>
+        <module>api</module>
+        <module>api/api-tables</module>
     </modules>
 
     <properties>

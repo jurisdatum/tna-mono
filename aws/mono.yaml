@@ -469,6 +469,41 @@ Resources:
           - subnet-0b0e18a368b73bf30
           - subnet-0c08732b81facb560
 
+  ExtractTableLambda:
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName: mono-api-table-get
+      Description: get one table from a CLML document
+      Runtime: java11
+      Code:
+        S3Bucket: mono-code
+        S3Key: 'api-tables-0.1.0.jar'
+      Handler: 'uk.gov.legislation.api.Tables::handleRequest'
+      MemorySize: 256
+      Role: !GetAtt RoleForTablesLambda.Arn
+      Timeout: 60
+  RoleForTablesLambda:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+          - Effect: Allow
+            Action: sts:AssumeRole
+            Principal:
+              Service: lambda.amazonaws.com
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/service-role/AWSLambdaVPCAccessExecutionRole
+      Policies:
+        - PolicyName: PolicyForTablesLambda
+          PolicyDocument:
+            Statement:
+              - Effect: Allow
+                Action:
+                  - 's3:GetObject'
+                Resource:
+                  - 'arn:aws:s3:::lgu-enriched'
+                  - 'arn:aws:s3:::lgu-enriched/*'
+
 
 ### networking ###
 
@@ -632,6 +667,41 @@ Resources:
                     description: internal error
               x-amazon-apigateway-integration:
                 $ref: '#/components/x-amazon-apigateway-integrations/int-leg-docs'
+          /legislation/tables:
+            get:
+              summary: Retrieve a table from a document
+              parameters:
+                  - name: document
+                    in: query
+                    required: true
+                    schema:
+                      type: string
+                  - name: table
+                    in: query
+                    required: true
+                    schema:
+                      type: integer
+                  - name: format
+                    in: query
+                    required: false
+                    schema:
+                      type: string
+                      enum:
+                        - html
+                        - csv
+                        - xlsx
+                      default: html
+              responses:
+                  '200':
+                    description: the table
+                  '400':
+                    description: bad reqeust
+                  '404':
+                    description: not found
+                  '500':
+                    description: internal error
+              x-amazon-apigateway-integration:
+                $ref: '#/components/x-amazon-apigateway-integrations/int-tables'
 
         x-amazon-apigateway-cors:
           allowOrigins:
@@ -659,6 +729,10 @@ Resources:
             int-leg-docs:
               type: 'aws_proxy'
               uri: !GetAtt ApiLambdaDocsGet.Arn
+              payloadFormatVersion: '2.0'
+            int-tables:
+              type: 'aws_proxy'
+              uri: !GetAtt ExtractTableLambda.Arn
               payloadFormatVersion: '2.0'
 
   ApiStage:
@@ -736,6 +810,25 @@ Resources:
             - ':'
             - !Ref Api
             - '/*/*/legislation/docs/{type}/{year}'
+
+  LambdaPermissionForTablesEndpoint:
+    Description: Allows /legislation/tables endpoint to invoke mono-api-table-get function
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: 'lambda:InvokeFunction'
+      FunctionName: !Ref ExtractTableLambda
+      Principal: 'apigateway.amazonaws.com'
+      SourceArn:
+        !Join
+          - ''
+          - - 'arn:aws:execute-api:'
+            - !Ref AWS::Region
+            - ':'
+            - !Ref AWS::AccountId
+            - ':'
+            - !Ref Api
+            - '/*/*/legislation/tables'
+
 
 # custom domain for api
   Cert:
