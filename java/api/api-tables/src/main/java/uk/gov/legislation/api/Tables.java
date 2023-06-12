@@ -7,6 +7,7 @@ import com.amazonaws.services.lambda.runtime.events.APIGatewayV2HTTPEvent;
 import com.amazonaws.services.lambda.runtime.events.APIGatewayV2HTTPResponse;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
+import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.model.S3Exception;
 import uk.gov.legislation.tables.CSV;
 import uk.gov.legislation.tables.Excel;
@@ -21,6 +22,12 @@ import java.util.List;
 import java.util.Map;
 
 public class Tables implements RequestHandler<APIGatewayV2HTTPEvent, APIGatewayV2HTTPResponse> {
+
+    private final S3Client client;
+
+    public Tables() {
+        client = LGUCache.client();
+    }
 
     @Override
     public APIGatewayV2HTTPResponse handleRequest(APIGatewayV2HTTPEvent request, Context context) {
@@ -49,8 +56,8 @@ public class Tables implements RequestHandler<APIGatewayV2HTTPEvent, APIGatewayV
         }
     }
 
-    private static HtmlTable getTable(String id, int n) throws IOException, SAXException {
-        byte[] clml = EnrichedBucket.getClml(id);
+    private HtmlTable getTable(String id, int n) throws IOException, SAXException {
+        byte[] clml = LGUCache.getClml(client, id);
         ByteArrayInputStream bais = new ByteArrayInputStream(clml);
         Document doc = uk.gov.legislation.tables.CLML.parse(bais);
         return uk.gov.legislation.tables.CLML.getTable(doc, n - 1);

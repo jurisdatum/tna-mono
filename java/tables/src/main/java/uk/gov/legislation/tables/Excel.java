@@ -10,7 +10,10 @@ import org.w3c.dom.ls.LSSerializer;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import java.io.*;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,9 +34,9 @@ public class Excel {
     final Document sharedStrings;
 
     public static byte[] convert(List<List<Grid.Cell>> table) throws IOException {
-        Excel excel = new Excel(table);
+//        Excel excel = new Excel(table);
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        excel.write(baos);
+        write(table, baos);
         return baos.toByteArray();
     }
 
@@ -72,22 +75,25 @@ public class Excel {
                 cellCount += 1;
                 Element c = document.createElementNS(NS, "c");
                 c.setAttribute("r", makeCellName(j, i));
-                c.setAttribute("t", "s");
                 e.appendChild(c);
-                Element v = document.createElementNS(NS, "v");
-                c.appendChild(v);
 
                 String string = cell.text();
-                int sharedStringNumber;
-                if (sharedStringMap.containsKey(string)) {
-                    sharedStringNumber = sharedStringMap.get(string);
-                } else {
-                    sharedStringNumber = sharedStringMap.size();
-                    sharedStringMap.put(string, sharedStringNumber);
-                }
+                if (string != null) {
+                    c.setAttribute("t", "s");
+                    Element v = document.createElementNS(NS, "v");
+                    c.appendChild(v);
 
-                Node text = document.createTextNode(Integer.toString(sharedStringNumber));
-                v.appendChild(text);
+                    int sharedStringNumber;
+                    if (sharedStringMap.containsKey(string)) {
+                        sharedStringNumber = sharedStringMap.get(string);
+                    } else {
+                        sharedStringNumber = sharedStringMap.size();
+                        sharedStringMap.put(string, sharedStringNumber);
+                    }
+
+                    Node text = document.createTextNode(Integer.toString(sharedStringNumber));
+                    v.appendChild(text);
+                }
 
                 if (cell.first() && (cell.colspan() > 1 || cell.rowspan() > 1)) {
                     String start = makeCellName(j, i);
@@ -133,6 +139,7 @@ public class Excel {
     private byte[] serialize(Document doc) {
         DOMImplementationLS dom = (DOMImplementationLS) doc.getImplementation();
         LSSerializer serializer = dom.createLSSerializer();
+        serializer.getDomConfig().setParameter("xml-declaration", true);
         LSOutput output = dom.createLSOutput();
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         output.setByteStream(baos);
