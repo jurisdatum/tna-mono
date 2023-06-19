@@ -19,6 +19,7 @@
         <module>tables</module>
         <module>api</module>
         <module>api/api-tables</module>
+        <module>clml2docx</module>
     </modules>
 
     <properties>
