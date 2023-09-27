@@ -2,10 +2,7 @@ package uk.gov.legislation.cites.gate;
 
 import gate.*;
 import gate.annotation.AnnotationSetImpl;
-import gate.creole.ExecutionException;
-import gate.creole.Plugin;
-import gate.creole.ResourceInstantiationException;
-import gate.creole.SerialAnalyserController;
+import gate.creole.*;
 import gate.util.GateException;
 
 import uk.gov.legislation.ClmlBeautifier;
@@ -17,38 +14,63 @@ import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-@Deprecated
-public class EUCiteEnricher {
+public class CiteEnricher {
 
     static final String AnnotationSet = "New markups";
-    private static final String Grammar = "/EUCitations.jape";
+    private static final String Grammar = "/Citations.jape";
     private static final Logger logger = Logger.getAnonymousLogger();
 
     private final SerialAnalyserController sac;
     private final GateArtifactRemover artifactRemover = new GateArtifactRemover();
     private final ClmlBeautifier beautifier = new ClmlBeautifier();
 
-    public EUCiteEnricher() throws GateException {
+    public CiteEnricher() throws GateException {
         Gate.init();
         sac = (SerialAnalyserController) Factory.createResource("gate.creole.SerialAnalyserController");
 
-        /*
-        * Plugin.Maven is a plugin that is a single JAR ﬁle speciﬁed via its group:artifact:version “coordinates”,
-        * and which is downloaded from a Maven repository at runtime by GATE the ﬁrst time the plugin is loaded.
-        */
-//        Gate.getCreoleRegister().registerPlugin(new Plugin.Maven("uk.ac.gate.plugins", "annie", "9.1"));
         Gate.getCreoleRegister().registerPlugin(new Plugin.Directory(getClass().getResource("/annie/")));
 
         ProcessingResource tokenizer = (ProcessingResource) Factory.createResource("gate.creole.tokeniser.DefaultTokeniser");
         sac.add(tokenizer);
 
-        DateAnnotator.add(sac);
+        FeatureMap japeFeature1 = Factory.newFeatureMap();
+        japeFeature1.put("grammarURL", this.getClass().getResource(Grammar));
+        japeFeature1.put("outputASName", AnnotationSet);
+        LanguageAnalyser jape1 = (LanguageAnalyser) Factory.createResource("gate.creole.Transducer", japeFeature1);
+        sac.add(jape1);
 
-        FeatureMap japeFeature = Factory.newFeatureMap();
-        japeFeature.put("grammarURL", EUCiteEnricher.class.getResource(Grammar));
-        japeFeature.put("outputASName", AnnotationSet);
-        LanguageAnalyser jape = (LanguageAnalyser) Factory.createResource("gate.creole.Transducer", japeFeature);
-        sac.add(jape);
+        FeatureMap transferFeatures = Factory.newFeatureMap();
+        transferFeatures.put ("inputASName", AnnotationSet);
+        transferFeatures.put ("outputASName", null); // for default annotation set
+        transferFeatures.put ("copyAnnotations", true);
+        ProcessingResource transfer = (ProcessingResource) Factory.createResource("gate.creole.annotransfer.AnnotationSetTransfer", transferFeatures);
+        sac.add(transfer);
+
+        FeatureMap japeFeature2 = Factory.newFeatureMap();
+        japeFeature2.put("grammarURL", this.getClass().getResource("/UKCitations3.jape"));
+        japeFeature2.put("outputASName", AnnotationSet);
+        LanguageAnalyser jape2 = (LanguageAnalyser) Factory.createResource("gate.creole.Transducer", japeFeature2);
+        sac.add(jape2);
+
+//        FeatureMap transferFeatures2 = Factory.newFeatureMap();
+//        transferFeatures2.put ("inputASName", "Original markups");
+//        transferFeatures2.put ("outputASName", null); // for default annotation set
+//        transferFeatures2.put ("copyAnnotations", true);
+//        ProcessingResource transfer2 = (ProcessingResource) Factory.createResource("gate.creole.annotransfer.AnnotationSetTransfer", transferFeatures2);
+//        sac.add(transfer2);
+//        FeatureMap transferFeatures3 = Factory.newFeatureMap();
+//        transferFeatures3.put ("inputASName", AnnotationSet);
+//        transferFeatures3.put ("outputASName", null); // for default annotation set
+//        transferFeatures3.put ("copyAnnotations", true);
+//        ProcessingResource transfer3 = (ProcessingResource) Factory.createResource("gate.creole.annotransfer.AnnotationSetTransfer", transferFeatures3);
+//        sac.add(transfer3);
+
+        FeatureMap japeFeature3 = Factory.newFeatureMap();
+        japeFeature3.put("grammarURL", this.getClass().getResource("/Namespace.jape"));
+        japeFeature3.put("inputASName", AnnotationSet);
+//        japeFeature3.put("outputASName", AnnotationSet);
+        LanguageAnalyser jape3 = (LanguageAnalyser) Factory.createResource("gate.creole.Transducer", japeFeature3);
+        sac.add(jape3);
 
         Corpus corpus = Factory.newCorpus("Corpus");
         sac.setCorpus(corpus);
@@ -70,10 +92,12 @@ public class EUCiteEnricher {
         sac.getCorpus().add(doc);
         sac.execute();
         AnnotationSet newAnnotations = doc.getAnnotations(AnnotationSet);
+
         removeCertainCites(newAnnotations.get("Citation"));
         correctOJCites(newAnnotations.get("Citation"));
         correctFeatures(newAnnotations.get("Citation"));    // only those that remain after removeCertainCites()
         replaceSuccessive(newAnnotations.get("SuccessiveCitation"));
+
         String enriched = serialize(doc);
         sac.getCorpus().remove(doc);
         return enriched;
@@ -114,7 +138,7 @@ public class EUCiteEnricher {
     }
 
     /**
-     * Adjusts the @Class, @Year and @Number attributes of cites that are not OJ cites,
+     * Adjusts the @Class, @Year and @Number attributes of EU cites that are not OJ cites,
      * and removes those with bad dates
      */
     private void correctFeatures(AnnotationSet newFullCites) {
@@ -127,12 +151,10 @@ public class EUCiteEnricher {
             FeatureMap features = cite.getFeatures();
 
             String c = (String) features.get("Class");
+            if (!c.startsWith("EuropeanUnion"))
+                continue;
             if (c.equals("EuropeanUnionOfficialJournal"))
                 continue;
-            if (c.endsWith("s"))
-                c = c.substring(0, c.length() - 1);
-            c = "EuropeanUnion" + c;
-            features.put("Class", c);
 
             int num1 = Integer.parseInt((String) features.get("Number"));
             int num2 = Integer.parseInt((String) features.get("Year"));

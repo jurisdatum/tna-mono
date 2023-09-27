@@ -1,0 +1,10 @@
+Phase: Namespace
+Input: Citation
+Options: control = appelt
+
+Rule: Citation
+Priority: 1
+( { Citation } ) :cite --> {
+	gate.Annotation cite = (gate.Annotation) bindings.get("cite").iterator().next();
+	cite.getFeatures().put("xmlns", "http://www.legislation.gov.uk/namespaces/legislation");
+}

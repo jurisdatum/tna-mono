@@ -6,10 +6,10 @@ import com.amazonaws.services.lambda.runtime.events.SQSEvent;
 import gate.util.GateException;
 import org.xml.sax.SAXException;
 
-import uk.gov.legislation.cites.EUCiteRemover;
+import uk.gov.legislation.cites.AllCiteRemover;
 import uk.gov.legislation.cites.EmbeddedCite;
 import uk.gov.legislation.cites.Extractor;
-import uk.gov.legislation.cites.gate.EUCiteEnricher;
+import uk.gov.legislation.cites.gate.CiteEnricher;
 import uk.gov.legislation.db2.files.EnrichedBucket;
 import uk.gov.legislation.db2.files.LGUCache;
 import uk.gov.legislation.db2.queues.TransformQueue;
@@ -22,16 +22,16 @@ import java.util.List;
 
 public class Enrich1 extends SQSEventHandler {
 
-    private EUCiteRemover _remover;
-    private EUCiteEnricher _enricher;
-    private EUCiteRemover getRemover() {
+    private AllCiteRemover _remover;
+    private CiteEnricher _enricher;
+    private AllCiteRemover getRemover() {
         if (_remover == null)
-            _remover = new EUCiteRemover();
+            _remover = new AllCiteRemover();
         return _remover;
     }
-    private EUCiteEnricher getEnricher() throws GateException {
+    private CiteEnricher getEnricher() throws GateException {
         if (_enricher == null)
-            _enricher = new EUCiteEnricher();
+            _enricher = new CiteEnricher();
         return _enricher;
     }
 

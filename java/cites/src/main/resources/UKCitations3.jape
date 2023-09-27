@@ -1,0 +1,26 @@
+Phase: UKCitations3
+Input: Citation Token
+Options: control = all
+
+Rule: NumberAfterCite
+Priority: 1
+(	( { Citation } ) :prev
+	( { Token.string == "," } { Token.kind == "number" } ) *
+	( { Token.string == "and" } | { Token.string == "," } )
+	( { Token.kind == "number" } ) :number
+) --> {
+	gate.Annotation prev = (gate.Annotation) bindings.get("prev").iterator().next();
+	String cls = (String) prev.getFeatures().get("Class");
+	String year = (String) prev.getFeatures().get("Year");
+	String altNum = (String) prev.getFeatures().get("AlternativeNumber");
+
+	gate.Annotation numAnn = (gate.Annotation) bindings.get("number").iterator().next();
+	String number = (String) bindings.get("number").iterator().next().getFeatures().get("string");
+
+	gate.FeatureMap features = Factory.newFeatureMap();
+	features.put("Class", cls);
+	features.put("Year", year);
+	features.put("Number", number);
+	features.put("AlternativeNumber", altNum);
+	outputAS.add(numAnn.getStartNode(), numAnn.getEndNode(), "Citation", features);
+}

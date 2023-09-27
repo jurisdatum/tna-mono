@@ -1,4 +1,4 @@
-Phase: pass1
+Phase: EUCitations
 Input: Token
 Options: control = appelt
 
@@ -18,10 +18,23 @@ Priority: 1
 	( { Token.kind == "number" } ) :year
 	( { Token.string == "/" }
 	  ( { Token.string == "EU" } | { Token.string == "EC" } | { Token.string == "EEC" } ) ) ?
-): cite --> :cite.Citation = {
-	Class = :type.Token.string,
-	Year = :year.Token.string,
-	Number = :number.Token.string
+): cite --> {
+
+	gate.AnnotationSet cite = (gate.AnnotationSet) bindings.get("cite");
+
+	String tpe = (String) bindings.get("type").iterator().next().getFeatures().get("string");
+	String year = (String) bindings.get("year").iterator().next().getFeatures().get("string");
+	String number = (String) bindings.get("number").iterator().next().getFeatures().get("string");
+
+	tpe = "EuropeanUnion" + tpe;
+	if (tpe.endsWith("s"))
+		tpe = tpe.substring(0, tpe.length() - 1);
+
+	gate.FeatureMap features = Factory.newFeatureMap();
+	features.put("Class", tpe);
+	features.put("Year", year);
+	features.put("Number", number);
+	outputAS.add(cite.firstNode(), cite.lastNode(), "Citation", features);
 }
 
 Rule: SuccessiveCitation
@@ -62,7 +75,7 @@ Priority: 1
 	( { Token.kind == "number" } ) :month
 	{ Token.string == "." }
 	( { Token.kind == "number" } ) :year
-	{ Token.string == "," }
+	( { Token.string == "," } ) ?
 	{ Token.string == "p" }
 	{ Token.string == "." }
 	( { Token.kind == "number" } ) :page

@@ -44,6 +44,11 @@
             <version>9.1</version>
         </dependency>
         <dependency>
+            <groupId>uk.ac.gate.plugins</groupId>
+            <artifactId>tools</artifactId> <!-- for AnnotationSetTransfer -->
+            <version>9.0.1</version>
+        </dependency>
+        <dependency>
             <groupId>uk.ac.gate</groupId>
             <artifactId>gate-compiler-jdt</artifactId>
             <version>3.24.0</version>

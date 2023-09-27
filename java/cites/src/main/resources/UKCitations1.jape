@@ -1,0 +1,326 @@
+Phase: UKCitations1
+Input: Token
+Options: control = appelt
+
+Rule: UKPGA
+Priority: 1
+(
+	( { Token.kind == "number", Token.length == 4 } ) :year
+	( { Token.string == "(" } ) ?
+	{ Token.string == "c" }
+	{ Token.string == "." }
+	( { Token.kind == "number" } ) :number
+	( { Token.string == ")" } ) ?
+): cite --> :cite.Citation = {
+	Class = "UnitedKingdomPublicGeneralAct",
+	Year = :year.Token.string,
+	Number = :number.Token.string
+}
+
+Rule: UKLA
+Priority: 1
+(
+	( { Token.kind == "number", Token.length == 4 } ) :year
+	( { Token.string == "(" } ) ?
+	{ Token.string == "c" }
+	{ Token.string == "." }
+	( { Token.string ==~ "(c{0,3})(xc|xl|l?x{0,3})(ix|iv|v?i{0,3})" } ) :number
+	( { Token.string == ")" } ) ?
+): cite --> {
+	gate.AnnotationSet cite = (gate.AnnotationSet) bindings.get("cite");
+	String cls = "UnitedKingdomLocalAct";
+	String year = (String) bindings.get("year").iterator().next().getFeatures().get("string");
+	String roman = (String) bindings.get("number").iterator().next().getFeatures().get("string");
+
+	java.util.Map<Character, Integer> romanMap = new java.util.HashMap<>();
+	romanMap.put('i', 1);
+	romanMap.put('v', 5);
+	romanMap.put('x', 10);
+	romanMap.put('l', 50);
+	romanMap.put('c', 100);
+	int result = 0;
+	int prevValue = 0;
+	for (int i = roman.length() - 1; i >= 0; i--) {
+		int currentValue = romanMap.get(roman.charAt(i));
+		if (currentValue < prevValue) {
+			result -= currentValue;
+		} else {
+			result += currentValue;
+		}
+		prevValue = currentValue;
+	}
+
+	gate.FeatureMap features = Factory.newFeatureMap();
+    features.put("Class", cls);
+    features.put("Year", year);
+    features.put("Number", result);
+    outputAS.add(cite.firstNode(), cite.lastNode(), "Citation", features);
+}
+
+Rule: ASP
+Priority: 1
+(
+	( { Token.kind == "number", Token.length == 4 } ) :year
+	{ Token.string == "(" }
+	{ Token.string == "asp" }
+	( { Token.kind == "number" } ) :number
+	{ Token.string == ")" }
+): cite --> :cite.Citation = {
+	Class = "ScottishAct",
+	Year = :year.Token.string,
+	Number = :number.Token.string
+}
+
+Rule: ANAW
+Priority: 1
+(
+	( { Token.kind == "number", Token.length == 4 } ) :year
+	{ Token.string == "(" }
+	{ Token.string == "anaw" }
+	( { Token.kind == "number" } ) :number
+	{ Token.string == ")" }
+): cite --> :cite.Citation = {
+	Class = "WelshNationalAssemblyAct",
+	Year = :year.Token.string,
+	Number = :number.Token.string
+}
+Rule: ASC
+Priority: 1
+(
+	( { Token.kind == "number", Token.length == 4 } ) :year
+	{ Token.string == "(" }
+	{ Token.string == "asc" }
+	( { Token.kind == "number" } ) :number
+	{ Token.string == ")" }
+): cite --> :cite.Citation = {
+	Class = "WelshParliamentAct",
+	Year = :year.Token.string,
+	Number = :number.Token.string
+}
+
+Rule: NIA
+Priority: 2
+(
+	{ Token.string == "(" }
+	{ Token.string == "Northern" }
+	{ Token.string == "Ireland" }
+	{ Token.string == ")" }
+	(
+		( { Token.kind == "number", Token.length == 4 } ) :year
+		( { Token.string == "(" } ) ?
+		{ Token.string == "c" }
+		{ Token.string == "." }
+		( { Token.kind == "number" } ) :number
+		(	{ Token.string == "N" }
+			{ Token.string == "." }
+			{ Token.string == "I" }
+			{ Token.string == "." } ) ?
+		( { Token.string == ")" } ) ?
+	): cite
+) --> :cite.Citation = {
+	Class = "NorthernIrelandParliamentAct", // NorthernIrelandAct ??
+	Year = :year.Token.string,
+	Number = :number.Token.string
+}
+
+Rule: NIA2
+Priority: 2
+(
+	{ Token.string == "(" }
+	{ Token.string == "N" }
+	{ Token.string == "." }
+	{ Token.string == "I" }
+	{ Token.string == "." }
+	{ Token.string == ")" }
+	(
+		( { Token.kind == "number", Token.length == 4 } ) :year
+		( { Token.string == "(" } ) ?
+		{ Token.string == "c" }
+		{ Token.string == "." }
+		( { Token.kind == "number" } ) :number
+		( { Token.string == ")" } ) ?
+	): cite
+) --> :cite.Citation = {
+	Class = "NorthernIrelandParliamentAct", // NorthernIrelandAct ??
+	Year = :year.Token.string,
+	Number = :number.Token.string
+}
+
+
+// secondary
+
+Rule: UKSI
+Priority: 3
+(
+	{ Token.string == "S" }
+	{ Token.string == "." }
+	{ Token.string == "I" }
+	{ Token.string == "." }
+	( { Token.kind == "number", Token.length == 4 } ) :year
+	{ Token.string == "/" }
+	( { Token.kind == "number" } ) :number
+): cite --> :cite.Citation = {
+	Class = "UnitedKingdomStatutoryInstrument",
+	Year = :year.Token.string,
+	Number = :number.Token.string
+}
+
+Rule: UKSI2
+Priority: 4
+(
+	{ Token.string == "S" }
+	{ Token.string == "." }
+	{ Token.string == "I" }
+	{ Token.string == "." }
+	( { Token.kind == "number", Token.length == 4 } ) :year
+	{ Token.string == "/" }
+	( { Token.kind == "number" } ) :number
+	{ Token.string == "(" }
+	( { Token.string == "C" } ) :series
+	{ Token.string == "." }
+	( { Token.kind == "number" } ) :number2
+	{ Token.string == ")" }
+): cite --> {
+	gate.AnnotationSet cite = (gate.AnnotationSet) bindings.get("cite");
+	String year = (String) bindings.get("year").iterator().next().getFeatures().get("string");
+	String number = (String) bindings.get("number").iterator().next().getFeatures().get("string");
+	String series = (String) bindings.get("series").iterator().next().getFeatures().get("string");
+	String number2 = (String) bindings.get("number2").iterator().next().getFeatures().get("string");
+	String altNumber = series + " " + number2;
+	gate.FeatureMap features = Factory.newFeatureMap();
+    features.put("Class", "UnitedKingdomStatutoryInstrument");
+    features.put("Year", year);
+    features.put("Number", number);
+    features.put("AlternativeNumber", altNumber);
+    outputAS.add(cite.firstNode(), cite.lastNode(), "Citation", features);
+}
+
+Rule: UKSISuccessive1
+Priority: 1
+(
+	( { Token.kind == "number", Token.length == 4 } ) :year
+	{ Token.string == "/" }
+	( { Token.kind == "number" } ) :number
+): cite --> {
+	gate.AnnotationSet cite = (gate.AnnotationSet) bindings.get("cite");
+	String year = (String) bindings.get("year").iterator().next().getFeatures().get("string");
+	String number = (String) bindings.get("number").iterator().next().getFeatures().get("string");
+	gate.FeatureMap features = Factory.newFeatureMap();
+    features.put("Class", "Unknown");
+    features.put("Year", year);
+    features.put("Number", number);
+    inputAS.add(cite.firstNode(), cite.lastNode(), "SuccessiveCitation", features);
+}
+
+Rule: UKSISuccessive2
+Priority: 2
+(
+	( { Token.kind == "number", Token.length == 4 } ) :year
+	{ Token.string == "/" }
+	( { Token.kind == "number" } ) :number
+	{ Token.string == "(" }
+	( { Token.string == "C" } ) :series
+	{ Token.string == "." }
+	( { Token.kind == "number" } ) :number2
+	{ Token.string == ")" }
+): cite --> {
+	gate.AnnotationSet cite = (gate.AnnotationSet) bindings.get("cite");
+	String year = (String) bindings.get("year").iterator().next().getFeatures().get("string");
+	String number = (String) bindings.get("number").iterator().next().getFeatures().get("string");
+	String series = (String) bindings.get("series").iterator().next().getFeatures().get("string");
+	String number2 = (String) bindings.get("number2").iterator().next().getFeatures().get("string");
+	String altNumber = series + " " + number2;
+	gate.FeatureMap features = Factory.newFeatureMap();
+    features.put("Class", "Unknown");
+    features.put("Year", year);
+    features.put("Number", number);
+    features.put("AlternativeNumber", altNumber);
+    inputAS.add(cite.firstNode(), cite.lastNode(), "SuccessiveCitation", features);
+}
+
+
+Rule: SSI
+Priority: 5
+(
+	{ Token.string == "S" }
+	{ Token.string == "." }
+	{ Token.string == "S" }
+	{ Token.string == "." }
+	{ Token.string == "I" }
+	{ Token.string == "." }
+	( { Token.kind == "number", Token.length == 4 } ) :year
+	{ Token.string == "/" }
+	( { Token.kind == "number" } ) :number
+): cite --> :cite.Citation = {
+	Class = "ScottishStatutoryInstrument",
+	Year = :year.Token.string,
+	Number = :number.Token.string
+}
+
+Rule: NISI
+Priority: 5
+(
+	{ Token.string == "S" }
+	{ Token.string == "." }
+	{ Token.string == "I" }
+	{ Token.string == "." }
+	( { Token.kind == "number", Token.length == 4 } ) :year
+	{ Token.string == "/" }
+	( { Token.kind == "number" } ) :number
+	{ Token.string == "(" }
+	{ Token.string == "N" }
+	{ Token.string == "." }
+	{ Token.string == "I" }
+	{ Token.string == "." }
+	( { Token.kind == "number" } ) :number2
+	{ Token.string == ")" }
+): cite --> :cite.Citation = {
+	Class = "NorthernIrelandOrderInCouncil",
+	Year = :year.Token.string,
+	Number = :number.Token.string,
+	NorthernIrishNumber = :number2.Token.string
+}
+
+Rule: NISR
+Priority: 5
+(
+	{ Token.string == "S" }
+	{ Token.string == "." }
+	{ Token.string == "R" }
+	{ Token.string == "." }
+	( { Token.kind == "number", Token.length == 4 } ) :year
+	( { Token.string == "/" } |
+	  ( { Token.string ==~ "Nos?" } { Token.string == "." } ) )
+	( { Token.kind == "number" } ) :number
+): cite --> :cite.Citation = {
+	Class = "NorthernIrelandStatutoryRule",
+	Year = :year.Token.string,
+	Number = :number.Token.string,
+	NorthernIrishNumber = :number.Token.string
+}
+Rule: NISR2
+Priority: 5
+(
+	{ Token.string == "S" }
+	{ Token.string == "." }
+	{ Token.string == "R" }
+	{ Token.string == "." }
+	{ Token.string == "&" }
+	{ Token.string == "O" }
+	{ Token.string == "." }
+	{ Token.string == "(" }
+	{ Token.string == "N" }
+	{ Token.string == "." }
+	{ Token.string == "I" }
+	{ Token.string == "." }
+	{ Token.string == ")" }
+	( { Token.kind == "number", Token.length == 4 } ) :year
+	( { Token.string == "/" } |
+	  ( { Token.string ==~ "Nos?" } { Token.string == "." } ) )
+	( { Token.kind == "number" } ) :number
+): cite --> :cite.Citation = {
+	Class = "NorthernIrelandStatutoryRule",
+	Year = :year.Token.string,
+	Number = :number.Token.string,
+	NorthernIrishNumber = :number.Token.string
+}

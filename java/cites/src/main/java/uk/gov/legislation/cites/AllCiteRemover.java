@@ -6,18 +6,17 @@ import javax.xml.transform.Source;
 import javax.xml.transform.stream.StreamSource;
 import java.io.*;
 
-@Deprecated
-public class EUCiteRemover {
+public class AllCiteRemover {
 
-    static final String stylesheet = "/remove-eu-cites.xsl";
+    static final String stylesheet = "/remove-all-cites.xsl";
 
     private final XsltExecutable executable;
 
-    public EUCiteRemover() {
+    public AllCiteRemover() {
         Processor processor = new Processor(false);
         XsltCompiler compiler = processor.newXsltCompiler();
         InputStream stream = this.getClass().getResourceAsStream(stylesheet);
-        Source source = new StreamSource(stream, "remove-eu-cites.xsl");
+        Source source = new StreamSource(stream, "remove-all-cites.xsl");
         try {
             executable = compiler.compile(source);
         } catch (SaxonApiException e) {

@@ -25,4 +25,8 @@
 		<CLASS>gate.creole.gazetteer.DefaultGazetteer</CLASS>
 	</RESOURCE>
 
+	<RESOURCE>
+		<CLASS>gate.creole.annotransfer.AnnotationSetTransfer</CLASS>
+	</RESOURCE>
+
 </CREOLE-DIRECTORY>
