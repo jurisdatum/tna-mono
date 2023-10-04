@@ -1,9 +1,9 @@
-Phase: UKCitations2
+Phase: EUCitations2
 Input: SuccessiveCitation
 Options: control = appelt
 
-Rule: UKSI
-( { SuccessiveCitation.Class == "Unknown" } ) :cite --> {
+Rule: EUSuccessive
+( { SuccessiveCitation.Class == "EUUnknown" } ) :cite --> {
 
 	gate.AnnotationSet cite = (gate.AnnotationSet) bindings.get("cite");
 	gate.Annotation ann = (gate.Annotation) cite.iterator().next();
@@ -11,23 +11,28 @@ Rule: UKSI
 	gate.AnnotationSet originalMarkups = cite.getDocument().getNamedAnnotationSets().get("Original markups");
 	gate.AnnotationSet text = originalMarkups.get("Text", ann.getStartNode().getOffset(), ann.getEndNode().getOffset());
 	if (text.isEmpty()) {
-		System.out.println("successive citation is not within Text");
+		// System.out.println("successive citation is not within Text");
 		inputAS.removeAll(cite);
 		return;
 	}
 	gate.AnnotationSet newCites = outputAS.get("Citation", text.firstNode().getOffset(), ann.getStartNode().getOffset());
 	if (newCites.isEmpty()) {
-		System.out.println("no citations in this line of text");
+		// System.out.println("no citations in this line of text");
 		inputAS.removeAll(cite);
 		return;
 	}
 	gate.Annotation fullCite = newCites.inDocumentOrder().get(newCites.size() - 1);
+	String fullCiteClass = (String) fullCite.getFeatures().get("Class");
+	if (!fullCiteClass.startsWith("EuropeanUnion")) {
+		// System.out.println("");
+		inputAS.removeAll(cite);
+		return;
+	}
 
 	gate.FeatureMap features = Factory.newFeatureMap();
-	features.put("Class", fullCite.getFeatures().get("Class"));
+	features.put("Class", fullCiteClass);
 	features.put("Year", ann.getFeatures().get("Year"));
 	features.put("Number", ann.getFeatures().get("Number"));
-	features.put("AlternativeNumber", ann.getFeatures().get("AlternativeNumber"));
 	outputAS.add(cite.firstNode(), cite.lastNode(), "Citation", features);
 
 	inputAS.removeAll(cite);  // unnecessary?

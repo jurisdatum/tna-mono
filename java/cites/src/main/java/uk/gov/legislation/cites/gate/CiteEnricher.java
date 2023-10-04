@@ -68,7 +68,6 @@ public class CiteEnricher {
         FeatureMap japeFeature3 = Factory.newFeatureMap();
         japeFeature3.put("grammarURL", this.getClass().getResource("/Namespace.jape"));
         japeFeature3.put("inputASName", AnnotationSet);
-//        japeFeature3.put("outputASName", AnnotationSet);
         LanguageAnalyser jape3 = (LanguageAnalyser) Factory.createResource("gate.creole.Transducer", japeFeature3);
         sac.add(jape3);
 
@@ -96,7 +95,6 @@ public class CiteEnricher {
         removeCertainCites(newAnnotations.get("Citation"));
         correctOJCites(newAnnotations.get("Citation"));
         correctFeatures(newAnnotations.get("Citation"));    // only those that remain after removeCertainCites()
-        replaceSuccessive(newAnnotations.get("SuccessiveCitation"));
 
         String enriched = serialize(doc);
         sac.getCorpus().remove(doc);
@@ -294,49 +292,6 @@ public class CiteEnricher {
         long open = before.chars().filter(ch -> ch == '“').count();
         long close = before.chars().filter(ch -> ch == '”').count();
         return open > close;
-    }
-
-    private void replaceSuccessive(AnnotationSet newSuccessiveCites) {
-        Document doc = newSuccessiveCites.getDocument();
-        AnnotationSet originalMarkups = doc.getNamedAnnotationSets().get("Original markups");
-        AnnotationSet newMarkups = doc.getAnnotations(AnnotationSet);
-        Iterator<Annotation> iterator = newSuccessiveCites.iterator();
-        while (iterator.hasNext()) {
-            Annotation successive = iterator.next();
-            if (isWithinMetadata(doc, successive))
-                continue;
-            if (isWithinOriginalCitation(doc, successive))
-                continue;
-            // the following finds the last <Citation> element preceding this successive cite within the same <Text>
-            AnnotationSet text = originalMarkups.get("Text", successive.getStartNode().getOffset(), successive.getEndNode().getOffset());
-            if (text.isEmpty())
-                continue;
-            AnnotationSet origCites = originalMarkups.get("Citation", text.firstNode().getOffset(), successive.getStartNode().getOffset());
-            AnnotationSet newCites = newMarkups.get("Citation", text.firstNode().getOffset(), successive.getStartNode().getOffset());
-            AnnotationSetImpl combined = new AnnotationSetImpl(origCites);
-            combined.addAll(newCites);
-            if (combined.isEmpty())
-                continue;
-            Annotation fullCite = combined.inDocumentOrder().get(combined.size() - 1);
-            String citeClass = (String) fullCite.getFeatures().get("Class");
-            if (!citeClass.startsWith("EuropeanUnion"))
-                continue;
-            int num1 = Integer.parseInt((String) successive.getFeatures().get("Number"));
-            int num2 = Integer.parseInt((String) successive.getFeatures().get("Year"));
-            EUNumbers numbers;
-            try {
-                numbers = EUNumbers.interpret(num1, num2, null);
-            } catch (IllegalArgumentException e) {
-                continue;
-            }
-            FeatureMap newFeatures = Factory.newFeatureMap();
-            newFeatures.put("Class", citeClass);
-            newFeatures.put("Year", numbers.year());
-            newFeatures.put("Number", numbers.number());
-            newMarkups.add(successive.getStartNode(), successive.getEndNode(), "Citation", newFeatures);
-            logger.info("found successive cite: " + gate.Utils.stringFor(doc, successive) + " " + newFeatures.toString());
-        }
-        newMarkups.removeAll(newSuccessiveCites);
     }
 
     private String serialize(Document doc) {

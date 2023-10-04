@@ -53,9 +53,15 @@ Priority: 1
 	  ( { Token.string == "/" }
 	    ( { Token.string == "EU" } | { Token.string == "EC" } | { Token.string == "EEC" } ) ) ?
 	): cite
-) --> :cite.SuccessiveCitation = {
-	Year = :year.Token.string,
-	Number = :number.Token.string
+) --> {
+	gate.AnnotationSet cite = (gate.AnnotationSet) bindings.get("cite");
+	String year = (String) bindings.get("year").iterator().next().getFeatures().get("string");
+	String number = (String) bindings.get("number").iterator().next().getFeatures().get("string");
+	gate.FeatureMap features = Factory.newFeatureMap();
+    features.put("Class", "EUUnknown");
+    features.put("Year", year);
+    features.put("Number", number);
+    inputAS.add(cite.firstNode(), cite.lastNode(), "SuccessiveCitation", features);
 }
 
 Rule: OJCitation
