@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="http://www.legislation.gov.uk/namespaces/legislation" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:leg="http://www.legislation.gov.uk/namespaces/legislation" xmlns:ukm="http://www.legislation.gov.uk/namespaces/metadata">
+
+
+	<xsd:import namespace="http://www.legislation.gov.uk/namespaces/metadata"
+		schemaLocation="schemaIAmetadata.xsd"/>
+
+	<xsd:element name="ImpactAssessment">
+		<xsd:annotation>
+			<xsd:documentation>Document element for an Impact Assessment</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="ukm:Metadata"/>
+				<xsd:element ref="leg:Summary" minOccurs="0"/>
+			</xsd:sequence>
+			<xsd:attribute name="SchemaVersion" type="xsd:NMTOKEN" use="required" fixed="1.0"/>
+			<xsd:attribute name="IdURI" type="xsd:anyURI" use="required"/>
+			<xsd:attribute name="DocumentURI" type="xsd:anyURI" use="required"/>
+		</xsd:complexType>
+	</xsd:element>
+	
+	<xsd:element name="Summary">
+		<xsd:annotation>
+			<xsd:documentation>Impact Assessment Summmary data</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="leg:Issue"/>
+				<xsd:element ref="leg:Objectives"/>
+				<xsd:element ref="leg:Options"/>
+				<xsd:element ref="leg:Review"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="Issue" type="leg:Para"/>
+	<xsd:element name="Objectives" type="leg:Para"/>
+	<xsd:element name="Options" type="leg:Para"/>
+	<xsd:element name="Review" type="leg:Para"/>
+	
+	<xsd:complexType name="Para">
+		<xsd:sequence>
+			<xsd:element ref="leg:Para" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	
+	<xsd:element name="Para">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="leg:Text"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	
+	<xsd:element name="Text" type="xsd:string"/>
+	
+	
+	
+
+	
+</xsd:schema>
