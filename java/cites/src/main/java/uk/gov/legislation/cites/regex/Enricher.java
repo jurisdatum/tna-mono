@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+@Deprecated
 public class Enricher {
 
     private final EURegexEnricher eu = new EURegexEnricher();

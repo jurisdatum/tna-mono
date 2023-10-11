@@ -31,29 +31,12 @@ Priority: 1
 	String cls = "UnitedKingdomLocalAct";
 	String year = (String) bindings.get("year").iterator().next().getFeatures().get("string");
 	String roman = (String) bindings.get("number").iterator().next().getFeatures().get("string");
-
-	java.util.Map<Character, Integer> romanMap = new java.util.HashMap<>();
-	romanMap.put('i', 1);
-	romanMap.put('v', 5);
-	romanMap.put('x', 10);
-	romanMap.put('l', 50);
-	romanMap.put('c', 100);
-	int result = 0;
-	int prevValue = 0;
-	for (int i = roman.length() - 1; i >= 0; i--) {
-		int currentValue = romanMap.get(roman.charAt(i));
-		if (currentValue < prevValue) {
-			result -= currentValue;
-		} else {
-			result += currentValue;
-		}
-		prevValue = currentValue;
-	}
-
+	java.util.function.Function<String, Integer> romanToArabic = (java.util.function.Function<String, Integer>) this.ctx.getController().getFeatures().get("romanToArabic");
+	Integer number = romanToArabic.apply(roman);
 	gate.FeatureMap features = Factory.newFeatureMap();
     features.put("Class", cls);
     features.put("Year", year);
-    features.put("Number", result);
+    features.put("Number", number);
     outputAS.add(cite.firstNode(), cite.lastNode(), "Citation", features);
 }
 
@@ -147,6 +130,7 @@ Priority: 2
 (
 	(
 		( { Token.kind == "number", Token.length == 4 } ) :year
+		( { Token.string == "(" } ) ? // sometimes there are two sets of parentheses: uksi/2023/186
 		{ Token.string == "c" }
 		{ Token.string == "." }
 		( { Token.kind == "number" } ) :number
@@ -156,6 +140,7 @@ Priority: 2
 		{ Token.string == "." }
 		{ Token.string == "I" }
 		{ Token.string == "." }
+		( { Token.string == ")" } ) ?
 		( { Token.string == ")" } ) ?
 	): cite
 ) --> {
@@ -208,7 +193,7 @@ Priority: 3
 	{ Token.string == "S" }
 	{ Token.string == "." }
 	{ Token.string == "I" }
-	{ Token.string == "." }
+	( { Token.string == "." } ) ?
 	( { Token.kind == "number", Token.length == 4 } ) :year
 	{ Token.string == "/" }
 	( { Token.kind == "number" } ) :number
@@ -416,7 +401,8 @@ Priority: 5
 	{ Token.string == "I" }
 	{ Token.string == "." }
 	( { Token.kind == "number", Token.length == 4 } ) :year
-	{ Token.string == "/" }
+	( { Token.string == "/" } |
+	  ( { Token.string ==~ "Nos?" } { Token.string == "." } ) )
 	( { Token.kind == "number" } ) :number
 	{ Token.string == "(" }
 	{ Token.string == "N" }

@@ -5,12 +5,13 @@ import uk.gov.legislation.cites.Cite;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+@Deprecated
 public class EURegexEnricher extends RegexEnricher {
 
     final Pattern[] patterns;
 
     public EURegexEnricher() {
-        patterns = RegexEnricher.readPatterns("/eu_patterns.txt");
+        patterns = RegexEnricher.readPatterns("/old/eu_patterns.txt");
     }
 
     @Override

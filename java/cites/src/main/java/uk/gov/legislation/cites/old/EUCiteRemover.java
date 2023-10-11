@@ -1,4 +1,4 @@
-package uk.gov.legislation.cites;
+package uk.gov.legislation.cites.old;
 
 import net.sf.saxon.s9api.*;
 
@@ -9,7 +9,7 @@ import java.io.*;
 @Deprecated
 public class EUCiteRemover {
 
-    static final String stylesheet = "/remove-eu-cites.xsl";
+    static final String stylesheet = "/old/remove-eu-cites.xsl";
 
     private final XsltExecutable executable;
 
@@ -17,7 +17,7 @@ public class EUCiteRemover {
         Processor processor = new Processor(false);
         XsltCompiler compiler = processor.newXsltCompiler();
         InputStream stream = this.getClass().getResourceAsStream(stylesheet);
-        Source source = new StreamSource(stream, "remove-eu-cites.xsl");
+        Source source = new StreamSource(stream, "old/remove-eu-cites.xsl");
         try {
             executable = compiler.compile(source);
         } catch (SaxonApiException e) {

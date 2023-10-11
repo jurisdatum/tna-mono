@@ -14,3 +14,13 @@
 (?<type>S\.R\. \(N\.I\.\)) (?<year>\d{4}) No\. (?<num>\d+)
 
 (?<year>\d{4}) c\. (?<num>\d+) \((?<type>N\.I\.)\)
+
+#2008 nawm 1
+#WelshAssemblyMeasure
+
+
+#2009 (anaw 1)
+#WelshNationalAssemblyAct
+
+
+# SRO (NI) 1973/504

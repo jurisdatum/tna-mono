@@ -1,0 +1,35 @@
+Phase: Remove
+Input: Citation "ukm:Metadata" MultilineTitle Title
+Options: control = all
+
+
+Rule: Metadata
+(
+	( { Citation within "ukm:Metadata" } ) :cite
+) --> {
+	gate.AnnotationSet cite = (gate.AnnotationSet) bindings.get("cite");
+	gate.AnnotationSet newMarkups = doc.getAnnotations("New markups");
+	gate.AnnotationSet newCite = newMarkups.get("Citation", cite.firstNode().getOffset(), cite.lastNode().getOffset());
+	newMarkups.removeAll(newCite);
+}
+
+Rule: MultilineTitle
+(
+	( { Citation within MultilineTitle } ) :cite
+) --> {
+	gate.AnnotationSet cite = (gate.AnnotationSet) bindings.get("cite");
+	gate.AnnotationSet newMarkups = doc.getAnnotations("New markups");
+	gate.AnnotationSet newCite = newMarkups.get("Citation", cite.firstNode().getOffset(), cite.lastNode().getOffset());
+	newMarkups.removeAll(newCite);
+}
+
+Rule: Title
+(
+	( { Citation within Title } ) :cite
+) --> {
+	gate.AnnotationSet cite = (gate.AnnotationSet) bindings.get("cite");
+	gate.AnnotationSet newMarkups = doc.getAnnotations("New markups");
+	gate.AnnotationSet newCite = newMarkups.get("Citation", cite.firstNode().getOffset(), cite.lastNode().getOffset());
+	newMarkups.removeAll(newCite);
+}
+

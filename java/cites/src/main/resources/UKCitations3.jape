@@ -8,14 +8,21 @@ Priority: 1
 	( { Token.string == "," } { Token.kind == "number" } ) *
 	( { Token.string == "and" } | { Token.string == "," } )
 	( { Token.kind == "number" } ) :number
+//	{ Token.string != "/" }
 ) --> {
 	gate.Annotation prev = (gate.Annotation) bindings.get("prev").iterator().next();
 	String cls = (String) prev.getFeatures().get("Class");
 	String year = (String) prev.getFeatures().get("Year");
 	String altNum = (String) prev.getFeatures().get("AlternativeNumber");
 
-	gate.Annotation numAnn = (gate.Annotation) bindings.get("number").iterator().next();
-	String number = (String) bindings.get("number").iterator().next().getFeatures().get("string");
+	gate.AnnotationSet numSet = (gate.AnnotationSet) bindings.get("number");
+	java.util.function.Predicate<gate.AnnotationSet> isWithinCitation =
+    	(java.util.function.Predicate<gate.AnnotationSet>) this.ctx.getController().getFeatures().get("isWithinCitation");
+	if (isWithinCitation.test(numSet))
+		return;
+
+	gate.Annotation numAnn = (gate.Annotation) numSet.iterator().next();
+	String number = (String) numAnn.getFeatures().get("string");
 
 	gate.FeatureMap features = Factory.newFeatureMap();
 	features.put("Class", cls);

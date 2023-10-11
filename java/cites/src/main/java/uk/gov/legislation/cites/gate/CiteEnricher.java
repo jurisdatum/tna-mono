@@ -16,7 +16,9 @@ import java.util.logging.Logger;
 
 public class CiteEnricher {
 
+    static final String OriginalMarkups = "Original markups";
     static final String AnnotationSet = "New markups";
+    static final String NewMarkups = "New markups";
     private static final String Grammar = "/Citations.jape";
     private static final Logger logger = Logger.getAnonymousLogger();
 
@@ -27,6 +29,10 @@ public class CiteEnricher {
     public CiteEnricher() throws GateException {
         Gate.init();
         sac = (SerialAnalyserController) Factory.createResource("gate.creole.SerialAnalyserController");
+
+        sac.getFeatures().put("romanToArabic", new RomanToArabic());
+        sac.getFeatures().put("getPrecedingCite", new GetPrecedingCite());
+        sac.getFeatures().put("isWithinCitation", new IsWithinCitation());
 
         Gate.getCreoleRegister().registerPlugin(new Plugin.Directory(getClass().getResource("/annie/")));
 
@@ -52,24 +58,26 @@ public class CiteEnricher {
         LanguageAnalyser jape2 = (LanguageAnalyser) Factory.createResource("gate.creole.Transducer", japeFeature2);
         sac.add(jape2);
 
-//        FeatureMap transferFeatures2 = Factory.newFeatureMap();
-//        transferFeatures2.put ("inputASName", "Original markups");
-//        transferFeatures2.put ("outputASName", null); // for default annotation set
-//        transferFeatures2.put ("copyAnnotations", true);
-//        ProcessingResource transfer2 = (ProcessingResource) Factory.createResource("gate.creole.annotransfer.AnnotationSetTransfer", transferFeatures2);
-//        sac.add(transfer2);
-//        FeatureMap transferFeatures3 = Factory.newFeatureMap();
-//        transferFeatures3.put ("inputASName", AnnotationSet);
-//        transferFeatures3.put ("outputASName", null); // for default annotation set
-//        transferFeatures3.put ("copyAnnotations", true);
-//        ProcessingResource transfer3 = (ProcessingResource) Factory.createResource("gate.creole.annotransfer.AnnotationSetTransfer", transferFeatures3);
-//        sac.add(transfer3);
+        FeatureMap transferFeatures2 = Factory.newFeatureMap();
+        transferFeatures2.put ("inputASName", "Original markups");
+        transferFeatures2.put ("outputASName", null); // for default annotation set
+        transferFeatures2.put ("copyAnnotations", true);
+        ProcessingResource transfer2 = (ProcessingResource) Factory.createResource("gate.creole.annotransfer.AnnotationSetTransfer", transferFeatures2);
+        sac.add(transfer2);
+        FeatureMap transferFeatures3 = Factory.newFeatureMap();
+        transferFeatures3.put ("inputASName", AnnotationSet);
+        transferFeatures3.put ("outputASName", null); // for default annotation set
+        transferFeatures3.put ("copyAnnotations", true);
+        ProcessingResource transfer3 = (ProcessingResource) Factory.createResource("gate.creole.annotransfer.AnnotationSetTransfer", transferFeatures3);
+        sac.add(transfer3);
 
         FeatureMap japeFeature3 = Factory.newFeatureMap();
         japeFeature3.put("grammarURL", this.getClass().getResource("/Namespace.jape"));
         japeFeature3.put("inputASName", AnnotationSet);
         LanguageAnalyser jape3 = (LanguageAnalyser) Factory.createResource("gate.creole.Transducer", japeFeature3);
         sac.add(jape3);
+
+        Steps.addRemove(sac);
 
         Corpus corpus = Factory.newCorpus("Corpus");
         sac.setCorpus(corpus);
@@ -92,7 +100,7 @@ public class CiteEnricher {
         sac.execute();
         AnnotationSet newAnnotations = doc.getAnnotations(AnnotationSet);
 
-        removeCertainCites(newAnnotations.get("Citation"));
+//        removeCertainCites(newAnnotations.get("Citation"));
         correctOJCites(newAnnotations.get("Citation"));
         correctFeatures(newAnnotations.get("Citation"));    // only those that remain after removeCertainCites()
 
