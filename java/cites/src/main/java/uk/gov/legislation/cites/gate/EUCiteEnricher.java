@@ -20,7 +20,7 @@ import java.util.logging.Logger;
 @Deprecated
 public class EUCiteEnricher {
 
-    static final String AnnotationSet = "New markups";
+    private static final String AnnotationSet = "New markups";
     private static final String Grammar = "/EUCitations.jape";
     private static final Logger logger = Logger.getAnonymousLogger();
 
@@ -218,7 +218,7 @@ public class EUCiteEnricher {
         Annotation fnRef = Util.getNextFootnoteRef(cite, doc);
         if (fnRef == null)
             return null;
-        AnnotationSet originalMarkups = doc.getAnnotations(Util.OriginalMarkupsAnnotationSetName);
+        AnnotationSet originalMarkups = doc.getAnnotations("Original markups");
         AnnotationSet newAnnotations = doc.getAnnotations(AnnotationSet);
         // if there is another citation before the footnote ref, don't consider the footnote
         Annotation next = Util.getNextAnnotationWithinSameText(cite, originalMarkups, "Citation");

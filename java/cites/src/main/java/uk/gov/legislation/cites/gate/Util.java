@@ -7,12 +7,10 @@ import java.util.logging.Logger;
 
 class Util {
 
-    static final String OriginalMarkupsAnnotationSetName = "Original markups";
-
     private static final Logger logger = Logger.getAnonymousLogger();
 
     static Annotation getNextAnnotationWithinSameText(Annotation offset, AnnotationSet domain, String name) {
-        AnnotationSet originalMarkups = domain.getDocument().getNamedAnnotationSets().get(OriginalMarkupsAnnotationSetName);
+        AnnotationSet originalMarkups = domain.getDocument().getNamedAnnotationSets().get(CiteEnricher.OriginalMarkups);
         AnnotationSet text = originalMarkups.get("Text", offset.getStartNode().getOffset(), offset.getEndNode().getOffset());
         if (text.isEmpty())
             return null;
@@ -41,7 +39,7 @@ class Util {
      * @return a Citation annotation or null
      */
     static Annotation getNextNewCite(Annotation offset, Document doc, int limit) {
-        AnnotationSet newMarkups = doc.getAnnotations(EUCiteEnricher.AnnotationSet);
+        AnnotationSet newMarkups = doc.getAnnotations(CiteEnricher.NewMarkups);
         return getNextAnnotationWithinSameText(offset, newMarkups, "Citation", limit);
     }
 
@@ -52,7 +50,7 @@ class Util {
      * @return a FootnoteRef annotation or null
      */
     static Annotation getNextFootnoteRef(Annotation offset, Document doc) {
-        AnnotationSet originalMarkups = doc.getNamedAnnotationSets().get(OriginalMarkupsAnnotationSetName);
+        AnnotationSet originalMarkups = doc.getNamedAnnotationSets().get(CiteEnricher.OriginalMarkups);
         return getNextAnnotationWithinSameText(offset, originalMarkups, "FootnoteRef");
     }
 
@@ -63,7 +61,7 @@ class Util {
      * @return a Footnote annotation or null
      */
     static Annotation getFootnote(Document doc, String id) {
-        AnnotationSet originalMarkups = doc.getNamedAnnotationSets().get(OriginalMarkupsAnnotationSetName);
+        AnnotationSet originalMarkups = doc.getNamedAnnotationSets().get(CiteEnricher.OriginalMarkups);
         FeatureMap map = new SimpleFeatureMapImpl();
         map.put("id", id);
         AnnotationSet footnotes = originalMarkups.get("Footnote", map);
@@ -83,7 +81,7 @@ class Util {
     }
 
     static Annotation getNewCitationFromFootnote(Document doc, String id) {
-        AnnotationSet newAnnotations = doc.getAnnotations(EUCiteEnricher.AnnotationSet);
+        AnnotationSet newAnnotations = doc.getAnnotations(CiteEnricher.NewMarkups);
         Annotation fn = Util.getFootnote(doc, id);
         if (fn == null) {
             logger.warning("couldn't find footnote with id " + id);
