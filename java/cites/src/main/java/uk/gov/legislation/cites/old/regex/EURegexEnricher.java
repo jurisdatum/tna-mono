@@ -1,4 +1,4 @@
-package uk.gov.legislation.cites.regex;
+package uk.gov.legislation.cites.old.regex;
 
 import uk.gov.legislation.cites.Cite;
 

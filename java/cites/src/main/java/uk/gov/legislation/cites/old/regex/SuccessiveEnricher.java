@@ -1,4 +1,4 @@
-package uk.gov.legislation.cites.regex;
+package uk.gov.legislation.cites.old.regex;
 
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
