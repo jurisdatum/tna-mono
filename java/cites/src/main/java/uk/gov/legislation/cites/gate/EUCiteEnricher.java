@@ -205,7 +205,7 @@ public class EUCiteEnricher {
     }
 
     private Integer getYearFromFollowingOJCite(Annotation cite, Document doc) {
-        Annotation next = Util.getNextNewCite(cite, doc, 50);
+        Annotation next = Utils.getNextNewCite(cite, doc, 50);
         // should also check that there are no annotations in between?
         if (next != null && "EuropeanUnionOfficialJournal".equals(next.getFeatures().get("Class"))) {
             logger.info("using year from following OJ cite: " + gate.Utils.stringFor(doc, next) + " " + next.getFeatures().toString());
@@ -215,20 +215,20 @@ public class EUCiteEnricher {
     }
 
     private Integer getYearFromOJCiteInFollowingFootnote(Annotation cite, Document doc) {
-        Annotation fnRef = Util.getNextFootnoteRef(cite, doc);
+        Annotation fnRef = Utils.getNextFootnoteRef(cite, doc);
         if (fnRef == null)
             return null;
         AnnotationSet originalMarkups = doc.getAnnotations("Original markups");
         AnnotationSet newAnnotations = doc.getAnnotations(AnnotationSet);
         // if there is another citation before the footnote ref, don't consider the footnote
-        Annotation next = Util.getNextAnnotationWithinSameText(cite, originalMarkups, "Citation");
+        Annotation next = Utils.getNextAnnotationWithinSameText(cite, originalMarkups, "Citation");
         if (next != null && next.getStartNode().getOffset() < fnRef.getStartNode().getOffset())
             return null;
-        next = Util.getNextAnnotationWithinSameText(cite, newAnnotations, "Citation");
+        next = Utils.getNextAnnotationWithinSameText(cite, newAnnotations, "Citation");
         if (next != null && next.getStartNode().getOffset() < fnRef.getStartNode().getOffset())
             return null;
         String footnoteId = (String) fnRef.getFeatures().get("Ref");
-        Annotation cite2 = Util.getNewCitationFromFootnote(doc, footnoteId);
+        Annotation cite2 = Utils.getNewCitationFromFootnote(doc, footnoteId);
         if (cite2 == null)
             return null;
         if ("EuropeanUnionOfficialJournal".equals(cite2.getFeatures().get("Class"))) {

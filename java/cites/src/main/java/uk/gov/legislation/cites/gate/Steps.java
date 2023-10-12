@@ -9,8 +9,10 @@ import gate.creole.SerialAnalyserController;
 
 class Steps {
 
+    static final String MainGrammar = "/Citations.jape";
+
     static void addMainGrammar(SerialAnalyserController sac) throws ResourceInstantiationException {
-        addTransducer(sac, CiteEnricher.Grammar);
+        addTransducer(sac, MainGrammar);
     }
 
     static void addLoneNumberStep(SerialAnalyserController sac) throws ResourceInstantiationException {

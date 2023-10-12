@@ -16,14 +16,14 @@ public class CiteEnricher {
 
     static final String OriginalMarkups = "Original markups";
     static final String NewMarkups = "New markups";
-    static final String Grammar = "/Citations.jape";
 
     private final SerialAnalyserController sac;
     private final GateArtifactRemover artifactRemover = new GateArtifactRemover();
     private final ClmlBeautifier beautifier = new ClmlBeautifier();
 
     public CiteEnricher() throws GateException {
-        Gate.init();
+        if (!Gate.isInitialised())
+            Gate.init();
         sac = (SerialAnalyserController) Factory.createResource("gate.creole.SerialAnalyserController");
 
         sac.getFeatures().put("romanToArabic", new RomanToArabic());
@@ -36,13 +36,9 @@ public class CiteEnricher {
         sac.add(tokenizer);
 
         Steps.addMainGrammar(sac);
-
         Steps.addLoneNumberStep(sac);
-
 //        Steps.mysteryStep(sac);
-
         Steps.addNamespaceCheck(sac);
-
         Steps.addRemove(sac);
 
         Corpus corpus = Factory.newCorpus("Corpus");

@@ -5,7 +5,7 @@ import gate.util.SimpleFeatureMapImpl;
 
 import java.util.logging.Logger;
 
-class Util {
+class Utils {
 
     private static final Logger logger = Logger.getAnonymousLogger();
 
@@ -82,12 +82,12 @@ class Util {
 
     static Annotation getNewCitationFromFootnote(Document doc, String id) {
         AnnotationSet newAnnotations = doc.getAnnotations(CiteEnricher.NewMarkups);
-        Annotation fn = Util.getFootnote(doc, id);
+        Annotation fn = Utils.getFootnote(doc, id);
         if (fn == null) {
             logger.warning("couldn't find footnote with id " + id);
             return null;
         }
-        Annotation cite = Util.getFirstIncludedAnnotation(fn, newAnnotations, "Citation");
+        Annotation cite = Utils.getFirstIncludedAnnotation(fn, newAnnotations, "Citation");
         if (cite == null) {
             logger.warning("footnote " + id + " contains no citations");
             return null;

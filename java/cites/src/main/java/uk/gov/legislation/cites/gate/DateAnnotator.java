@@ -30,7 +30,7 @@ class DateAnnotator {
 
     static Annotation getFollowingDate(Annotation offset, Document doc, int limit) {
         AnnotationSet dates = doc.getAnnotations(AnnotationSet);
-        return Util.getNextAnnotationWithinSameText(offset, dates, "Date", limit);
+        return Utils.getNextAnnotationWithinSameText(offset, dates, "Date", limit);
     }
 
     static Integer getYear(Annotation date) {
