@@ -1,7 +1,6 @@
 Phase: Remove
-Input: Citation "ukm:Metadata" MultilineTitle Title
+// Input: ???
 Options: control = all
-
 
 Rule: Metadata
 (
@@ -23,6 +22,16 @@ Rule: MultilineTitle
 	newMarkups.removeAll(newCite);
 }
 
+Rule: Number
+(
+	( { Citation within Number } ) :cite
+) --> {
+	gate.AnnotationSet cite = (gate.AnnotationSet) bindings.get("cite");
+	gate.AnnotationSet newMarkups = doc.getAnnotations("New markups");
+	gate.AnnotationSet newCite = newMarkups.get("Citation", cite.firstNode().getOffset(), cite.lastNode().getOffset());
+	newMarkups.removeAll(newCite);
+}
+
 Rule: Title
 (
 	( { Citation within Title } ) :cite
@@ -32,4 +41,3 @@ Rule: Title
 	gate.AnnotationSet newCite = newMarkups.get("Citation", cite.firstNode().getOffset(), cite.lastNode().getOffset());
 	newMarkups.removeAll(newCite);
 }
-
