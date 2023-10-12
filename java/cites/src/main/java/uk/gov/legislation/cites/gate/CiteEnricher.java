@@ -17,9 +17,8 @@ import java.util.logging.Logger;
 public class CiteEnricher {
 
     static final String OriginalMarkups = "Original markups";
-    static final String AnnotationSet = "New markups";
     static final String NewMarkups = "New markups";
-    private static final String Grammar = "/Citations.jape";
+    static final String Grammar = "/Citations.jape";
     private static final Logger logger = Logger.getAnonymousLogger();
 
     private final SerialAnalyserController sac;
@@ -39,43 +38,13 @@ public class CiteEnricher {
         ProcessingResource tokenizer = (ProcessingResource) Factory.createResource("gate.creole.tokeniser.DefaultTokeniser");
         sac.add(tokenizer);
 
-        FeatureMap japeFeature1 = Factory.newFeatureMap();
-        japeFeature1.put("grammarURL", this.getClass().getResource(Grammar));
-        japeFeature1.put("outputASName", AnnotationSet);
-        LanguageAnalyser jape1 = (LanguageAnalyser) Factory.createResource("gate.creole.Transducer", japeFeature1);
-        sac.add(jape1);
+        Steps.addMainGrammar(sac);
 
-        FeatureMap transferFeatures = Factory.newFeatureMap();
-        transferFeatures.put ("inputASName", AnnotationSet);
-        transferFeatures.put ("outputASName", null); // for default annotation set
-        transferFeatures.put ("copyAnnotations", true);
-        ProcessingResource transfer = (ProcessingResource) Factory.createResource("gate.creole.annotransfer.AnnotationSetTransfer", transferFeatures);
-        sac.add(transfer);
+        Steps.addLoneNumberStep(sac);
 
-        FeatureMap japeFeature2 = Factory.newFeatureMap();
-        japeFeature2.put("grammarURL", this.getClass().getResource("/UKCitations3.jape"));
-        japeFeature2.put("outputASName", AnnotationSet);
-        LanguageAnalyser jape2 = (LanguageAnalyser) Factory.createResource("gate.creole.Transducer", japeFeature2);
-        sac.add(jape2);
+//        Steps.mysteryStep(sac);
 
-        FeatureMap transferFeatures2 = Factory.newFeatureMap();
-        transferFeatures2.put ("inputASName", "Original markups");
-        transferFeatures2.put ("outputASName", null); // for default annotation set
-        transferFeatures2.put ("copyAnnotations", true);
-        ProcessingResource transfer2 = (ProcessingResource) Factory.createResource("gate.creole.annotransfer.AnnotationSetTransfer", transferFeatures2);
-        sac.add(transfer2);
-        FeatureMap transferFeatures3 = Factory.newFeatureMap();
-        transferFeatures3.put ("inputASName", AnnotationSet);
-        transferFeatures3.put ("outputASName", null); // for default annotation set
-        transferFeatures3.put ("copyAnnotations", true);
-        ProcessingResource transfer3 = (ProcessingResource) Factory.createResource("gate.creole.annotransfer.AnnotationSetTransfer", transferFeatures3);
-        sac.add(transfer3);
-
-        FeatureMap japeFeature3 = Factory.newFeatureMap();
-        japeFeature3.put("grammarURL", this.getClass().getResource("/Namespace.jape"));
-        japeFeature3.put("inputASName", AnnotationSet);
-        LanguageAnalyser jape3 = (LanguageAnalyser) Factory.createResource("gate.creole.Transducer", japeFeature3);
-        sac.add(jape3);
+        Steps.addNamespaceCheck(sac);
 
         Steps.addRemove(sac);
 
@@ -98,49 +67,14 @@ public class CiteEnricher {
     private String enrich(Document doc) throws ExecutionException {
         sac.getCorpus().add(doc);
         sac.execute();
-        AnnotationSet newAnnotations = doc.getAnnotations(AnnotationSet);
 
-//        removeCertainCites(newAnnotations.get("Citation"));
+        AnnotationSet newAnnotations = doc.getAnnotations(NewMarkups);
         correctOJCites(newAnnotations.get("Citation"));
-        correctFeatures(newAnnotations.get("Citation"));    // only those that remain after removeCertainCites()
+        correctFeatures(newAnnotations.get("Citation"));
 
         String enriched = serialize(doc);
         sac.getCorpus().remove(doc);
         return enriched;
-    }
-
-    /**
-     * Removes new annotations that are in the metadata section, within other citations, or
-     * within Title elements.
-     */
-    private void removeCertainCites(AnnotationSet newFullCites) {
-        Document doc = newFullCites.getDocument();
-        AnnotationSetImpl toRemove = new AnnotationSetImpl(doc);
-        Iterator<Annotation> iterator = newFullCites.iterator();
-        while (iterator.hasNext()) {
-            Annotation cite = iterator.next();
-            if (isWithinMetadata(doc, cite)) {
-                logger.info("removing cite: \"" + gate.Utils.stringFor(doc, cite) + "\" because it's in the metadata");
-                toRemove.add(cite);
-                continue;
-            }
-            if (isWithinOriginalCitation(doc, cite)) {
-                logger.info("removing cite: \"" + gate.Utils.stringFor(doc, cite) + "\" because it's within another cite");
-                toRemove.add(cite);
-                continue;
-            }
-            if (isWithinTitleElement(doc, cite)) {
-                logger.info("removing cite: \"" + gate.Utils.stringFor(doc, cite) + "\" because it's in a title");
-                toRemove.add(cite);
-                continue;
-            }
-//            if (isWithinQuotation(doc, cite)) {
-//                logger.info("removing cite: \"" + gate.Utils.stringFor(doc, cite) + "\" because it's in a quote");
-//                iterator.remove();
-//                continue;
-//            }
-        }
-        doc.getAnnotations(AnnotationSet).removeAll(toRemove);
     }
 
     /**
@@ -180,7 +114,7 @@ public class CiteEnricher {
             logger.info("found cite: " + text + " " + features.toString());
             cite.setFeatures(features);
         }
-        doc.getAnnotations(AnnotationSet).removeAll(toRemove);
+        doc.getAnnotations(NewMarkups).removeAll(toRemove);
     }
 
     private void correctOJCites(AnnotationSet newFullCites) {
@@ -196,7 +130,7 @@ public class CiteEnricher {
             if (!ok)
                 toRemove.add(cite);
         }
-        doc.getAnnotations(AnnotationSet).removeAll(toRemove);
+        doc.getAnnotations(NewMarkups).removeAll(toRemove);
     }
 
     private boolean correctOJCite(Annotation cite) {
@@ -247,7 +181,7 @@ public class CiteEnricher {
         if (fnRef == null)
             return null;
         AnnotationSet originalMarkups = doc.getAnnotations(Util.OriginalMarkupsAnnotationSetName);
-        AnnotationSet newAnnotations = doc.getAnnotations(AnnotationSet);
+        AnnotationSet newAnnotations = doc.getAnnotations(NewMarkups);
         // if there is another citation before the footnote ref, don't consider the footnote
         Annotation next = Util.getNextAnnotationWithinSameText(cite, originalMarkups, "Citation");
         if (next != null && next.getStartNode().getOffset() < fnRef.getStartNode().getOffset())
@@ -273,37 +207,8 @@ public class CiteEnricher {
         return DateAnnotator.getYear(date);
     }
 
-    private boolean isWithinMetadata(Document doc, Annotation cite) {
-        AnnotationSet originalMarkups = doc.getNamedAnnotationSets().get("Original markups");
-        AnnotationSet ancestorCites = originalMarkups.get("ukm:Metadata", cite.getStartNode().getOffset(), cite.getEndNode().getOffset());
-        return !ancestorCites.isEmpty();
-    }
-
-    private boolean isWithinOriginalCitation(Document doc, Annotation cite) {
-        AnnotationSet originalMarkups = doc.getNamedAnnotationSets().get("Original markups");
-        AnnotationSet ancestorCites = originalMarkups.get("Citation", cite.getStartNode().getOffset(), cite.getEndNode().getOffset());
-        return !ancestorCites.isEmpty();
-    }
-
-    private boolean isWithinTitleElement(Document doc, Annotation cite) {
-        AnnotationSet originalMarkups = doc.getNamedAnnotationSets().get("Original markups");
-        AnnotationSet titleElements = originalMarkups.get("Title", cite.getStartNode().getOffset(), cite.getEndNode().getOffset());
-        return !titleElements.isEmpty();
-    }
-
-    private boolean isWithinQuotation(Document doc, Annotation cite) {
-        AnnotationSet originalMarkups = doc.getNamedAnnotationSets().get("Original markups");
-        AnnotationSet text = originalMarkups.get("Text", cite.getStartNode().getOffset(), cite.getEndNode().getOffset());
-        if (text.isEmpty())
-            return false;
-        String before = gate.Utils.stringFor(doc, text.firstNode().getOffset(), cite.getStartNode().getOffset());
-        long open = before.chars().filter(ch -> ch == '“').count();
-        long close = before.chars().filter(ch -> ch == '”').count();
-        return open > close;
-    }
-
     private String serialize(Document doc) {
-        return doc.toXml(doc.getAnnotations(AnnotationSet), true);
+        return doc.toXml(doc.getAnnotations(NewMarkups), true);
     }
 
 }
