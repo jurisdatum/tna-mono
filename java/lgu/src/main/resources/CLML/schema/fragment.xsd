@@ -1,0 +1,479 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema targetNamespace="http://www.legislation.gov.uk/namespaces/legislation"
+	xmlns:ukm="http://www.legislation.gov.uk/namespaces/metadata"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns="http://www.legislation.gov.uk/namespaces/legislation"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:ukl="http://www.legislation.gov.uk/namespaces/legislation" elementFormDefault="qualified"
+	attributeFormDefault="unqualified" version="2.5" id="SchemaFragmentBase"
+	xmlns:err="http://www.tso.co.uk/assets/namespace/error">
+	<xsd:annotation>
+		<xsd:appinfo xmlns:dcq="http://purl.org/dc/terms/" xmlns:dc="http://purl.org/dc/elements/1.1/">
+			<dc:title>Legislation Fragment Level Schema</dc:title>
+			<dc:description>Describes fragments of primary, secondary and retained EU legislation, which is used only in editorial system</dc:description>
+			<dc:contributor>Jeni Tennison</dc:contributor>
+			<dc:creator>TSO</dc:creator>
+			<dc:identifier>SchemaFragmentBase</dc:identifier>
+			<dc:language>en</dc:language>
+			<dc:publisher>The Stationery Office</dc:publisher>
+			<dc:rights>Crown copyright 2018</dc:rights>
+			<dc:date>
+				<dcq:created>2011-05-06</dcq:created>
+			</dc:date>
+			<dc:date>
+				<dcq:modified>2022-10-28</dcq:modified>
+			</dc:date>
+			<xsd:documentation>
+			Namespace information:
+			This schema is defined as being the in the namespace 'http://www.legislation.gov.uk/namespaces/legislation'
+			The suggested namespace prefix is ukl ([U]nited [K]ingdom [L]egislation)
+			</xsd:documentation>
+			<xsd:documentation>
+			Modification information (for version number strategy see ../README.md)
+			Version	Name				Modification
+			2.5		Karl Rajangam		Incremented version number for release 2.5 (see README for release notes)
+			2.4		Karl Rajangam		Main description updated, annotation added for many elements and attributes.
+										Removed RefsLinkType, moved it to schemaLegislationCommonAttributes.xsd file
+			2.3		Colin Mackenzie		Incremented top level schema number for new release
+			2.2		Colin Mackenzie		#172575932 Remove top level schema definition of DocumentMainType
+			2.2		Colin Mackenzie		Added comment regarding link to new version strategy file and incremented top level schema number
+			2.1		Colin Mackenzie		New top level schema for version 2.1 (#171841757 Welsh parliament rename)
+			2.0		Colin Mackenzie		Numbering restarted at 2 for new EU and merged schema
+			1.2		Colin Mackenzie		Added in EU elements that could be edited in whole or in frgament
+			1.1		Colin Mackenzie		Restructured to remove unnecessary file duplication
+			1.0		Jeni Tennison		Created
+			</xsd:documentation>
+		</xsd:appinfo>
+	</xsd:annotation>
+	
+	
+	<!-- Legislation includes -->
+	<xsd:include schemaLocation="schemaLegislationIncludes.xsd"/>
+	<!-- legislation specific (not suitable for Explanatory Notes -->
+	<xsd:include schemaLocation="schemaLegislationMain.xsd"/> 
+	<!-- Explanatory Notes -->
+	<xsd:include schemaLocation="schemaLegislationExplanatoryNotes.xsd"/>
+	<xsd:include schemaLocation="schemaLegislationCommon.xsd"/>
+	
+	<xsd:import namespace="http://www.tso.co.uk/assets/namespace/error" schemaLocation="../schemaModules/errors.xsd"/>
+	<xsd:import namespace="http://www.legislation.gov.uk/namespaces/metadata" schemaLocation="schemaLegislationMetadata.xsd"/>
+	<xsd:import namespace="http://purl.org/dc/elements/1.1/" schemaLocation="../schemaModules/dc.xsd"/>
+	
+
+	<!--	========== Element Definitions ==========	-->
+
+	<xsd:element name="Fragment">
+		<xsd:annotation>
+			<xsd:documentation>The top-level document element for editing fragments of UK primary and secondary, and retained EU legislation. Used only in editorial system to contain the content of a document fragment when checked out by an editor either as a whole document or provision/Part/Chapter/Schedule etc. As well as containing document content, it also contains the Tasks for the editor to complete.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="ukm:Metadata"/>
+				<xsd:choice>
+					<xsd:element name="Primary" type="FragmentContent"/>
+					<xsd:element name="Secondary" type="FragmentContent"/>
+					<xsd:element name="EURetained" type="FragmentEUContent"/>
+				</xsd:choice>
+				<xsd:element ref="Footnotes" minOccurs="0"/>
+				<xsd:element ref="MarginNotes" minOccurs="0"/>
+				<xsd:element ref="Versions" minOccurs="0"/>
+				<xsd:element ref="Resources" minOccurs="0"/>
+				<xsd:element ref="Commentaries" minOccurs="0"/>
+				<xsd:element ref="Tasks" minOccurs="0"/>
+			</xsd:sequence>
+			<xsd:attributeGroup ref="CommonAttributes"/>
+			<xsd:attributeGroup ref="SchemaVersion"/>
+			<xsd:attributeGroup ref="err:ErrorAttributes"/>
+			<xsd:attributeGroup ref="FragmentAttributes"/>
+			<xsd:attributeGroup ref="OptionalURIs"/>
+		</xsd:complexType>
+		<xsd:keyref name="refIncludedDocToResource" refer="keyResource">
+			<xsd:annotation>
+				<xsd:documentation>Ensures that a resource reference has a corresponding resource</xsd:documentation>
+			</xsd:annotation>
+			<xsd:selector xpath=".//ukl:Image | .//ukl:LSseal | .//ukl:IncludedDocument"/>
+			<xsd:field xpath="@ResourceRef"/>
+		</xsd:keyref>
+		<xsd:keyref name="refCrossrefToFootnote" refer="keyFootnote">
+			<xsd:annotation>
+				<xsd:documentation>Ensures that a footnote reference has a corresponding footnote</xsd:documentation>
+			</xsd:annotation>
+			<xsd:selector xpath=".//ukl:FootnoteRef"/>
+			<xsd:field xpath="@Ref"/>
+		</xsd:keyref>
+		<xsd:keyref name="refCrossrefToCommentary" refer="keyCommentary">
+			<xsd:annotation>
+				<xsd:documentation>Ensures that a commentary reference has a corresponding commentary</xsd:documentation>
+			</xsd:annotation>
+			<xsd:selector xpath=".//ukl:CommentaryRef"/>
+			<xsd:field xpath="@Ref"/>
+		</xsd:keyref>
+		<xsd:keyref name="refCrossrefChangeToCommentary" refer="keyCommentary">
+			<xsd:annotation>
+				<xsd:documentation>Ensures that an addition, repeal or substitution with a commentary reference has a corresponding commentary</xsd:documentation>
+			</xsd:annotation>
+			<xsd:selector xpath=".//ukl:Addition|.//ukl:Repeal|.//ukl:Substitution"/>
+			<xsd:field xpath="@CommentaryRef"/>
+		</xsd:keyref>
+		<xsd:keyref name="refCrossrefToMarginnote" refer="keyMarginnote">
+			<xsd:annotation>
+				<xsd:documentation>Ensures that a margin note reference has a corresponding margin note</xsd:documentation>
+			</xsd:annotation>
+			<xsd:selector xpath=".//ukl:MarginNoteRef"/>
+			<xsd:field xpath="@Ref"/>
+		</xsd:keyref>
+		<xsd:key name="keyResource">
+			<xsd:annotation>
+				<xsd:documentation>Ensures that a resource has an id unique within the document</xsd:documentation>
+			</xsd:annotation>
+			<xsd:selector xpath=".//ukl:Resource | .//ukl:ResourceGroup  | ukl:Resources/ukl:ResourceGroup/ukl:Resource"/>
+			<xsd:field xpath="@id"/>
+		</xsd:key>
+		<xsd:unique name="keyCitationRef">
+			<xsd:annotation>
+				<xsd:documentation>Ensures that a citation or citation sub reference has an id unique within the document</xsd:documentation>
+			</xsd:annotation>
+			<xsd:selector xpath=".//ukl:Citation | .//ukl:CitationSubRef"/>
+			<xsd:field xpath="@id"/>
+		</xsd:unique>
+		<xsd:key name="keyMarginnote">
+			<xsd:annotation>
+				<xsd:documentation>Ensures that a margin note has an id unique within the document</xsd:documentation>
+			</xsd:annotation>
+			<xsd:selector xpath="ukl:MarginNotes/ukl:MarginNote"/>
+			<xsd:field xpath="@id"/>
+		</xsd:key>
+		<xsd:key name="keyFootnote">
+			<xsd:annotation>
+				<xsd:documentation>Ensures that a footnote has an id unique within the document</xsd:documentation>
+			</xsd:annotation>
+			<xsd:selector xpath=".//ukl:Footnote"/>
+			<xsd:field xpath="@id"/>
+		</xsd:key>
+		<xsd:key name="keyCommentary">
+			<xsd:annotation>
+				<xsd:documentation>Ensures that a commentary has an id unique within the document</xsd:documentation>
+			</xsd:annotation>
+			<xsd:selector xpath=".//ukl:Commentary"/>
+			<xsd:field xpath="@id"/>
+		</xsd:key>
+	</xsd:element>
+
+	<xsd:complexType name="FragmentContent">
+		<xsd:annotation>
+			<xsd:documentation>As a fragment is, by definition, a subset of content the model for UK legalisation needs to be less strict than for a complete document.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:choice>
+			<!-- need the multiple element structure for whole act editing  -->
+			<xsd:sequence>
+				<xsd:element ref="PrimaryPrelims"/>
+				<xsd:element ref="Body" minOccurs="0"/>
+				<xsd:element ref="Appendix" minOccurs="0" maxOccurs="unbounded" />
+				<xsd:element ref="Schedules" minOccurs="0"/>
+				<xsd:element ref="ExplanatoryNotes" minOccurs="0"/>
+			</xsd:sequence>
+			<xsd:sequence>
+				<xsd:element ref="SecondaryPrelims"/>
+				<xsd:element ref="Body" minOccurs="0"/>
+				<xsd:element ref="Appendix" minOccurs="0" maxOccurs="unbounded" />
+				<xsd:element ref="Schedules" minOccurs="0"/>
+				<xsd:element ref="ExplanatoryNotes" minOccurs="0"/>
+				<xsd:element ref="EarlierOrders" minOccurs="0"/>
+			</xsd:sequence>
+			<xsd:element ref="Body"/>
+			<xsd:element ref="Group"/>
+			<xsd:element ref="Part"/>
+			<xsd:element ref="Chapter"/>
+			<xsd:element ref="Pblock"/>
+			<xsd:element ref="PsubBlock"/>
+			<xsd:element ref="P1group"/>
+			<xsd:element ref="P1"/>
+			<xsd:element ref="P"/>
+			<xsd:element ref="Schedules"/>
+			<xsd:element ref="Schedule"/>
+			<xsd:element ref="Appendix"/>
+			<xsd:element ref="Attachments"/>
+			<xsd:element ref="SignedSection"/>
+			<xsd:element ref="ExplanatoryNotes"/>
+			<xsd:element ref="EarlierOrders"/>
+		</xsd:choice>
+	</xsd:complexType>
+
+	<xsd:complexType name="FragmentEUContent">
+		<xsd:annotation>
+			<xsd:documentation>As a fragment is, by definition, a subset of content the model for EU legalisation needs to be less strict than for a complete document.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:choice>
+			<xsd:sequence>
+				<xsd:element ref="EUPrelims"/>
+				<xsd:element ref="EUBody" minOccurs="0"/>
+				<xsd:element ref="Attachments" minOccurs="0" maxOccurs="unbounded" />
+				<xsd:element ref="Schedules" minOccurs="0"/>
+			</xsd:sequence>
+			<xsd:element ref="EUBody" minOccurs="0"/>
+			<xsd:element ref="Group"/>
+			<xsd:element ref="Part"/>
+			<xsd:element ref="Chapter"/>
+			<xsd:element ref="Pblock"/>
+			<xsd:element ref="PsubBlock"/>
+			<xsd:element ref="P1group"/>
+			<xsd:element ref="P1"/>
+			<xsd:element ref="P"/>
+			<xsd:element ref="Schedules"/>
+			<xsd:element ref="Schedule"/>
+			<xsd:element ref="Appendix"/>
+			<xsd:element ref="Attachments"/>
+			<xsd:element ref="Attachment"/>
+			<xsd:element ref="SignedSection"/>
+			<xsd:element ref="ExplanatoryNotes"/>
+			<xsd:element ref="EarlierOrders"/>
+			<xsd:element ref="EURetained"/>
+			<xsd:element ref="EUPart"/>
+			<xsd:element ref="EUTitle"/>
+			<xsd:element ref="EUChapter"/>
+			<xsd:element ref="EUSection"/>
+			<xsd:element ref="EUSubsection"/>
+			<xsd:element ref="Division"/>
+		</xsd:choice>
+	</xsd:complexType>
+	
+	<xsd:element name="Tasks">
+		<xsd:annotation>
+			<xsd:documentation xmlns:h="http://www.w3.org/1999/xhtml">
+				<h:p>Contains the amendments to be applied to this fragment, grouped by the effect from which they originate.</h:p>
+				<h:p>In the Editorial system, an update task has a step for each Point in Time (a dated version, or PiT). When an editor begins a step in an update task and downloads a fragment to edit it, the Editorial system queries for effects that have amendments applicable at the PiT for that step, then generates task XML containing those amendments and includes the relevant amendments in the fragment.</h:p>
+				<h:p>The <h:code>&lt;Tasks&gt;</h:code> content model is very similar to the internal representation of editorial tasks stored in the database. It is different from, and is in most ways more restricted than, the <h:code>&lt;Effect&gt;</h:code>/<h:code>&lt;UnappliedEffect&gt;</h:code> format used in TOES data and provided via the website and API: the <h:code>&lt;Tasks&gt;</h:code> model only represents amendments specific to the current fragment and PiT, it contains an additional generated commentary and description for the amendments, and it contains a limited amount of information about commencements, in-force dates and savings only in the commentary.</h:p>
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="Effect" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="Effect">
+		<xsd:annotation>
+			<xsd:documentation xmlns:h="http://www.w3.org/1999/xhtml">
+				<h:p>Contains one or more amendments that originate from a single effect and are applicable to the current fragment, along with information about the extent of the amendments (where the extent is more limited than the affected provision or provisions) and the commentary to use for the amendments.</h:p>
+				<h:p>An <h:code>&lt;Effect&gt;</h:code> will contain more than one <h:code>&lt;Amendment</h:code> if the originating effect affects more than one provision within the fragment at the fragment’s Point in Time. (An effect may also have multiple amendments if it affects a provision at more than one point in time, but as a fragment relates only to a single point in time, any such amendments will appear in separate fragments.)</h:p>
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="AffectingProvisions"/>
+				<xsd:group ref="EffectNote"/>
+ 				<xsd:element ref="Amendment" maxOccurs="unbounded"/>
+				<xsd:element ref="Commentary"/>
+			</xsd:sequence>
+			<xsd:attribute name="URI" use="required" type="xsd:anyURI">
+				<xsd:annotation>
+					<xsd:documentation>The unique identifier for the effect</xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+			<xsd:attribute name="RestrictExtent" type="ExtentType">
+				<xsd:annotation>
+					<xsd:documentation>Specifies the geographic extent that the effect is applicable for. This is a combinataion of prefixes E (England), W (Wales), S (Scotland) and N.I.(Northern Ireland) concatenated together using an addition (+) symbol, for example, a value like "E+W+S”</xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="AffectingProvisions">
+		<xsd:annotation>
+			<xsd:documentation xmlns:h="http://www.w3.org/1999/xhtml">Records the affecting provision(s) from which the effect originates, either as a string representation or through <h:code>&lt;Citation&gt;</h:code> and <h:code>&lt;CitationSubRef&gt;</h:code> links</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="Citation"/>
+				<xsd:element ref="CitationSubRef" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="Amendment">
+		<xsd:annotation>
+			<xsd:documentation>Describes an amendment to, or a commencement of, a provision in the fragment</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="Description"/>
+				<xsd:choice minOccurs="0">
+					<xsd:element ref="BlockAmendment" />
+					<xsd:sequence>
+						<xsd:element ref="BlockRepeal" />
+						<xsd:element ref="BlockAmendment" minOccurs="0" />
+					</xsd:sequence>
+					<xsd:element ref="InlineAmendment" />
+					<xsd:element ref="Amended" />
+					<xsd:element ref="Commenced" />
+					<xsd:sequence>
+						<xsd:element ref="InlineRepeal" />
+						<xsd:element ref="InlineAmendment" minOccurs="0" />
+					</xsd:sequence>
+				</xsd:choice>
+				<xsd:group ref="EffectNote"/>
+			</xsd:sequence>
+			<xsd:attribute name="URI" use="required" type="xsd:anyURI">
+				<xsd:annotation>
+					<xsd:documentation>The unique identifier of the amendment</xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+			<xsd:attribute name="ChangeType" use="required">
+				<xsd:annotation>
+					<xsd:documentation>Defines the type of amendment. The value is restricted to predefined values; for example 'BlockRepeal', 'TextualAmendment' etc.</xsd:documentation>
+				</xsd:annotation>
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:enumeration value="BlockAddition"/>
+						<xsd:enumeration value="BlockRepeal"/>
+						<xsd:enumeration value="BlockSubstitution"/>
+						<xsd:enumeration value="Commencement"/>
+						<xsd:enumeration value="InlineAddition" />
+						<xsd:enumeration value="InlineRepeal" />
+						<xsd:enumeration value="InlineSubstitution"/>
+						<xsd:enumeration value="TextualAmendment" />
+						<xsd:enumeration value="NonTextualAmendment" />
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:attribute>
+			<xsd:attribute name="Status" use="required">
+				<xsd:annotation>
+					<xsd:documentation xmlns:h="http://www.w3.org/1999/xhtml">
+						<h:p>Specifies the status of the amendment.</h:p>
+						<h:p>When a fragment is checked out, the value is set either to 'ToDo' if the amendment is not yet marked as applied, or 'Check' if it has been marked as applied. When an editor applies an amendment, the value must be set to 'Complete' (normally by a macro in the XML editing environment) to mark the amendment as complete before checking the fragment back in.</h:p>
+						<h:p>The 'Flagged' value is used internally to indicate that one of the amended provisions was not found in the affected document, but the value never appears in fragment XML.</h:p>
+					</xsd:documentation>
+				</xsd:annotation>
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:enumeration value="ToDo"/>
+						<xsd:enumeration value="Check"/>
+						<xsd:enumeration value="Complete"/>
+						<xsd:enumeration value="Flagged"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:attribute>
+			<xsd:attribute name="ChangeId" use="optional"/>
+      </xsd:complexType>
+	</xsd:element>
+	<xsd:element name="Description">
+		<xsd:annotation>
+			<xsd:documentation>Provides textual descriptive information for the editor about how to carry out the amendment, including citation references to the relevant provisions and the action involved.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType mixed="true">
+			<xsd:choice minOccurs="0" maxOccurs="unbounded">
+				<xsd:element ref="Citation"/>
+				<xsd:element ref="CitationSubRef"/>
+			</xsd:choice>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:group name="EffectNote">
+		<xsd:annotation>
+			<xsd:documentation>Defines the content model for 'Note' structures</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="Note" minOccurs="0" maxOccurs="unbounded">
+				<xsd:annotation>
+					<xsd:documentation>Describes an informational note added to an amendment. An editor, reviewer or system process may add a note to an amendment to indicate an error or unusual situation encountered when processing, applying or reviewing the amendment.</xsd:documentation>
+				</xsd:annotation>
+				<xsd:complexType mixed="true">
+					<xsd:sequence>
+						<xsd:element ref="From" minOccurs="0" />
+						<xsd:element ref="NoteContent" />
+					</xsd:sequence>
+					<xsd:attribute name="URI" use="optional" type="xsd:anyURI" />
+				</xsd:complexType>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:group>
+	<xsd:element name="From">
+		<xsd:annotation>
+			<xsd:documentation>The user or process that created the note</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:simpleContent>
+				<xsd:extension base="xsd:string">
+					<xsd:attribute name="URI" use="required" type="xsd:anyURI">
+						<xsd:annotation>
+							<xsd:documentation>The unique identifier of the user or process</xsd:documentation>
+						</xsd:annotation>
+					</xsd:attribute>
+				</xsd:extension>
+			</xsd:simpleContent>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="NoteContent" type="xsd:string">
+		<xsd:annotation>
+			<xsd:documentation>The content of the note</xsd:documentation>
+		</xsd:annotation>
+	</xsd:element>
+	<xsd:element name="BlockRepeal">
+		<xsd:annotation>
+			<xsd:documentation xmlns:h="http://www.w3.org/1999/xhtml">Indicates the start or end of a block of text to be repealed, where existing text ceases to have effect and may also be removed from the legislation. The Editorial system will remove the text and the <h:code>&lt;Repeal&gt;</h:code> tags when the editor checks in the fragment</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="CitationSubRef" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="Amended">
+		<xsd:annotation>
+			<xsd:documentation>Indicates the provision amended (textually or non-textually) by the amendment</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="CitationSubRef" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="Commenced">
+		<xsd:annotation>
+			<xsd:documentation>Indicates the provision commenced by the amendment</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="CitationSubRef" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="InlineRepeal">
+		<xsd:annotation>
+			<xsd:documentation>Indicates the inline text content that needs to be repealed. No longer used</xsd:documentation>
+		</xsd:annotation>
+		<xsd:simpleType>
+			<xsd:restriction base="xsd:string"/>
+		</xsd:simpleType>
+	</xsd:element>
+	
+	<!-- Common definitions that need to be different when editing
+		probably for XMetal Compatability purposes 
+	-->
+	<!-- see PT #156462431 we no longer need different definitions as the old legislation validation did not match data
+	<xsd:attributeGroup name="CitationElementIDAttributes">
+		<xsd:attribute name="id">
+			<xsd:annotation>
+				<xsd:documentation>A unique identifier in the format c00000</xsd:documentation>
+			</xsd:annotation>
+			<xsd:simpleType>
+				<xsd:restriction base="xsd:NCName"/>
+			</xsd:simpleType>
+		</xsd:attribute>
+	</xsd:attributeGroup> -->
+	
+	<xsd:group name="StandardMetadata">
+		<xsd:annotation>
+			<xsd:documentation>No standard Dublin Core metadata is required (until the final data set) but the Dublin Core identifier element is required in fragment editing.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element ref="dc:identifier" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:group>
+	
+	<xsd:group name="ExtraMetadata">
+		<xsd:annotation>
+			<xsd:documentation>No additional metadata is required (until the final data set) but the Dublin Core source element is allowed in fragment editing.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+        	<xsd:element ref="dc:source" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:group>
+</xsd:schema>

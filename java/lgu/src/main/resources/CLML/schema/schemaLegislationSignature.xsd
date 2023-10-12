@@ -2,7 +2,7 @@
 <xsd:schema targetNamespace="http://www.legislation.gov.uk/namespaces/legislation"
 	xmlns="http://www.legislation.gov.uk/namespaces/legislation"
 	xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified"
-	attributeFormDefault="unqualified" version="1.1" id="SchemaLegislationSignature">
+	attributeFormDefault="unqualified" version="2.4" id="SchemaLegislationSignature">
 	<xsd:annotation>
 		<xsd:appinfo xmlns:dcq="http://purl.org/dc/terms/" xmlns:dc="http://purl.org/dc/elements/1.1/">
 			<dc:title>Legislation Signature Schema</dc:title>
@@ -12,17 +12,21 @@
 			<dc:identifier>SchemaLegislationSignature</dc:identifier>
 			<dc:language>en</dc:language>
 			<dc:publisher>The Stationery Office</dc:publisher>
-			<dc:rights>Crown Copyright 2004</dc:rights>
+			<dc:rights>Crown copyright 2018</dc:rights>
 			<dc:date>
 				<dcq:created>2003-03-10</dcq:created>
 			</dc:date>
 			<dc:date>
-				<dcq:modified></dcq:modified>
+				<dcq:modified>2021-04-28</dcq:modified>
 			</dc:date>
 			<xsd:documentation>
 			Modification information
-			Version	Name				Modification
-			2.0			Jim Mangiafico		Expanded to accommodate European Union legislation
+			Version		Name				Modification
+			2.4			Karl Rajangam		Document update of SignedSection and Signatory
+			2.4			William Jonadoss	Added Time attribute to Signatory
+			2.0			Colin Mackenzie		Numbering restarted at 2 for new EU and merged schema
+			1.2			William Holmes		Added Time attribute to DateSigned
+			1.2			Jim Mangiafico		Expanded to accommodate European Union legislation
 			1.1			Paul Appleby		Added Date attribute to Signatory
 			1.0			Paul Appleby		Created
 			</xsd:documentation>
@@ -30,22 +34,21 @@
 	</xsd:annotation>
 	<xsd:element name="SignedSection">
 		<xsd:annotation>
-			<xsd:documentation>This is the top level wrapper for a signature block</xsd:documentation>
+			<xsd:documentation>This is the top level container for a signature. And it can hold information about one or more persons (Signatory) connected by some reasons. This can occur in both primary and secondary legislation although they are very rare in primary legislation</xsd:documentation>
 		</xsd:annotation>
 		<xsd:complexType>
 			<xsd:sequence>
 				<xsd:element ref="Para" minOccurs="0" maxOccurs="unbounded"/>
 				<xsd:element ref="Signatory" minOccurs="0" maxOccurs="unbounded"/>
 			</xsd:sequence>
-			<xsd:attribute name="IdURI" type="xsd:anyURI"/>
-			<xsd:attribute name="DocumentURI" type="xsd:anyURI"/>
+			<xsd:attributeGroup ref="OptionalURIs"/>
 			<xsd:attributeGroup ref="CommonAttributes"/>
 			<xsd:attributeGroup ref="FragmentAttributes"/>
 		</xsd:complexType>
 	</xsd:element>
 	<xsd:element name="Signatory">
 		<xsd:annotation>
-			<xsd:documentation>The person(s) signing-off the document. A group of signees may have lead-in text</xsd:documentation>
+			<xsd:documentation>The person(s) signing-off the document. Each 'Signatory' can contain one or more 'Signee' and 'Para' elements. It may also have a Date attribute</xsd:documentation>
 		</xsd:annotation>
 		<xsd:complexType>
 			<xsd:sequence>
@@ -54,11 +57,12 @@
 			</xsd:sequence>
 			<xsd:attributeGroup ref="CommonAttributes"/>
 			<xsd:attribute name="Date" type="xsd:date" use="optional"/>
+			<xsd:attribute name="Time" type="xsd:time" use="optional"/>
 		</xsd:complexType>
 	</xsd:element>
 	<xsd:element name="LSseal">
 		<xsd:annotation>
-			<xsd:documentation>Allows for an image of the seal to be included</xsd:documentation>
+			<xsd:documentation>Allows for an image of the seal to be included to indicate the presence of a seal used as part of the signature. It may optionally reference a resource using the ResourceRef attribute if it is required to reference a specific image. It may also have a Date attribute to indicate the date of the seal. It is rare (but possible) for any content to be within the element.</xsd:documentation>
 		</xsd:annotation>
 		<xsd:complexType mixed="true">
 			<xsd:group ref="InlineFull" minOccurs="0" maxOccurs="unbounded"/>
@@ -68,6 +72,9 @@
 		</xsd:complexType>
 	</xsd:element>
 	<xsd:element name="Signee">
+		<xsd:annotation>
+			<xsd:documentation>Details of a single Signee. This allows an optional LSseal and then a choice of either an Image element (where a signature has been scanned or digitally created) or structured elements for each item of Signee information.</xsd:documentation>
+		</xsd:annotation>
 		<xsd:complexType>
 			<xsd:sequence>
 				<!--<xsd:element ref="para" minOccurs="0" maxOccurs="unbounded"/>-->
@@ -92,12 +99,16 @@
 		</xsd:complexType>
 	</xsd:element>
 	<xsd:element name="DateSigned">
+		<xsd:annotation>
+			<xsd:documentation>The date (and optionally time) of the signing.</xsd:documentation>
+		</xsd:annotation>
 		<xsd:complexType>
 			<xsd:sequence>
 				<xsd:element ref="DateText"/>
 			</xsd:sequence>
 			<xsd:attributeGroup ref="CommonAttributes"/>
 			<xsd:attribute name="Date" type="xsd:date"/>
+			<xsd:attribute name="Time" type="xsd:time" use="optional" />
 		</xsd:complexType>
 	</xsd:element>
 </xsd:schema>

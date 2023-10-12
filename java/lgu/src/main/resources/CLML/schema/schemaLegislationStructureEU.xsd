@@ -2,7 +2,7 @@
 <xsd:schema xmlns="http://www.legislation.gov.uk/namespaces/legislation"
 	targetNamespace="http://www.legislation.gov.uk/namespaces/legislation"
 	xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified"
-	attributeFormDefault="unqualified" version="2.0">
+	attributeFormDefault="unqualified" version="2.3">
 
 	<xsd:annotation>
 		<xsd:appinfo xmlns:dcq="http://purl.org/dc/terms/" xmlns:dc="http://purl.org/dc/elements/1.1/">
@@ -11,16 +11,28 @@
 			<dc:contributor>Jim Mangiafico</dc:contributor>
 			<dc:identifier>SchemaStructureEU</dc:identifier>
 			<dc:language>en</dc:language>
-			<dc:rights>Crown Copyright 2017</dc:rights>
+			<dc:rights>Crown Copyright 2018</dc:rights>
+			<dc:publisher>The Stationery Office</dc:publisher>
+			<dc:rights>Crown copyright 2018</dc:rights>
+			<dc:date>
+				<dcq:created>2018-11-20</dcq:created>
+			</dc:date>
+			<dc:date>
+				<dcq:modified>2020-12-13</dcq:modified>
+			</dc:date>
 			<xsd:documentation>
 			Modification information
 			Version		Name				Modification
+			2.3			Colin Mackenzie	 #172129366 Added CommonSubAttributes to Division
 			2.0			Jim Mangiafico		Created
 			</xsd:documentation>
 		</xsd:appinfo>
 	</xsd:annotation>
 
 	<xsd:group name="EUStructure">
+		<xsd:annotation>
+			<xsd:documentation>EU content structure is very flexible as to the order of the content structures and each structural element can contain any of the other structural elements.</xsd:documentation>
+		</xsd:annotation>
 		<xsd:choice>
 			<xsd:element ref="EUPart"/>
 			<xsd:element ref="EUTitle"/>
@@ -37,7 +49,7 @@
 				<xsd:sequence>
 					<xsd:element ref="Number"/>
 					<xsd:element ref="Title" minOccurs="0" maxOccurs="unbounded"/>
-					<xsd:element ref="Subtitle" minOccurs="0" maxOccurs="unbounded"/>
+				<xsd:element ref="Subtitle" minOccurs="0" maxOccurs="unbounded"/>
 				</xsd:sequence>
 				<xsd:sequence>
 					<xsd:element ref="Title" maxOccurs="unbounded"/>
@@ -58,13 +70,36 @@
 		<xsd:attributeGroup ref="FragmentAttributes"/>
 	</xsd:complexType>
 
-	<xsd:element name="EUPart" type="EUStructureType"/>
-	<xsd:element name="EUTitle" type="EUStructureType"/>
-	<xsd:element name="EUChapter" type="EUStructureType"/>
-	<xsd:element name="EUSection" type="EUStructureType"/>
-	<xsd:element name="EUSubsection" type="EUStructureType"/>
+	<xsd:element name="EUPart" type="EUStructureType">
+		<xsd:annotation>
+			<xsd:documentation>A part within an EU document or BlockAmendment containing EU content</xsd:documentation>
+		</xsd:annotation>
+	</xsd:element>
+	<xsd:element name="EUTitle" type="EUStructureType">
+		<xsd:annotation>
+			<xsd:documentation>A title within an EU document or BlockAmendment containing EU content</xsd:documentation>
+		</xsd:annotation>
+	</xsd:element>
+	<xsd:element name="EUChapter" type="EUStructureType">
+		<xsd:annotation>
+			<xsd:documentation>A chapter within an EU document or BlockAmendment containing EU content</xsd:documentation>
+		</xsd:annotation>
+	</xsd:element>
+	<xsd:element name="EUSection" type="EUStructureType">
+		<xsd:annotation>
+			<xsd:documentation>A section within an EU document or BlockAmendment containing EU content</xsd:documentation>
+		</xsd:annotation>
+	</xsd:element>
+	<xsd:element name="EUSubsection" type="EUStructureType">
+		<xsd:annotation>
+			<xsd:documentation>A sub-section within an EU document or BlockAmendment containing EU content</xsd:documentation>
+		</xsd:annotation>
+	</xsd:element>
 
 	<xsd:element name="Division">
+		<xsd:annotation>
+			<xsd:documentation>A division within an EU document or BlockAmendment containing EU content</xsd:documentation>
+		</xsd:annotation>
 		<xsd:complexType>
 			<xsd:sequence>
 				<xsd:element ref="Number" minOccurs="0"/>
@@ -81,6 +116,8 @@
 				</xsd:choice>
 			</xsd:sequence>
 			<xsd:attribute name="Type" />
+			<!-- To be added in v2.3 -->
+			<xsd:attributeGroup ref="CommonSubAttributes"/>
 			<xsd:attributeGroup ref="PelementIDattributes"/>
 			<xsd:attributeGroup ref="FragmentAttributes"/>
 		</xsd:complexType>

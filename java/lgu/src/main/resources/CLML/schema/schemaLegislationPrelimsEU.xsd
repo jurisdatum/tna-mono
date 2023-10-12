@@ -2,7 +2,7 @@
 <xsd:schema xmlns="http://www.legislation.gov.uk/namespaces/legislation"
 	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
 	targetNamespace="http://www.legislation.gov.uk/namespaces/legislation"
-	elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.7"
+	elementFormDefault="qualified" attributeFormDefault="unqualified" version="2.4"
 	id="SchemaLegislationPrelims"
 	xmlns:err="http://www.tso.co.uk/assets/namespace/error">
 	<xsd:annotation>
@@ -12,11 +12,19 @@
 			<dc:contributor>Jim Mangiafico</dc:contributor>
 			<dc:identifier>SchemaLegislationPrelimsEU</dc:identifier>
 			<dc:language>en</dc:language>
-			<dc:rights>Crown Copyright 2007</dc:rights>
+			<dc:publisher>The Stationery Office</dc:publisher>
+			<dc:rights>Crown Copyright 2018</dc:rights>
+			<dc:date>
+				<dcq:created>2018-11-20</dcq:created>
+			</dc:date>
+			<dc:date>
+				<dcq:modified>2021-05-25</dcq:modified>
+			</dc:date>
 			<xsd:documentation>
 			Modification information
-			Version	Name				Modification
-			2.0		Jim Mangiafico		Created
+			Version		Name				Modification
+			2.4			Karl Rajangam		Annotation added for Number
+			2.0			Jim Mangiafico		Created
 			</xsd:documentation>
 		</xsd:appinfo>
 	</xsd:annotation>
@@ -29,14 +37,20 @@
 			<xsd:sequence>
 				<xsd:element ref="Draft" minOccurs="0"/>
 				<xsd:element ref="MultilineTitle"/>
-				<xsd:element name="Number" type="BasicStringStructure" minOccurs="0"/>
+				<xsd:element name="Number" type="BasicStringStructure" minOccurs="0">
+					<xsd:annotation>
+						<xsd:documentation>An alternative number for the document, such as its Official Journal citation or its number in another series</xsd:documentation>
+					</xsd:annotation>
+				</xsd:element>
 				<xsd:element ref="IntroductoryText" minOccurs="0"/>
 				<xsd:element ref="EUPreamble" minOccurs="0"/>
 			</xsd:sequence>
+			<xsd:attributeGroup ref="CommonSubAttributes"/>
 			<xsd:attributeGroup ref="FragmentAttributes"/>
+			<xsd:attributeGroup ref="PelementIDattributes"/>
 		</xsd:complexType>
 	</xsd:element>
-
+	
 	<xsd:element name="MultilineTitle">
 		<xsd:annotation>
 			<xsd:documentation>a multi-line title for EU legislation</xsd:documentation>

@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsd:schema targetNamespace="http://www.legislation.gov.uk/namespaces/legislation" xmlns="http://www.legislation.gov.uk/namespaces/legislation" xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.0" id="SchemaLegislationExplanatoryNotes">
+<xsd:schema targetNamespace="http://www.legislation.gov.uk/namespaces/legislation" xmlns="http://www.legislation.gov.uk/namespaces/legislation"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified"
+	version="2.4" id="SchemaLegislationExplanatoryNotes">
 	<xsd:annotation>
 		<xsd:appinfo xmlns:dcq="http://purl.org/dc/terms/" xmlns:dc="http://purl.org/dc/elements/1.1/">
 			<dc:title>Legislation Explanatory Notes Schema</dc:title>
@@ -9,24 +11,25 @@
 			<dc:identifier>SchemaLegislationExplanatoryNotes</dc:identifier>
 			<dc:language>en</dc:language>
 			<dc:publisher>The Stationery Office</dc:publisher>
-			<dc:rights>Crown Copyright 2003</dc:rights>
+			<dc:rights>Crown copyright 2018</dc:rights>
 			<dc:date>
 				<dcq:created>2003-10-20</dcq:created>
 			</dc:date>
 			<dc:date>
-				<dcq:modified>Put modified date here (format 2003-10-20)</dcq:modified>
+				<dcq:modified>2021-05-14</dcq:modified>
 			</dc:date>
 			<xsd:documentation>
 			Modification information
-			Version	Name				Modification
-			1.1			Put name here	Put modification text here
+			Version		Name				Modification
+			2.4			Karl Rajangam		Annotation updated/added for ExplanatoryNotes
+			2.0			Colin Mackenzie		Numbering restarted at 2 for new EU and merged schema
 			1.0			Paul Appleby		Created
 			</xsd:documentation>
 		</xsd:appinfo>
 	</xsd:annotation>
 	<xsd:element name="ExplanatoryNotes">
 		<xsd:annotation>
-			<xsd:documentation>Explanatory Notes to legislation</xsd:documentation>
+			<xsd:documentation>Explanatory Notes contains explanatory notes for secondary legislation. The explanatory notes for primary legislation do not use this element</xsd:documentation>
 		</xsd:annotation>
 		<xsd:complexType>
 			<xsd:sequence>
@@ -39,13 +42,13 @@
 				</xsd:choice>
 			</xsd:sequence>
 			<xsd:attributeGroup ref="CommonAttributes"/>
-			<xsd:attribute name="DocumentURI" type="xsd:anyURI"/>
-			<xsd:attribute name="IdURI" type="xsd:anyURI"/>
+			<xsd:attributeGroup ref="FragmentAttributes"/>
+			<xsd:attributeGroup ref="OptionalURIs"/>
 		</xsd:complexType>
 	</xsd:element>
 	<xsd:element name="EarlierOrders">
 		<xsd:annotation>
-			<xsd:documentation>Earlier Orders to legislation</xsd:documentation>
+			<xsd:documentation>Earlier Orders to legislation providing a list of commencement orders that apply to the document.</xsd:documentation>
 		</xsd:annotation>
 		<xsd:complexType>
 			<xsd:sequence>
@@ -57,7 +60,9 @@
 					<xsd:element ref="P1group"/>
 				</xsd:choice>
 			</xsd:sequence>
+			<xsd:attributeGroup ref="FragmentAttributes"/>
 			<xsd:attributeGroup ref="CommonAttributes"/>
+			<xsd:attributeGroup ref="OptionalURIs"/>
 		</xsd:complexType>
 	</xsd:element>
 	<xsd:element name="Comment">
@@ -69,6 +74,7 @@
 				<xsd:element ref="Para" maxOccurs="unbounded"/>
 			</xsd:sequence>
 			<xsd:attributeGroup ref="CommonAttributes"/>
+			<xsd:attributeGroup ref="OptionalURIs"/>
 		</xsd:complexType>
 	</xsd:element>
 </xsd:schema>

@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsd:schema xmlns="http://www.legislation.gov.uk/namespaces/legislation" targetNamespace="http://www.legislation.gov.uk/namespaces/legislation" xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.1" id="SchemaNote">
+<xsd:schema xmlns="http://www.legislation.gov.uk/namespaces/legislation" targetNamespace="http://www.legislation.gov.uk/namespaces/legislation" 
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified" 
+	xmlns:h="http://www.w3.org/1999/xhtml"
+	version="2.0" id="SchemaNote">
 	<xsd:annotation>
 		<xsd:appinfo xmlns:dcq="http://purl.org/dc/terms/" 
 			xmlns:dc="http://purl.org/dc/elements/1.1/">
@@ -10,25 +13,28 @@
 			<dc:identifier>SchemaNote</dc:identifier>
 			<dc:language>en</dc:language>
 			<dc:publisher>The Stationery Office</dc:publisher>
-			<dc:rights>Crown Copyright 2008</dc:rights>
+			<dc:rights>Crown copyright 2012</dc:rights>
 			<dc:date>
 				<dcq:created>2008-07-09</dcq:created>
 			</dc:date>
 			<dc:date>
-				<dcq:modified>2008-07-09</dcq:modified>
+				<dcq:modified>2018-11-20</dcq:modified>
 			</dc:date>
 			<xsd:documentation>
 			Modification information
 			Version	Name					Modification
-			1.0			Jeni Tennison	Created
+			2.0		Colin Mackenzie			Numbering restarted at 2 for new EU and merged schema
+			1.0		Jeni Tennison			Created
 			</xsd:documentation>
 		</xsd:appinfo>
 	</xsd:annotation>
 	
 	<xsd:element name="Note">
 		<xsd:annotation>
-			<xsd:documentation>Describes a note inline within text. This will generally make text smaller</xsd:documentation>
-			<xsd:documentation>The content model allows all standard inline constructs apart from Note which should not be nested</xsd:documentation>
+			<xsd:documentation>
+				<h:p>Describes a note inline within text. This will generally make text smaller</h:p>
+				<h:p>The content model allows all standard inline constructs apart from Note which should not be nested</h:p>
+			</xsd:documentation>
 		</xsd:annotation>
 		<xsd:complexType mixed="true">
 			<xsd:choice minOccurs="0" maxOccurs="unbounded">

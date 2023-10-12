@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsd:schema xmlns="http://www.legislation.gov.uk/namespaces/legislation" targetNamespace="http://www.legislation.gov.uk/namespaces/legislation" xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.1" id="SchemaFootnote">
+<xsd:schema xmlns="http://www.legislation.gov.uk/namespaces/legislation" targetNamespace="http://www.legislation.gov.uk/namespaces/legislation" xmlns:h="http://www.w3.org/1999/xhtml" xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified" version="2.0" id="SchemaFootnote">
 
 	<xsd:annotation>
 		<xsd:appinfo xmlns:dcq="http://purl.org/dc/terms/" xmlns:dc="http://purl.org/dc/elements/1.1/">
@@ -10,25 +10,26 @@
 			<dc:identifier>SchemaFootnote</dc:identifier>
 			<dc:language>en</dc:language>
 			<dc:publisher>The Stationery Office</dc:publisher>
-			<dc:rights>Crown Copyright 2005</dc:rights>
+			<dc:rights>Crown copyright 2018</dc:rights>
 			<dc:date>
 				<dcq:created>2003-10-20</dcq:created>
 			</dc:date>
 			<dc:date>
-				<dcq:modified>2005-10-04</dcq:modified>
+				<dcq:modified>2018-11-20</dcq:modified>
 			</dc:date>
 			<xsd:documentation>
 			Modification information
 			Version	Name				Modification
-			1.1			Paul Appleby	Tightened up Number definition
-			1.0			Paul Appleby	Created
+			2.0		Colin Mackenzie		Numbering restarted at 2 for new EU and merged schema
+			1.1		Paul Appleby		Tightened up Number definition
+			1.0		Paul Appleby		Created
 			</xsd:documentation>
 		</xsd:appinfo>
 	</xsd:annotation>
-	
+
 	<xsd:element name="Footnotes">
 		<xsd:annotation>
-			<xsd:documentation>This is the top level wrapper for footnotes</xsd:documentation>
+			<xsd:documentation>The top level wrapper for footnotes (used in secondary legislation and some primary legislation).</xsd:documentation>
 		</xsd:annotation>
 		<xsd:complexType>
 			<xsd:sequence>
@@ -37,10 +38,16 @@
 			<xsd:attributeGroup ref="CommonAttributes"/>
 		</xsd:complexType>
 	</xsd:element>
-	
+
 	<xsd:element name="Footnote">
 		<xsd:annotation>
-			<xsd:documentation>Describes a footnote - a general container for block level elements</xsd:documentation>
+			<xsd:documentation>
+				<h:p>Describes an individual footnote.</h:p>
+				<h:p>Footnotes generally do not have numbers associated with them. These should be auto-generated. However, if it is important to retain the footnote number (for whatever reason) then the <code>&lt;Number&gt;</code> element can be used to override automatic footnote numbering. The value of the element should be the text required as the number. Any footnotes following on from those with overridden numbers should continue the sequence from before the overridden value, e.g. footnotes may be numbered, 1, 2, 2A, 3, 4 …</h:p>
+				<h:p>It is recommended not to override footnote numbers because a rendering application must generate suitable numbers automatically, and overriding them may cause formatting issues. For example, if a document reuses the same footnote number in multiple places (like in a printed UK SI, where numbering restarts on each page), a page may show multiple footnotes with the same number or non-sequential numbering if it is rendered with different page boundaries to those expected by the drafter (for example, if the document was displayed on a web page).</h:p>
+				<h:p>A limitation of not storing footnote numbers is that it complicates referencing a footnote from another document. We recommend overriding the footnote number only if it is necessary to ensure a cross-reference from another document is correct.</h:p>
+				<h:p>Footnote numbers may also be necessary in footnotes to images, as it is not possible to put a footnote cross-reference in an image. This means that a rendering application would not be able to reliably calculate a suitable number and so the footnote itself must specify one.</h:p>
+			</xsd:documentation>
 		</xsd:annotation>
 		<xsd:complexType>
 			<xsd:sequence>
@@ -68,16 +75,19 @@
 			</xsd:attribute>
 		</xsd:complexType>
 	</xsd:element>
-	
+
 	<xsd:element name="FootnoteRef">
 		<xsd:annotation>
-			<xsd:documentation>Describes a link to a footnote</xsd:documentation>
-			<xsd:documentation>The Ref attribute should point to an ID attribute on a footnote</xsd:documentation>
+			<xsd:documentation>Describes a reference (link) to a footnote</xsd:documentation>
 		</xsd:annotation>
 		<xsd:complexType>
-			<xsd:attribute name="Ref" type="xsd:string" use="required"/>
+			<xsd:attribute name="Ref" type="xsd:string" use="required">
+				<xsd:annotation>
+					<xsd:documentation>The Ref attribute should point to an ID attribute on a footnote</xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
 			<xsd:attributeGroup ref="CommonAttributes"/>
 		</xsd:complexType>
 	</xsd:element>
-	
+
 </xsd:schema>

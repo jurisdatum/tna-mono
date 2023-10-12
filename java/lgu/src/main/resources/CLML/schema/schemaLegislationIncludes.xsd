@@ -2,7 +2,7 @@
 <xsd:schema targetNamespace="http://www.legislation.gov.uk/namespaces/legislation"
 	xmlns="http://www.legislation.gov.uk/namespaces/legislation"
 	xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified"
-	attributeFormDefault="unqualified" version="1.1" id="schemaLegislationIncludes">
+	attributeFormDefault="unqualified" version="2.0" id="schemaLegislationIncludes">
 
 	<xsd:annotation>
 		<xsd:appinfo xmlns:dcq="http://purl.org/dc/terms/" xmlns:dc="http://purl.org/dc/elements/1.1/">
@@ -13,19 +13,21 @@
 			<dc:identifier>schemaLegislationIncludes</dc:identifier>
 			<dc:language>en</dc:language>
 			<dc:publisher>The Stationery Office</dc:publisher>
-			<dc:rights>Crown copyright 2012</dc:rights>
+			<dc:rights>Crown copyright 2018</dc:rights>
 			<dc:date>
 				<dcq:created>2003-10-20</dcq:created>
 			</dc:date>
 			<dc:date>
-				<dcq:modified></dcq:modified>
+				<dcq:modified>2018-11-20</dcq:modified>
 			</dc:date>
 			<xsd:documentation>
 			Modification information
 			Version	Name					Modification
-			2.0			Jim Mangiafico		Expanded to accommodate European Union legislation
-			1.1			Paul Appleby		Added acronyms and abbreviations
-			1.0			Paul Appleby		Created
+			2.0		Colin Mackenzie		Numbering restarted at 2 for new EU and merged schema
+			1.3		Jim Mangiafico			Expanded to accommodate European Union legislation
+			1.2		Colin Mackenzie		Restructure to be usable by editorial and legislation
+			1.1		Paul Appleby			Added acronyms and abbreviations
+			1.0		Paul Appleby			Created
 			</xsd:documentation>
 		</xsd:appinfo>
 	</xsd:annotation>
@@ -38,17 +40,14 @@
 	<xsd:include schemaLocation="schemaLegislationCommonAttributes.xsd"/>
 	<!-- Standard legislation attributes applicable to all elements -->
 	<xsd:include schemaLocation="schemaLegislationAttributes.xsd"/>
-	<!-- Legislation main elements -->
-	<xsd:include schemaLocation="schemaLegislationMain.xsd"/>
 	<!-- Legislation main elements for EU documents -->
 	<xsd:include schemaLocation="schemaLegislationMainEU.xsd"/>
-	<!-- Very generic elements -->
 	<xsd:include schemaLocation="../schemaModules/schemaCommonElements.xsd"/>
 	<!-- High-level structure constructs -->
 	<xsd:include schemaLocation="schemaLegislationStructure.xsd"/>
 	<!-- High-level structure for EU documents -->
 	<xsd:include schemaLocation="schemaLegislationStructureEU.xsd"/>
-	<!-- Medium level struture constructs -->
+	<!-- Medium level structure constructs -->
 	<xsd:include schemaLocation="schemaLegislationNumberedSections.xsd"/>
 	<!-- Standard inline elements -->
 	<xsd:include schemaLocation="../schemaModules/schemaBasicInline.xsd"/>
@@ -56,12 +55,8 @@
 	<xsd:include schemaLocation="schemaLegislationSemantics.xsd"/>
 	<!-- Standard text emphasis elements -->
 	<xsd:include schemaLocation="../schemaModules/schemaEmphasis.xsd"/>
-	<!-- Changes -->
+	<!-- Changes milestones -->
 	<xsd:include schemaLocation="../schemaModules/schemaChanges.xsd"/>
-	<!-- Notes in inline text -->
-	<xsd:include schemaLocation="../schemaModules/schemaNote.xsd"/>
-	<!-- Strike through text -->
-	<xsd:include schemaLocation="../schemaModules/schemaStrike.xsd"/>
 	<!-- Acronyms and abbreviations -->
 	<xsd:include schemaLocation="../schemaModules/schemaAcronymsAbbreviations.xsd"/>
 	<!-- Formatting -->
@@ -99,8 +94,6 @@
 	<xsd:include schemaLocation="schemaLegislationForm.xsd"/>
 	<!-- Citations -->
 	<xsd:include schemaLocation="../schemaModules/schemaCitations.xsd"/>
-	<!-- Explanatory Notes -->
-	<xsd:include schemaLocation="schemaLegislationExplanatoryNotes.xsd"/>
 	<!-- Legislation Box Group -->
 	<xsd:include schemaLocation="schemaLegislationBoxGroup.xsd"/>
 	<!-- Preliminary matter -->
@@ -111,14 +104,7 @@
 	<xsd:include schemaLocation="schemaLegislationSignature.xsd"/>
 	<!-- Tables -->
 	<xsd:include schemaLocation="../schemaModules/schemaTableTypes.xsd"/>
-
-	<!-- Standard metadata elements -->
-	<xsd:import namespace="http://www.legislation.gov.uk/namespaces/metadata"
-		schemaLocation="schemaLegislationMetadata.xsd"/>
-	<xsd:import namespace="http://www.w3.org/1999/xhtml"
-		schemaLocation="../schemaModules/schemaTable-XHTML.xsd"/>
-	<xsd:import namespace="http://www.w3.org/1999/XSL/Format"
-		schemaLocation="../schemaModules/schemaTableAttributes-FO.xsd"/>
-	<xsd:import namespace="http://www.tso.co.uk/assets/namespace/error"
-		schemaLocation="../schemaModules/errors.xsd"/>
+	<!-- Struck through text -->
+	<xsd:include schemaLocation="../schemaModules/schemaStrike.xsd"/>
+	<xsd:include schemaLocation="../schemaModules/schemaNote.xsd"/>
 </xsd:schema>

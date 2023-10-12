@@ -2,7 +2,7 @@
 <xsd:schema targetNamespace="http://www.legislation.gov.uk/namespaces/legislation"
 	xmlns="http://www.legislation.gov.uk/namespaces/legislation"
 	xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified"
-	attributeFormDefault="unqualified" version="1.2" id="SchemaLegislationContents">
+	attributeFormDefault="unqualified" version="2.0" id="SchemaLegislationContents">
 
 	<xsd:annotation>
 		<xsd:appinfo xmlns:dcq="http://purl.org/dc/terms/" xmlns:dc="http://purl.org/dc/elements/1.1/">
@@ -13,59 +13,26 @@
 			<dc:identifier>SchemaLegislationContents</dc:identifier>
 			<dc:language>en</dc:language>
 			<dc:publisher>The Stationery Office</dc:publisher>
-			<dc:rights>Crown Copyright 2010</dc:rights>
+			<dc:rights>Crown copyright 2018</dc:rights>
 			<dc:date>
 				<dcq:created>2010-01-26</dcq:created>
 			</dc:date>
 			<dc:date>
-				<dcq:modified>2010-01-26</dcq:modified>
+				<dcq:modified>2018-11-20</dcq:modified>
 			</dc:date>
 			<xsd:documentation>
 			Modification information
 			Version		Name					Modification
-			1.0				Jeni Tennison	Created
+			2.0			Colin Mackenzie					Numbering restarted at 2 for new EU and merged schema
+			1.1			Colin Mackenzie		Removed duplicate definitions for content in schemaLegislationContents.xsd
+			1.0			Jeni Tennison	Created
 			</xsd:documentation>
 		</xsd:appinfo>
 	</xsd:annotation>
-
-	<xsd:element name="Contents">
+	
+	<xsd:element name="ContentsENDivision">
 		<xsd:annotation>
-			<xsd:documentation>The contents for the explanatory note or memorandum</xsd:documentation>
-		</xsd:annotation>
-		<xsd:complexType>
-			<xsd:sequence>
-				<xsd:element ref="ContentsTitle" minOccurs="0"/>
-				<xsd:choice maxOccurs="unbounded">
-					<xsd:element ref="ContentsDivision"/>
-				</xsd:choice>
-				<xsd:element ref="ContentsAnnexes" minOccurs="0"/>
-			</xsd:sequence>
-			<xsd:attributeGroup ref="CommonAttributes"/>
-		</xsd:complexType>
-	</xsd:element>
-
-	<xsd:element name="ContentsNumber" type="InlineRestrictedStructure">
-		<xsd:annotation>
-			<xsd:documentation>The number of a heading or an item in the contents</xsd:documentation>
-		</xsd:annotation>
-	</xsd:element>
-
-	<xsd:element name="ContentsTitle">
-		<xsd:annotation>
-			<xsd:documentation>The title of an entry in the contents</xsd:documentation>
-		</xsd:annotation>
-		<xsd:complexType>
-			<xsd:complexContent>
-				<xsd:extension base="InlineFullStructure">
-					<xsd:attribute name="Generated" type="xsd:boolean"/>
-				</xsd:extension>
-			</xsd:complexContent>
-		</xsd:complexType>
-	</xsd:element>
-
-	<xsd:element name="ContentsDivision">
-		<xsd:annotation>
-			<xsd:documentation>A contents entry for a division. This should correspond to a Division in the body of the document</xsd:documentation>
+			<xsd:documentation>A contents entry for a division. This should correspond to a Division in the body of the EN document</xsd:documentation>
 		</xsd:annotation>
 		<xsd:complexType>
 			<xsd:sequence>
@@ -87,7 +54,7 @@
 
 	<xsd:element name="ContentsSubDivision">
 		<xsd:annotation>
-			<xsd:documentation>A contents entry for a sub-division. This should correspond to a Division in the body of the document</xsd:documentation>
+			<xsd:documentation>A contents entry for a sub-division. This should correspond to a Division in the body of the EN document</xsd:documentation>
 		</xsd:annotation>
 		<xsd:complexType>
 			<xsd:sequence>
@@ -109,7 +76,7 @@
 
 	<xsd:element name="ContentsSubSubDivision">
 		<xsd:annotation>
-			<xsd:documentation>A contents entry for a sub-sub-division. This should correspond to a Division in the body of the document</xsd:documentation>
+			<xsd:documentation>A contents entry for a sub-sub-division. This should correspond to a Division in the body of the EN document</xsd:documentation>
 		</xsd:annotation>
 		<xsd:complexType>
 			<xsd:sequence>
@@ -131,7 +98,7 @@
 
 	<xsd:element name="ContentsSubSubSubDivision">
 		<xsd:annotation>
-			<xsd:documentation>A contents entry for a sub-sub-sub-division. This should correspond to a Division in the body of the document</xsd:documentation>
+			<xsd:documentation>A contents entry for a sub-sub-sub-division. This should correspond to a Division in the body of the EN document</xsd:documentation>
 		</xsd:annotation>
 		<xsd:complexType>
 			<xsd:sequence>
@@ -152,7 +119,7 @@
 
 	<xsd:element name="ContentsCommentaryGroup">
 		<xsd:annotation>
-			<xsd:documentation>A contents entry for commentary on a part. This should correspond to a part in the body of the document</xsd:documentation>
+			<xsd:documentation>A contents entry for commentary on a part. This should correspond to a part in the body of the EN document</xsd:documentation>
 		</xsd:annotation>
 		<xsd:complexType>
 			<xsd:sequence>
@@ -173,7 +140,7 @@
 
 	<xsd:element name="ContentsCommentaryPart">
 		<xsd:annotation>
-			<xsd:documentation>A contents entry for commentary on a part. This should correspond to a part in the body of the document</xsd:documentation>
+			<xsd:documentation>A contents entry for commentary on a part. This should correspond to a part in the body of the EN document</xsd:documentation>
 		</xsd:annotation>
 		<xsd:complexType>
 			<xsd:sequence>
@@ -194,7 +161,7 @@
 
 	<xsd:element name="ContentsCommentaryChapter">
 		<xsd:annotation>
-			<xsd:documentation>A contents entry for commentary on a part. This should correspond to a part in the body of the document</xsd:documentation>
+			<xsd:documentation>A contents entry for commentary on a part. This should correspond to a part in the body of the EN document</xsd:documentation>
 		</xsd:annotation>
 		<xsd:complexType>
 			<xsd:sequence>
@@ -215,7 +182,7 @@
 
 	<xsd:element name="ContentsCommentaryP1">
 		<xsd:annotation>
-			<xsd:documentation>A contents entry for commentary on a part. This should correspond to a part in the body of the document</xsd:documentation>
+			<xsd:documentation>A contents entry for commentary on a part. This should correspond to a part in the body of the EN document</xsd:documentation>
 		</xsd:annotation>
 		<xsd:complexType>
 			<xsd:sequence>
@@ -236,7 +203,7 @@
 
 	<xsd:element name="ContentsCommentarySchedule">
 		<xsd:annotation>
-			<xsd:documentation>A contents entry for commentary on a part. This should correspond to a part in the body of the document</xsd:documentation>
+			<xsd:documentation>A contents entry for commentary on a part. This should correspond to a part in the body of the EN document</xsd:documentation>
 		</xsd:annotation>
 		<xsd:complexType>
 			<xsd:sequence>
@@ -257,7 +224,7 @@
 
 	<xsd:element name="ContentsCommentaryDivision">
 		<xsd:annotation>
-			<xsd:documentation>A contents entry for commentary on a part. This should correspond to a part in the body of the document</xsd:documentation>
+			<xsd:documentation>A contents entry for commentary on a part. This should correspond to a part in the body of the EN document</xsd:documentation>
 		</xsd:annotation>
 		<xsd:complexType>
 			<xsd:sequence>
@@ -279,7 +246,7 @@
 
 	<xsd:element name="ContentsCommentarySubDivision">
 		<xsd:annotation>
-			<xsd:documentation>A contents entry for commentary on a part. This should correspond to a part in the body of the document</xsd:documentation>
+			<xsd:documentation>A contents entry for commentary on a part. This should correspond to a part in the body of the EN document</xsd:documentation>
 		</xsd:annotation>
 		<xsd:complexType>
 			<xsd:sequence>
@@ -300,7 +267,7 @@
 
 	<xsd:element name="ContentsAnnexes">
 		<xsd:annotation>
-			<xsd:documentation>A contents entry for the annexes. This should correspond to the schedules of the document</xsd:documentation>
+			<xsd:documentation>A contents entry for the annexes. This should correspond to the schedules of the EN document</xsd:documentation>
 		</xsd:annotation>
 		<xsd:complexType>
 			<xsd:sequence>
@@ -316,13 +283,14 @@
 
 	<xsd:element name="ContentsAnnex">
 		<xsd:annotation>
-			<xsd:documentation>A contents entry for a schedule. This should correspond to a schedule in the schedules of the document</xsd:documentation>
+			<xsd:documentation>A contents entry for a schedule. This should correspond to a schedule in the schedules of the EN document</xsd:documentation>
 		</xsd:annotation>
 		<xsd:complexType>
 			<xsd:sequence>
 				<xsd:element ref="ContentsNumber" minOccurs="0"/>
 				<xsd:element ref="ContentsTitle" minOccurs="0"/>
 				<xsd:choice minOccurs="0" maxOccurs="unbounded">
+				
 					<xsd:element ref="ContentsDivision"/>
 				</xsd:choice>
 			</xsd:sequence>
@@ -331,201 +299,5 @@
 		</xsd:complexType>
 	</xsd:element>
 
-	<xsd:element name="ContentsGroup">
-		<xsd:annotation>
-			<xsd:documentation>A contents entry for a group (generally of parts). This should correspond to a group in the body of the document</xsd:documentation>
-		</xsd:annotation>
-		<xsd:complexType>
-			<xsd:sequence>
-				<xsd:element ref="ContentsNumber" minOccurs="0"/>
-				<xsd:element ref="ContentsTitle" minOccurs="0" maxOccurs="unbounded"/>
-				<xsd:choice minOccurs="0" maxOccurs="unbounded">
-					<xsd:element ref="ContentsPart"/>
-					<xsd:element ref="ContentsChapter"/>
-					<xsd:element ref="ContentsPblock"/>
-					<xsd:element ref="ContentsItem"/>
-				</xsd:choice>
-			</xsd:sequence>
-			<xsd:attributeGroup ref="CommonAttributes"/>
-			<xsd:attributeGroup ref="ContentsAttributes"/>
-		</xsd:complexType>
-	</xsd:element>
-
-	<xsd:element name="ContentsPart">
-		<xsd:annotation>
-			<xsd:documentation>A contents entry for a part. This should correspond to a part in the body of the document</xsd:documentation>
-		</xsd:annotation>
-		<xsd:complexType>
-			<xsd:sequence>
-				<xsd:element ref="ContentsNumber" minOccurs="0"/>
-				<xsd:element ref="ContentsTitle" minOccurs="0" maxOccurs="unbounded"/>
-				<xsd:choice minOccurs="0" maxOccurs="unbounded">
-					<xsd:element ref="ContentsChapter"/>
-					<xsd:element ref="ContentsPblock"/>
-					<xsd:element ref="ContentsItem"/>
-				</xsd:choice>
-			</xsd:sequence>
-			<xsd:attributeGroup ref="CommonAttributes"/>
-			<xsd:attributeGroup ref="ContentsAttributes"/>
-		</xsd:complexType>
-	</xsd:element>
-
-	<xsd:element name="ContentsChapter">
-		<xsd:annotation>
-			<xsd:documentation>A contents entry for a chapter. This should correspond to a chapter in the body of the document</xsd:documentation>
-		</xsd:annotation>
-		<xsd:complexType>
-			<xsd:sequence>
-				<xsd:element ref="ContentsNumber" minOccurs="0"/>
-				<xsd:element ref="ContentsTitle" minOccurs="0" maxOccurs="unbounded"/>
-				<xsd:choice minOccurs="0" maxOccurs="unbounded">
-					<xsd:element ref="ContentsPblock"/>
-					<xsd:element ref="ContentsItem"/>
-				</xsd:choice>
-			</xsd:sequence>
-			<xsd:attributeGroup ref="CommonAttributes"/>
-			<xsd:attributeGroup ref="ContentsAttributes"/>
-		</xsd:complexType>
-	</xsd:element>
-
-	<xsd:element name="ContentsPblock">
-		<xsd:annotation>
-			<xsd:documentation>A contents entry for a pBlock. This should correspond to a pBlock in the body of the document</xsd:documentation>
-		</xsd:annotation>
-		<xsd:complexType>
-			<xsd:sequence>
-				<xsd:element ref="ContentsNumber" minOccurs="0"/>
-				<xsd:element ref="ContentsTitle" minOccurs="0" maxOccurs="unbounded"/>
-				<xsd:choice minOccurs="0" maxOccurs="unbounded">
-					<xsd:element ref="ContentsPsubBlock"/>
-					<xsd:element ref="ContentsItem"/>
-				</xsd:choice>
-			</xsd:sequence>
-			<xsd:attributeGroup ref="CommonAttributes"/>
-			<xsd:attributeGroup ref="ContentsAttributes"/>
-		</xsd:complexType>
-	</xsd:element>
-
-	<xsd:element name="ContentsPsubBlock">
-		<xsd:annotation>
-			<xsd:documentation>A contents entry for a pSubBlock. This should correspond to a pSubBlock in the body of the document</xsd:documentation>
-		</xsd:annotation>
-		<xsd:complexType>
-			<xsd:sequence>
-				<xsd:element ref="ContentsNumber" minOccurs="0"/>
-				<xsd:element ref="ContentsTitle"/>
-				<xsd:choice minOccurs="0" maxOccurs="unbounded">
-					<xsd:element ref="ContentsItem"/>
-				</xsd:choice>
-			</xsd:sequence>
-			<xsd:attributeGroup ref="CommonAttributes"/>
-			<xsd:attributeGroup ref="ContentsAttributes"/>
-		</xsd:complexType>
-	</xsd:element>
-
-	<xsd:element name="ContentsItem">
-		<xsd:annotation>
-			<xsd:documentation>An entry in the contents. This should correspond to a p1group in the document</xsd:documentation>
-		</xsd:annotation>
-		<xsd:complexType>
-			<xsd:sequence>
-				<xsd:element ref="ContentsNumber"/>
-				<xsd:element ref="ContentsTitle"/>
-				<xsd:choice minOccurs="0" maxOccurs="unbounded">
-					<xsd:element ref="ContentsSubItem"/>
-				</xsd:choice>
-			</xsd:sequence>
-			<xsd:attributeGroup ref="CommonAttributes"/>
-			<xsd:attributeGroup ref="ContentsAttributes"/>
-		</xsd:complexType>
-	</xsd:element>
-
-	<xsd:element name="ContentsSubItem">
-		<xsd:annotation>
-			<xsd:documentation>A contents entry for a subsection of the docunment. This should correspond to a p2 or lower in the document</xsd:documentation>
-		</xsd:annotation>
-		<xsd:complexType>
-			<xsd:sequence>
-				<xsd:element ref="ContentsNumber" minOccurs="0"/>
-				<xsd:element ref="ContentsTitle"/>
-				<xsd:choice minOccurs="0" maxOccurs="unbounded">
-					<xsd:element ref="ContentsSubItem"/>
-				</xsd:choice>
-			</xsd:sequence>
-			<xsd:attributeGroup ref="CommonAttributes"/>
-			<xsd:attributeGroup ref="ContentsAttributes"/>
-		</xsd:complexType>
-	</xsd:element>
-
-	<xsd:element name="ContentsSchedules">
-		<xsd:annotation>
-			<xsd:documentation>A contents entry for the schedules. This should correspond to the schedules of the document</xsd:documentation>
-		</xsd:annotation>
-		<xsd:complexType>
-			<xsd:sequence>
-				<xsd:element ref="ContentsTitle" minOccurs="0"/>
-				<xsd:sequence>
-					<xsd:element ref="ContentsSchedule" maxOccurs="unbounded"/>
-					<xsd:element ref="ContentsAppendix" minOccurs="0" maxOccurs="unbounded"/>
-				</xsd:sequence>
-			</xsd:sequence>
-			<xsd:attributeGroup ref="CommonAttributes"/>
-			<xsd:attributeGroup ref="ContentsAttributes"/>
-		</xsd:complexType>
-	</xsd:element>
-
-	<xsd:element name="ContentsSchedule">
-		<xsd:annotation>
-			<xsd:documentation>A contents entry for a schedule. This should correspond to a schedule in the schedules of the document</xsd:documentation>
-		</xsd:annotation>
-		<xsd:complexType>
-			<xsd:sequence>
-				<xsd:element ref="ContentsNumber" minOccurs="0"/>
-				<xsd:element ref="ContentsTitle" minOccurs="0"/>
-				<xsd:choice minOccurs="0" maxOccurs="unbounded">
-					<xsd:element ref="ContentsGroup"/>
-					<xsd:element ref="ContentsPart"/>
-					<xsd:element ref="ContentsChapter"/>
-					<xsd:element ref="ContentsPblock"/>
-					<xsd:element ref="ContentsItem"/>
-				</xsd:choice>
-				<xsd:element ref="ContentsAppendix" minOccurs="0" maxOccurs="unbounded"/>
-			</xsd:sequence>
-			<xsd:attributeGroup ref="CommonAttributes"/>
-			<xsd:attributeGroup ref="ContentsAttributes"/>
-		</xsd:complexType>
-	</xsd:element>
-
-	<xsd:element name="ContentsAppendix">
-		<xsd:annotation>
-			<xsd:documentation>A contents entry for an appendix. This should correspond to an appendix in the document</xsd:documentation>
-		</xsd:annotation>
-		<xsd:complexType>
-			<xsd:sequence>
-				<xsd:element ref="ContentsNumber" minOccurs="0"/>
-				<xsd:element ref="ContentsTitle" minOccurs="0"/>
-				<xsd:choice minOccurs="0">
-					<xsd:element ref="ContentsGroup" maxOccurs="unbounded"/>
-					<xsd:element ref="ContentsPart" maxOccurs="unbounded"/>
-					<xsd:element ref="ContentsChapter" maxOccurs="unbounded"/>
-					<xsd:element ref="ContentsPblock" maxOccurs="unbounded"/>
-					<xsd:element ref="ContentsItem" maxOccurs="unbounded"/>
-				</xsd:choice>
-			</xsd:sequence>
-			<xsd:attributeGroup ref="CommonAttributes"/>
-			<xsd:attributeGroup ref="ContentsAttributes"/>
-		</xsd:complexType>
-	</xsd:element>
-
-	<xsd:attributeGroup name="ContentsAttributes">
-		<xsd:attribute name="ContentRef" type="xsd:NCName">
-			<xsd:annotation>
-				<xsd:documentation>Hyperlinks from contents should be autogenerated for contents. However, for legacy data there are some entries that can not be automatically linked. This attribute provides a cross-reference function that would override any autogenerated link</xsd:documentation>
-			</xsd:annotation>
-		</xsd:attribute>
-		<xsd:attribute name="DocumentURI" type="xsd:anyURI"/>
-		<xsd:attribute name="IdURI" type="xsd:anyURI"/>
-		<xsd:attributeGroup ref="FragmentAttributes"/>
-	</xsd:attributeGroup>
 
 </xsd:schema>

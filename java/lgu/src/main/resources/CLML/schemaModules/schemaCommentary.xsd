@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsd:schema xmlns="http://www.legislation.gov.uk/namespaces/legislation" targetNamespace="http://www.legislation.gov.uk/namespaces/legislation" xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.1" id="SchemaCommentary">
+<xsd:schema xmlns="http://www.legislation.gov.uk/namespaces/legislation" targetNamespace="http://www.legislation.gov.uk/namespaces/legislation"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified"
+	version="2.4" id="SchemaCommentary">
+	
 	<xsd:annotation>
 		<xsd:appinfo xmlns:dcq="http://purl.org/dc/terms/" xmlns:dc="http://purl.org/dc/elements/1.1/">
 			<dc:title>Commentary Schema</dc:title>
@@ -9,17 +12,19 @@
 			<dc:identifier>SchemaFootnote</dc:identifier>
 			<dc:language>en</dc:language>
 			<dc:publisher>The Stationery Office</dc:publisher>
-			<dc:rights>Crown Copyright 2009</dc:rights>
+			<dc:rights>Crown copyright 2018</dc:rights>
 			<dc:date>
 				<dcq:created>2009-07-07</dcq:created>
 			</dc:date>
 			<dc:date>
-				<dcq:modified>2009-07-07</dcq:modified>
+				<dcq:modified>2021-05-25</dcq:modified>
 			</dc:date>
 			<xsd:documentation>
 			Modification information
-			Version	Name					Modification
-			1.0			Jeni Tennison	Created
+			Version		Name					Modification
+			2.4			Karl Rajangam			Annotation updated for Commentary and its attribute Type, added for CommentarySource
+			2.0			Colin Mackenzie			Numbering restarted at 2 for new EU and merged schema
+			1.0			Jeni Tennison			Created
 			</xsd:documentation>
 		</xsd:appinfo>
 	</xsd:annotation>
@@ -38,7 +43,7 @@
 
 	<xsd:element name="Commentary">
 		<xsd:annotation>
-			<xsd:documentation>Holds commentary on the legislation.</xsd:documentation>
+			<xsd:documentation>Commentaries are used in revised legislation to give authority for amendments or other effects and also to provide certain types of editorial information</xsd:documentation>
 		</xsd:annotation>
 		<xsd:complexType mixed="true">
 			<xsd:group maxOccurs="unbounded" minOccurs="0" ref="ParaRestricted"/>
@@ -46,7 +51,7 @@
 			<xsd:attribute name="id" use="required" type="CommentaryId" />
 			<xsd:attribute name="Type" use="required" type="CommentaryType">
 				<xsd:annotation>
-					<xsd:documentation>Indicates the role of the commentary.</xsd:documentation>
+					<xsd:documentation>Indicates the role of the commentary. There are seven annotation types currently in use and each type is used to denote different things like whole provisions, repeals etc.</xsd:documentation>
 				</xsd:annotation>
 			</xsd:attribute>
 			<xsd:attribute name="Source" type="CommentarySource" />
@@ -58,50 +63,51 @@
 			<xsd:documentation>A unique identifier in the format c000000</xsd:documentation>
 		</xsd:annotation>
 		<xsd:restriction base="xsd:NCName"/>
-		
 	</xsd:simpleType>
-
-				<xsd:simpleType name="CommentaryType">
-					<xsd:restriction base="xsd:string">
-						<xsd:enumeration value="X">
-							<xsd:annotation>
-								<xsd:documentation>The X-note annotation type is used sparingly to alert users to anything they may need to be aware of in using the text.</xsd:documentation>
-							</xsd:annotation>
-						</xsd:enumeration>
-						<xsd:enumeration value="F">
-							<xsd:annotation>
-								<xsd:documentation>‘F’ stands for ‘Footnotes’. This annotation type is used for amendments, including repeals, where there is authority to change the text.</xsd:documentation>
-							</xsd:annotation>
-						</xsd:enumeration>
-						<xsd:enumeration value="I">
-							<xsd:annotation>
-								<xsd:documentation>‘I’ stands for ‘In-force’. This annotation type contains information about the coming into force of a provision and will typically state whether it is partly or wholly in force, give the date or dates of commencement and cite relevant provisions of the Act and any commencing instruments.</xsd:documentation>
-							</xsd:annotation>
-						</xsd:enumeration>
-						<xsd:enumeration value="C">
-							<xsd:annotation>
-								<xsd:documentation>‘C’ stands for ‘Cross-notes’, so called because of the way in which they were presented in the hard copy predecessors to SLD. This annotation type is used to denote the effect when the meaning, scope or application of an Act or provision etc. is changed in some way, but without there being any authority to alter the text.</xsd:documentation>
-							</xsd:annotation>
-						</xsd:enumeration>
-						<xsd:enumeration value="M">
-							<xsd:annotation>
-								<xsd:documentation>This annotation type is so called because it used to appear in the margin of the Queen’s Printer’s copy of primary legislation. M-notes recite the year and number of an Act or instrument mentioned in the text.</xsd:documentation>
-							</xsd:annotation>
-						</xsd:enumeration>
-						<xsd:enumeration value="E">
-							<xsd:annotation>
-								<xsd:documentation>This annotation type contains information about the geographic extent of the Act or relevant part of it.</xsd:documentation>
-							</xsd:annotation>
-						</xsd:enumeration>
-						<xsd:enumeration value="P">
-							<xsd:annotation>
-								<xsd:documentation>‘P’ stands for ‘Power exercised’. Where a provision of primary legislation confers power to make subordinate legislation and that power is exercised (i.e. an instrument is made in pursuance of it), that exercise may be recorded in a P-note. The annotation will cite any instruments made under that power.</xsd:documentation>
-							</xsd:annotation>
-						</xsd:enumeration>
-					</xsd:restriction>
-				</xsd:simpleType>
-
+	<xsd:simpleType name="CommentaryType">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="X">
+				<xsd:annotation>
+					<xsd:documentation>The X-note annotation type is used sparingly to alert users to anything they may need to be aware of in using the text.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="F">
+				<xsd:annotation>
+					<xsd:documentation>‘F’ stands for ‘Footnotes’. This annotation type is used for amendments, including repeals, where there is authority to change the text.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="I">
+				<xsd:annotation>
+					<xsd:documentation>‘I’ stands for ‘In-force’. This annotation type contains information about the coming into force of a provision and will typically state whether it is partly or wholly in force, give the date or dates of commencement and cite relevant provisions of the Act and any commencing instruments.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="C">
+				<xsd:annotation>
+					<xsd:documentation>‘C’ stands for ‘Cross-notes’, so called because of the way in which they were presented in the hard copy predecessors to SLD. This annotation type is used to denote the effect when the meaning, scope or application of an Act or provision etc. is changed in some way, but without there being any authority to alter the text.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="M">
+				<xsd:annotation>
+					<xsd:documentation>This annotation type is so called because it used to appear in the margin of the Queen’s Printer’s copy of primary legislation. M-notes recite the year and number of an Act or instrument mentioned in the text.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="E">
+				<xsd:annotation>
+					<xsd:documentation>This annotation type contains information about the geographic extent of the Act or relevant part of it.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="P">
+				<xsd:annotation>
+					<xsd:documentation>‘P’ stands for ‘Power exercised’. Where a provision of primary legislation confers power to make subordinate legislation and that power is exercised (i.e. an instrument is made in pursuance of it), that exercise may be recorded in a P-note. The annotation will cite any instruments made under that power.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+		</xsd:restriction>
+	</xsd:simpleType>
+	
 	<xsd:simpleType name="CommentarySource">
+		<xsd:annotation>
+			<xsd:documentation>Defines the source of the commentary, where the commentary came from a source other than the legislation.gov.uk editorial team. This is currently used only in EU documents and so is restricted to having 'EU' as the value, if present</xsd:documentation>
+		</xsd:annotation>
 		<xsd:restriction base="xsd:string">
 			<xsd:enumeration value="EU">
 				<xsd:annotation>
@@ -113,8 +119,7 @@
 
 	<xsd:element name="CommentaryRef">
 		<xsd:annotation>
-			<xsd:documentation>Provides a link to a commentary.</xsd:documentation>
-			<xsd:documentation>The Ref attribute should point to an ID attribute on a commentary.</xsd:documentation>
+			<xsd:documentation>Provides a link to a commentary. The Ref attribute should point to an ID attribute on a commentary.</xsd:documentation>
 		</xsd:annotation>
 		<xsd:complexType>
 			<xsd:attribute name="Ref" type="CommentaryId" use="required"/>

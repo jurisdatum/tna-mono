@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsd:schema xmlns="http://www.legislation.gov.uk/namespaces/legislation" targetNamespace="http://www.legislation.gov.uk/namespaces/legislation" xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.1" id="SchemaIncludedDocument">
+<xsd:schema xmlns="http://www.legislation.gov.uk/namespaces/legislation" targetNamespace="http://www.legislation.gov.uk/namespaces/legislation"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified" xmlns:h="http://www.w3.org/1999/xhtml"
+	version="2.0" id="SchemaIncludedDocument">
+	
 	<xsd:annotation>
 		<xsd:appinfo xmlns:dcq="http://purl.org/dc/terms/" xmlns:dc="http://purl.org/dc/elements/1.1/">
 			<dc:title>Included Documents Schema</dc:title>
@@ -9,25 +12,29 @@
 			<dc:identifier>SchemaIncludedDocument</dc:identifier>
 			<dc:language>en</dc:language>
 			<dc:publisher>The Stationery Office</dc:publisher>
-			<dc:rights>Crown Copyright 2005</dc:rights>
+			<dc:rights>Crown copyright 2018</dc:rights>
 			<dc:date>
 				<dcq:created>2003-10-20</dcq:created>
 			</dc:date>
 			<dc:date>
-				<dcq:modified>2005-09-04</dcq:modified>
+				<dcq:modified>2018-11-20</dcq:modified>
 			</dc:date>
 			<xsd:documentation>
 			Modification information
 			Version		Name					Modification
-			1.1			Paul Appleby		Altered ResourceRef attriubte on Image to be xsd:string (so as to work in fragment mode)
-			1.0			Paul Appleby		Created
+			2.0			Colin Mackenzie			Numbering restarted at 2 for new EU and merged schema
+			1.1			Paul Appleby			Altered ResourceRef attriubte on Image to be xsd:string (so as to work in fragment mode)
+			1.0			Paul Appleby			Created
 			</xsd:documentation>
 		</xsd:appinfo>
 	</xsd:annotation>
 	<xsd:element name="IncludedDocument">
 		<xsd:annotation>
-			<xsd:documentation>Included documents are documents not coded to the main schema. They are referenced via the Resources section</xsd:documentation>
-			<xsd:documentation>Inline content gives the opportunity to provide some explanatory text as to the content.</xsd:documentation>
+			<xsd:documentation>
+				<h:p>Included documents are documents not coded to the main schema. They are referenced via the Resources section.</h:p>
+				<h:p>Inline content gives the opportunity to provide some explanatory text as to the content.</h:p>
+				<h:p>An included document references a resource and it can, therefore, be anything that can be held in a Resource element. For forms the recommendation would be to use Scalable Vector Graphics (SVG) to mark up.</h:p>
+			</xsd:documentation>
 		</xsd:annotation>
 		<xsd:complexType mixed="true">
 			<xsd:sequence minOccurs="0">

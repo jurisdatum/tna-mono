@@ -2,7 +2,7 @@
 <xsd:schema targetNamespace="http://www.legislation.gov.uk/namespaces/legislation"
 	xmlns="http://www.legislation.gov.uk/namespaces/legislation"
 	xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified"
-	attributeFormDefault="unqualified" version="1.2" id="SchemaCitations">
+	attributeFormDefault="unqualified" version="2.4" id="SchemaCitations">
 
 	<xsd:annotation>
 		<xsd:appinfo xmlns:dcq="http://purl.org/dc/terms/" xmlns:dc="http://purl.org/dc/elements/1.1/">
@@ -13,17 +13,21 @@
 			<dc:identifier>SchemaCitations</dc:identifier>
 			<dc:language>en</dc:language>
 			<dc:publisher>The Stationery Office</dc:publisher>
-			<dc:rights>Crown Copyright 2007</dc:rights>
+			<dc:rights>Crown copyright 2018</dc:rights>
 			<dc:date>
 				<dcq:created>2003-10-20</dcq:created>
 			</dc:date>
 			<dc:date>
-				<dcq:modified>2007-05-17</dcq:modified>
+				<dcq:modified>2021-05-26</dcq:modified>
 			</dc:date>
 			<xsd:documentation>
 			Modification information
 			Version	Name			Modification
-			2.0		Jim Mangiafico	Added citation class for EU Official Journal
+			2.4		Karl Rajangam	Documentation update for elements CitationSubRef, Citation and many of its attributes
+			2.0		Colin Mackenzie	Numbering restarted at 2 for new EU and merged schema
+			1.5		Jim Mangiafico	Added citation class for EU Official Journal
+			1.4		Colin Mackenzie	Removed definition of attribute group for citation id so it can be simpler for XMetaL but tighter for real validation
+			1.3		William Holmes	Added additional Alternative Numbers (Welsh, Scottish, Northern Irish, and Commencement)
 			1.2		Paul Appleby	Changed citation classes to OPSI format
 			1.1		Paul Appleby	Hard-wired the allowble values for Citation Class attribute
 			1.0		Paul Appleby	Created
@@ -31,6 +35,8 @@
 		</xsd:appinfo>
 	</xsd:annotation>
 
+	<xsd:include schemaLocation="../schemaModules/schemaCommon.xsd"/>
+	
 	<xsd:element name="CitationLists">
 		<xsd:annotation>
 			<xsd:documentation>A list of citation lists.</xsd:documentation>
@@ -60,85 +66,150 @@
 	</xsd:element>
 	<xsd:element name="Citation">
 		<xsd:annotation>
-			<xsd:documentation>Describes a cross-reference to another piece of legislation</xsd:documentation>
-			<xsd:documentation>For local secondary cross-references there may not be enough information to indicate that the target is local. In these cases the non-local version is to be synonymous.</xsd:documentation>
-			<xsd:documentation>If the Number is missing, there must be a Date. This should only happen for Church Instruments.</xsd:documentation>
+			<xsd:documentation xmlns:h="http://www.w3.org/1999/xhtml">
+				<h:p>Describes a cross-reference to another piece of legislation</h:p>
+				<h:p>There are two levels of citation – main citations that refer to the actual document and sub-references that link to the main citation (or another sub-reference) and which highlight fragments within the cited document.</h:p>
+				<h:p>For local secondary cross-references there may not be enough information to indicate that the target is local. In these cases the non-local version is to be synonymous.</h:p>
+				<h:p>If the Number is missing, there must be a Date. This should only happen for Church Instruments.</h:p>
+			</xsd:documentation>
 		</xsd:annotation>
 		<xsd:complexType mixed="true">
 			<xsd:choice minOccurs="0" maxOccurs="unbounded">
 				<xsd:group ref="InlineLegislationCitation" minOccurs="0" maxOccurs="unbounded"/>
 			</xsd:choice>
-			<xsd:attribute name="URI" type="xsd:anyURI" use="optional"/>
-			<xsd:attribute name="Class" use="required">
-				<xsd:simpleType>
-					<xsd:restriction base="xsd:string">
-						<xsd:enumeration value="EnglandAct"/>
-						<xsd:enumeration value="GreatBritainAct"/>
-						<xsd:enumeration value="IrelandAct"/>
-						<xsd:enumeration value="NorthernIrelandAct"/>
-						<xsd:enumeration value="NorthernIrelandAssemblyMeasure"/>
-						<xsd:enumeration value="NorthernIrelandParliamentAct"/>
-						<xsd:enumeration value="NorthernIrelandOrderInCouncil"/>
-						<xsd:enumeration value="NorthernIrelandStatutoryRule"/>
-						<xsd:enumeration value="ScottishAct"/>
-						<xsd:enumeration value="ScottishOldAct"/>
-						<xsd:enumeration value="ScottishStatutoryInstrument"/>
-						<xsd:enumeration value="UnitedKingdomChurchMeasure"/>
-						<xsd:enumeration value="UnitedKingdomPrivateAct"/>
-						<xsd:enumeration value="UnitedKingdomPublicGeneralAct"/>
-						<xsd:enumeration value="UnitedKingdomLocalAct"/>
-						<xsd:enumeration value="UnitedKingdomStatutoryInstrument"/>
-						<xsd:enumeration value="WelshAssemblyMeasure"/>
-						<xsd:enumeration value="WelshNationalAssemblyAct"/>
-						<xsd:enumeration value="WelshStatutoryInstrument"/>
-						<xsd:enumeration value="UnitedKingdomChurchInstrument"/>
-						<xsd:enumeration value="EuropeanEconomicCommunity"/>
-						<xsd:enumeration value="EuropeanUnionRegulation"/>
-						<xsd:enumeration value="EuropeanEconomicCommunityRegulation"/>
-						<xsd:enumeration value="EuropeanUnionDirective"/>
-						<xsd:enumeration value="EuropeanEconomicCommunityDirective"/>
-						<xsd:enumeration value="EuropeanUnionDecision"/>
-						<xsd:enumeration value="EuropeanEconomicCommunityDecision"/>
-						<xsd:enumeration value="EuropeanUnionCorrigendum"/>
-						<xsd:enumeration value="EuropeanUnionOfficialJournal"/>
-						<xsd:enumeration value="EuropeanUnionOther"/>
-					</xsd:restriction>
-				</xsd:simpleType>
+			<xsd:attribute name="URI" type="xsd:anyURI" use="optional">
+				<xsd:annotation>
+					<xsd:documentation>The URI of the cited data</xsd:documentation>
+				</xsd:annotation>
 			</xsd:attribute>
-			<xsd:attribute name="Locator" type="xsd:string"/>
-			<xsd:attribute name="DOI" type="xsd:string"/>
-			<xsd:attribute name="Year" type="xsd:gYear" use="required"/>
-			<xsd:attribute name="Number" type="xsd:nonNegativeInteger"/>
-			<xsd:attribute name="Date" type="xsd:date"/>
-			<xsd:attribute name="Title" type="xsd:string"/>
-			<xsd:attribute name="SectionRef" type="xsd:NCName"/>
-			<xsd:attribute name="StartSectionRef" type="xsd:NCName"/>
-			<xsd:attribute name="EndSectionRef" type="xsd:NCName"/>
-			<xsd:attribute name="AlternativeNumber" type="xsd:string" use="optional"/>
-			<xsd:attribute name="CommentaryRef" type="xsd:NCName"/>
-			<xsd:attribute name="StartDate" type="xsd:date"/>
-			<xsd:attribute name="EndDate" type="xsd:date"/>
-			<xsd:attribute default="false" name="Prospective" type="xsd:boolean" use="optional"/>
+			<xsd:attribute name="Class" type="DocumentMainType" use="required">
+				<xsd:annotation>
+					<xsd:documentation>Refers to the class of document being cited, with values like: EnglandAct, UnitedKingdomPublicGeneralAct, ScottishStatutoryInstrument etc.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+			<xsd:attribute name="Locator" type="xsd:string">
+				<xsd:annotation>
+					<xsd:documentation>This provides the URI address for those documents that exist at a known location or by using the other attribute values where the target cannot be calculated. Restraint should be shown in using this attribute.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+			<xsd:attribute name="DOI" type="xsd:string">
+				<xsd:annotation>
+					<xsd:documentation>This refers to the 'Digital Object Identifier' of the target document.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+			<xsd:attribute name="Year" type="xsd:gYear" use="required">
+				<xsd:annotation>
+					<xsd:documentation>The Year is one of the attributes used to identify a target document</xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+			<xsd:attribute name="Number" type="xsd:nonNegativeInteger">
+				<xsd:annotation>
+					<xsd:documentation>The Number is one of the attributes used to identify a target document. And it will always be a non-negative numeric value</xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+			<xsd:attribute name="Date" type="xsd:date">
+				<xsd:annotation>
+					<xsd:documentation>The date of the cited document</xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+			<xsd:attribute name="Title" type="xsd:string">
+				<xsd:annotation>
+					<xsd:documentation>The title of the cited data</xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+			<xsd:attribute name="SectionRef" type="xsd:NCName">
+				<xsd:annotation>
+					<xsd:documentation>The section identifier of the cited data</xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+			<xsd:attribute name="StartSectionRef" type="xsd:NCName">
+				<xsd:annotation>
+					<xsd:documentation>The starting section identifier for a cited data range</xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+			<xsd:attribute name="EndSectionRef" type="xsd:NCName">
+				<xsd:annotation>
+					<xsd:documentation>The ending section identifier for a cited data range</xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+			<xsd:attribute name="AlternativeNumber" type="xsd:string" use="optional">
+				<xsd:annotation>
+					<xsd:documentation>A number for the cited item in an alternative numbering series. For example, an Order that applies to Northern Ireland would have an alternative number of the format 'NI 11'. For early primary legislation (pre-1963), this will usually hold the regnal year e.g. 7 &amp; 8 Eliz. 2</xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+			<xsd:attribute name="WelshNumber" type="xsd:string" use="optional">
+				<xsd:annotation>
+					<xsd:documentation>The Welsh series number for the cited instrument</xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+			<xsd:attribute name="ScottishNumber" type="xsd:string" use="optional">
+				<xsd:annotation>
+					<xsd:documentation>The Scottish series number for the cited instrument</xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+			<xsd:attribute name="NorthernIrishNumber" type="xsd:string" use="optional">
+				<xsd:annotation>
+					<xsd:documentation>The Northern Ireland series number for the cited instrument</xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+			<xsd:attribute name="CommencementNumber" type="xsd:string" use="optional">
+				<xsd:annotation>
+					<xsd:documentation>The Commencement series number for the cited instrument</xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+			<xsd:attribute name="LegalNumber" type="xsd:string" use="optional">
+				<xsd:annotation>
+					<xsd:documentation>The Legal series number for the cited instrument</xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+			<xsd:attribute name="CommentaryRef" type="xsd:NCName">
+				<xsd:annotation>
+					<xsd:documentation>The commentary identifier for the cited commentary</xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+			<xsd:attribute name="StartDate" type="xsd:date">
+				<xsd:annotation>
+					<xsd:documentation>The start date of the cited provision</xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+			<xsd:attribute name="EndDate" type="xsd:date">
+				<xsd:annotation>
+					<xsd:documentation>The end date of the cited provision</xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+			<xsd:attribute default="false" name="Prospective" type="xsd:boolean" use="optional">
+				<xsd:annotation>
+					<xsd:documentation>Boolean value of whether the cited item is prospective</xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
 			<xsd:attributeGroup ref="CommonSubAttributes"/>
 			<xsd:attributeGroup ref="CitationElementIDAttributes"/>
 		</xsd:complexType>
 	</xsd:element>
+	
+	<!-- see PT #156462431 we no longer need different definitions as the old legislation validation did not match data -->
 	<xsd:attributeGroup name="CitationElementIDAttributes">
 		<xsd:attribute name="id">
 			<xsd:annotation>
-				<xsd:documentation>A unique identifier in the format c00000</xsd:documentation>
+				<xsd:documentation>This is a unique identifier for the citation. The format is cxxxxx, where xxxxx is a five digit padded number, e.g: c00010, c01353</xsd:documentation>
 			</xsd:annotation>
 			<xsd:simpleType>
+				<!--
 				<xsd:restriction base="xsd:ID">
-					<xsd:pattern value="c[0-9]{5}"/>
-				</xsd:restriction>
+					<xsd:pattern value="c[0-9a-z-]{5,20}"/>
+				</xsd:restriction>-->
+				<xsd:restriction base="xsd:NCName"/>
 			</xsd:simpleType>
 		</xsd:attribute>
 	</xsd:attributeGroup>
-
+	
 	<xsd:element name="CitationSubRef">
 		<xsd:annotation>
-			<xsd:documentation>Describes a text fragment of a citation referring to a specific part of the cited document</xsd:documentation>
+			<xsd:documentation xmlns:h="http://www.w3.org/1999/xhtml">
+				<h:p>Describes a text fragment of a citation referring to a specific part of the cited document.</h:p>
+				<h:p>The CitationRef attribute normally links the sub-reference back to a single citation, but it is possible to link to multiple citations by separating the IDs with spaces. It is also possible to link to another sub-reference using the CitationRef attribute.</h:p>
+				<h:p>The main citation reference may become a hyperlink to the cited document and that sub-references may become hyperlinks either back to the main citation or sub-reference, or, by de-referencing the sub-references, could also become links to the target document.</h:p>
+			</xsd:documentation>
 		</xsd:annotation>
 		<xsd:complexType mixed="true">
 			<xsd:choice minOccurs="0" maxOccurs="unbounded">
@@ -146,8 +217,7 @@
 			</xsd:choice>
 			<xsd:attribute name="Type" use="optional">
 				<xsd:annotation>
-					<xsd:documentation>This represents the type of content, e.g. a pointer as to the text format, e.g. group would be 'subsections (5) and (6)'</xsd:documentation>
-					<xsd:documentation>Its purpose is to give a processor some clue as to how to process the content</xsd:documentation>
+					<xsd:documentation>This represents the type of content, e.g. a pointer as to the text format, e.g. group would be 'subsections (5) and (6)'. Its purpose is to give a processor some clue as to how to process the content</xsd:documentation>
 				</xsd:annotation>
 				<xsd:simpleType>
 					<xsd:restriction base="xsd:string">

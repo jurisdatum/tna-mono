@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsd:schema xmlns="http://www.legislation.gov.uk/namespaces/legislation" targetNamespace="http://www.legislation.gov.uk/namespaces/legislation" xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.1" id="SchemaBasicInline">
+<xsd:schema xmlns="http://www.legislation.gov.uk/namespaces/legislation" targetNamespace="http://www.legislation.gov.uk/namespaces/legislation" 
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified"
+	version="2.4" id="SchemaBasicInline">
 	<xsd:annotation>
 		<xsd:appinfo xmlns:dcq="http://purl.org/dc/terms/" xmlns:dc="http://purl.org/dc/elements/1.1/">
 			<dc:title>Basic Inline Elements Schema</dc:title>
@@ -9,18 +11,20 @@
 			<dc:identifier>SchemaBasicInline</dc:identifier>
 			<dc:language>en</dc:language>
 			<dc:publisher>The Stationery Office</dc:publisher>
-			<dc:rights>Crown Copyright 2003</dc:rights>
+			<dc:rights>Crown copyright 2018</dc:rights>
 			<dc:date>
 				<dcq:created>2003-10-20</dcq:created>
 			</dc:date>
 			<dc:date>
-				<dcq:modified>2004-03-13</dcq:modified>
+				<dcq:modified>2021-07-23</dcq:modified>
 			</dc:date>
 			<xsd:documentation>
 			Modification information
-			Version	Name				Modification
-			1.1			Paul Appleby	Expanded type for span to be InlineStructure from just EmphasisBasic
-			1.0			Paul Appleby	Created
+			Version		Name				Modification
+			2.4			Karl				Span annotation corrected of typo mistakes and tidied modification information for better readability. 
+			2.0			Colin Mackenzie		Numbering restarted at 2 for new EU and merged schema
+			1.1			Paul Appleby		Expanded type for span to be InlineStructure from just EmphasisBasic
+			1.0			Paul Appleby		Created
 			</xsd:documentation>
 		</xsd:appinfo>
 	</xsd:annotation>
@@ -36,6 +40,12 @@
 		</xsd:complexType>
 	</xsd:element>
 	<xsd:element name="AppendText">
+		<xsd:annotation>
+			<xsd:documentation xmlns:h="http://www.w3.org/1999/xhtml">
+				<h:p>Used to indicate that the contents should run on from the end of the amendment (as opposed to starting a new line if a Text element was used. The only place AppendText can be used is directly following a BlockAmendment element, although it should be noted that where a BlockAmendment element is a direct child of a major structure then it cannot be used (i.e. where a Schedule contains just an amendment). This is because it would not be correct grammatically, as there is no actual sentence to terminate.</h:p>
+				<h:p>It is also possible in some document types for the amendment to start as run-on text in the previous paragraph.</h:p>
+			</xsd:documentation>
+		</xsd:annotation>
 		<xsd:complexType mixed="true">
 			<xsd:group ref="InlineFull" minOccurs="0" maxOccurs="unbounded"/>
 			<xsd:attributeGroup ref="CommonAttributes"/>
@@ -53,7 +63,14 @@
 	</xsd:element>
 	<xsd:element name="Span" type="InlineStructure">
 		<xsd:annotation>
-			<xsd:documentation>An inline container</xsd:documentation>
+			<xsd:documentation xmlns:h="http://www.w3.org/1999/xhtml">
+				<h:p>A general-purpose inline container. Its main uses are:</h:p>
+				<h:ul>
+					<h:li>to serve as an anchor for an InternalLink to provide character accurate linking;</h:li>
+					<h:li>to allow for language information to be added. For example, if there is a fragment of Welsh the span element can use the xml:lang attribute to describe the language of the content, therefore allowing all the benefits that can be provided by this such as localised spellchecking;</h:li>
+					<h:li>to act as a container of inline content when an alternate version is available (for example a graphical version of inline MathML).</h:li>
+				</h:ul>
+			</xsd:documentation>
 		</xsd:annotation>
 	</xsd:element>
 </xsd:schema>

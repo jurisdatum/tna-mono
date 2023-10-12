@@ -3,7 +3,7 @@
 	xmlns="http://www.legislation.gov.uk/namespaces/legislation"
 	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
 	xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" elementFormDefault="qualified"
-	attributeFormDefault="unqualified" version="2.0">
+	attributeFormDefault="unqualified" version="2.4">
 
 	<xsd:annotation>
 		<xsd:appinfo xmlns:dcq="http://purl.org/dc/terms/" xmlns:dc="http://purl.org/dc/elements/1.1/">
@@ -11,9 +11,18 @@
 			<dc:description>Describes main elements for EU legislation</dc:description>
 			<dc:identifier>SchemaLegislationMainEU</dc:identifier>
 			<dc:language>en</dc:language>
+			<dc:publisher>The Stationery Office</dc:publisher>
+			<dc:rights>Crown copyright 2018</dc:rights>
+			<dc:date>
+				<dcq:created>2018-11-20</dcq:created>
+			</dc:date>
+			<dc:date>
+				<dcq:modified>2018-11-26</dcq:modified>
+			</dc:date>
 			<xsd:documentation>
 			Modification information
 			Version		Name				Modification
+			2.4			Karl Rajangam		AttachmentGroup id replaced with attributeGroup PelementIDattributes and CommonSubAttributes
 			2.0			Jim Mangiafico		Created
 			</xsd:documentation>
 		</xsd:appinfo>
@@ -26,7 +35,7 @@
 		<xsd:complexType>
 			<xsd:sequence>
 				<xsd:element ref="EUPrelims" minOccurs="0"/>
-				<xsd:element ref="EUBody"/>
+				<xsd:element  ref="EUBody" minOccurs="0"/>
 				<xsd:choice minOccurs="0">
 					<xsd:sequence>
 						<xsd:element ref="Attachments"/>
@@ -64,11 +73,17 @@
 				</xsd:choice>
 				<xsd:element ref="SignedSection" minOccurs="0"/>
 			</xsd:sequence>
+			<xsd:attributeGroup ref="CommonSubAttributes"/>
+			<xsd:attributeGroup ref="PelementIDattributes"/>
+			<xsd:attributeGroup ref="StructureNumberFormattingAttributes"/>
 			<xsd:attributeGroup ref="FragmentAttributes"/>
 		</xsd:complexType>
 	</xsd:element>
-
+	
 	<xsd:element name="Attachments">
+		<xsd:annotation>
+			<xsd:documentation>The container for attachments or groups of attachments in EU legislation</xsd:documentation>
+		</xsd:annotation>
 		<xsd:complexType>
 			<xsd:sequence>
 				<xsd:element ref="Title" minOccurs="0"/>
@@ -82,24 +97,39 @@
 	</xsd:element>
 
 	<xsd:element name="AttachmentGroup">
+		<xsd:annotation>
+			<xsd:documentation>A group of attachments in EU legislation</xsd:documentation>
+		</xsd:annotation>
 		<xsd:complexType>
 			<xsd:sequence>
 				<xsd:element ref="Number" minOccurs="0"/>
 				<xsd:element ref="Title" minOccurs="0"/>
 				<xsd:element ref="Attachment" maxOccurs="unbounded"/>
 			</xsd:sequence>
-			<xsd:attribute name="id" use="required" />
+			<xsd:attributeGroup ref="PelementIDattributes"/>
+			<xsd:attributeGroup ref="CommonSubAttributes"/>
 			<xsd:attributeGroup ref="FragmentAttributes"/>
 		</xsd:complexType>
 	</xsd:element>
 
 	<xsd:element name="Attachment">
+		<xsd:annotation>
+			<xsd:documentation>An attachment in EU legislation</xsd:documentation>
+		</xsd:annotation>
 		<xsd:complexType>
 			<xsd:choice>
 				<xsd:element ref="EURetained"/>
 			</xsd:choice>
-			<xsd:attribute name="id" use="required" />
+			<!--<xsd:attribute name="id" use="required">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:NCName">
+						<xsd:pattern value="attachment-[1-9].*"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:attribute>-->
+			<xsd:attributeGroup ref="CommonSubAttributes"/>
 			<xsd:attributeGroup ref="FragmentAttributes"/>
+			<xsd:attributeGroup ref="PelementIDattributes"/>
 		</xsd:complexType>
 	</xsd:element>
 

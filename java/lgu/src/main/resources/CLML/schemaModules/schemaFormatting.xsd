@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsd:schema xmlns="http://www.legislation.gov.uk/namespaces/legislation" targetNamespace="http://www.legislation.gov.uk/namespaces/legislation" xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.1" id="SchemaFormatting">
+<xsd:schema xmlns="http://www.legislation.gov.uk/namespaces/legislation" targetNamespace="http://www.legislation.gov.uk/namespaces/legislation" 
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified" 
+	xmlns:h="http://www.w3.org/1999/xhtml"
+	version="2.0" id="SchemaFormatting">
 
 	<xsd:annotation>
 		<xsd:appinfo xmlns:dcq="http://purl.org/dc/terms/" xmlns:dc="http://purl.org/dc/elements/1.1/">
@@ -10,16 +13,17 @@
 			<dc:identifier>SchemaFormatting</dc:identifier>
 			<dc:language>en</dc:language>
 			<dc:publisher>The Stationery Office</dc:publisher>
-			<dc:rights>Crown Copyright 2003</dc:rights>
+			<dc:rights>Crown copyright 2018</dc:rights>
 			<dc:date>
 				<dcq:created>2003-10-20</dcq:created>
 			</dc:date>
 			<dc:date>
-				<dcq:modified>Put modified date here (format 2003-10-20)</dcq:modified>
+				<dcq:modified>2018-11-20</dcq:modified>
 			</dc:date>
 			<xsd:documentation>
 			Modification information
 			Version	Name					Modification
+			2.0			Colin Mackenzie		Numbering restarted at 2 for new EU and merged schema
 			1.1			Paul Appleby		Added indent to hanging attribute
 			1.0			Paul Appleby		Created
 			</xsd:documentation>
@@ -29,7 +33,16 @@
 	<xsd:attributeGroup name="CommonFormattingAttributes">
 		<xsd:attribute name="Align" use="optional">
 			<xsd:annotation>
-				<xsd:documentation>Describes horizontal alignment</xsd:documentation>
+				<xsd:documentation>
+					<h:p>Describes horizontal alignment with permissible values of:</h:p>
+					<h:ul>
+						<h:li>inherit (the alignment is inherited from the parent element)</h:li>
+						<h:li>left</h:li>
+						<h:li>centre</h:li>
+						<h:li>right</h:li>
+						<h:li>justify (the entire paragraph is justified. Note that the last line is not force-justified. The decision on whether the last line should be is left to the implementation).</h:li>
+					</h:ul>
+				</xsd:documentation>
 			</xsd:annotation>
 			<xsd:simpleType>
 				<xsd:restriction base="xsd:string">

@@ -2,9 +2,9 @@
 <xsd:schema xmlns="http://www.legislation.gov.uk/namespaces/metadata"
 	xmlns:dc="http://purl.org/dc/elements/1.1/" 
 	xmlns:dct="http://purl.org/dc/terms/"
-	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:leg="http://www.legislation.gov.uk/namespaces/legislation"
 	targetNamespace="http://www.legislation.gov.uk/namespaces/metadata" elementFormDefault="qualified"
-	attributeFormDefault="unqualified" version="1.7" id="schemaENmetadata"
+	attributeFormDefault="unqualified" version="2.2" id="schemaENmetadata"
 	xmlns:atom="http://www.w3.org/2005/Atom">
 	<xsd:annotation>
 		<xsd:appinfo xmlns:dcq="http://purl.org/dc/terms/" xmlns:dc="http://purl.org/dc/elements/1.1/">
@@ -15,12 +15,12 @@
 			<dc:identifier>schemaImpactAssessmentMetadata</dc:identifier>
 			<dc:language>en</dc:language>
 			<dc:publisher>The Stationery Office</dc:publisher>
-			<dc:rights>Crown Copyright 2012</dc:rights>
+			<dc:rights>Crown copyright 2018</dc:rights>
 			<dc:date>
 				<dcq:created>2012-08-06</dcq:created>
 			</dc:date>
 			<dc:date>
-				<dcq:modified>2012-08-06</dcq:modified>
+				<dcq:modified>2018-11-20</dcq:modified>
 			</dc:date>
 			<xsd:documentation>
 			Namespace information:
@@ -29,17 +29,25 @@
 			</xsd:documentation>
 			<xsd:documentation>
 			Modification information
-			Version	Name						Modification
-			0.1			Griff Chamberlain		Created
+			Version	Name                    Modification
+			2.2     Colin Mackenzie         Changed to use common definition of types of UKMinorType from SchemaLegislationMetadata so that definitions can be reused in IAs and ENs etc
+			2.0     Colin Mackenzie         Numbering restarted at 2 for new EU and merged schema
+			2.0     Colin Mackenzie         Changed Document Status to allow draft values
+			0.2     TSO                     Added UnitedKingdomMinisterialDirection
+			0.1     Griff Chamberlain       Created
 			</xsd:documentation>
 		</xsd:appinfo>
 	</xsd:annotation>
-
+	
+	<xsd:import namespace="http://www.legislation.gov.uk/namespaces/legislation" schemaLocation="../schemaModules/schemaCommon.xsd"/>
 	<xsd:import namespace="http://purl.org/dc/elements/1.1/" schemaLocation="../schemaModules/dc.xsd"/>
 	<xsd:import namespace="http://purl.org/dc/terms/" schemaLocation="../schemaModules/dcterms.xsd"/>
-
 	<xsd:import namespace="http://www.w3.org/2005/Atom" schemaLocation="../schemaModules/atom.xsd"/>
+	
 	<xsd:element name="Metadata">
+		<xsd:annotation>
+			<xsd:documentation>A container for metadata in an Impact Assessments (IAs)</xsd:documentation>
+		</xsd:annotation>
 		<xsd:complexType>
 			<xsd:sequence>
 				<xsd:element maxOccurs="unbounded" ref="dc:identifier"/>
@@ -48,7 +56,9 @@
 				<xsd:element ref="dc:format"/>
 				<xsd:element ref="dc:language"/>
 				<xsd:element ref="dc:publisher"/>
-				<xsd:element ref="dc:source"/>
+				<!-- Colin: Information from Griff 15/01/19 
+					The source should be optional - I think that must have come from the original IA data load. They will not always have a source -->
+				<xsd:element ref="dc:source" minOccurs="0"/>
 				<xsd:element ref="dc:modified"/>
 				<xsd:element ref="dct:valid"/>
 				<xsd:element ref="atom:link" maxOccurs="unbounded"/>
@@ -65,14 +75,17 @@
 			<xsd:documentation>IA specific metadata</xsd:documentation>
 		</xsd:annotation>
 		<xsd:complexType>
-			<xsd:sequence>
+		<!-- Colin: Information from Griff 15/01/19 so made optional
+			Looking at the number/Date element order, again I think this was the original data load.
+			The order of this metadata should not matter as it has no bearing on the metadata itself . -->
+			<xsd:choice minOccurs="0" maxOccurs="unbounded">
 				<xsd:element ref="DocumentClassification"/>
 				<xsd:element ref="Year"/>
 				<xsd:element ref="Date"/>
-				<xsd:element ref="Stage" minOccurs="0"/>
-				<xsd:element ref="Department" minOccurs="0"/>
-				<xsd:element ref="Number" minOccurs="0"/>
-			</xsd:sequence>
+				<xsd:element ref="Stage"/>
+				<xsd:element ref="Department"/>
+				<xsd:element ref="Number"/>
+			</xsd:choice>
 		</xsd:complexType>
 		
 	</xsd:element>
@@ -80,7 +93,7 @@
 
 	<xsd:element name="AssociatedIAs">
 		<xsd:annotation>
-			<xsd:documentation>Metadata for alternative IAa</xsd:documentation>
+			<xsd:documentation>Metadata for alternative IAs</xsd:documentation>
 		</xsd:annotation>
 		<xsd:complexType>
 			<xsd:sequence>
@@ -103,7 +116,7 @@
 	
 	<xsd:element name="Alternatives">
 		<xsd:annotation>
-			<xsd:documentation>Metadata for alternative IAa</xsd:documentation>
+			<xsd:documentation>Metadata for alternative IAs</xsd:documentation>
 		</xsd:annotation>
 		<xsd:complexType>
 			<xsd:sequence>
@@ -213,19 +226,35 @@
 
 	<xsd:element name="AlternativeNumber">
 		<xsd:annotation>
-			<xsd:documentation>For certain legislation types subsidiary serial numbers apply. For early primary legislation regnal years are used to identify legislation</xsd:documentation>
+			<xsd:documentation>For secondary legislation for some classes of document there may be one or more subsidiary numbers associated with it. For early primary legislation documents were also identified by the regnal year.</xsd:documentation>
 		</xsd:annotation>
 		<xsd:complexType>
 			<xsd:attribute name="Category" type="xsd:string" use="required">
 				<xsd:annotation>
-					<xsd:documentation>The applicable values at present are C, L, S, NI, W and Cy or Regnal when it holds a regnal year</xsd:documentation>
+					<xsd:documentation xmlns:h="http://www.w3.org/1999/xhtml"><h:p>The values that should be used in the Category attribute of this element are:</h:p>
+					<h:ul>
+						<h:li>C - Commencement and/or Appointed Day orders that bring into force an Act or part of an Act</h:li>
+						<h:li>L - Legal series</h:li>
+						<h:li>S - Scottish series</h:li>
+						<h:li>NI - Northern Ireland series</h:li>
+						<h:li>W - National Assembly for Wales series. Where the document is in Welsh the value will be Cy</h:li>
+						<h:li>Regnal - Indicates the number is a regnal year</h:li>
+					</h:ul>
+					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:attribute>
-			<xsd:attribute name="Value" type="xsd:string" use="required"/>
+			<xsd:attribute name="Value" type="xsd:string" use="required">
+				<xsd:annotation>
+					<xsd:documentation>Holds the actual number/text for the AlternativeNumber.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
 		</xsd:complexType>
 	</xsd:element>
 
 	<xsd:element name="DocumentClassification">
+		<xsd:annotation>
+			<xsd:documentation>A container for information about the document class.</xsd:documentation>
+		</xsd:annotation>
 		<xsd:complexType>
 			<xsd:all>
 				<xsd:element name="DocumentCategory" minOccurs="0">
@@ -247,12 +276,20 @@
 				<xsd:element ref="DocumentStage" minOccurs="0"/>
 				<xsd:element name="DocumentStatus" minOccurs="0">
 					<xsd:annotation>
-						<xsd:documentation>Defines the status (or stage) of the document</xsd:documentation>
-						<xsd:documentation>For secondary legislation this will be draft or final</xsd:documentation>
-						<xsd:documentation>For primary legislation this will be Bill or Act. Note Bills are not part of the scope at present</xsd:documentation>
+						<xsd:documentation xmlns:h="http://www.w3.org/1999/xhtml">Defines the status (or stage) of the document. For secondary legislation this will be draft or final. For primary legislation this will be Bill or Act. Note Bills are not part of the scope at present.</xsd:documentation>
 					</xsd:annotation>
 					<xsd:complexType>
-						<xsd:attribute name="Value" use="required" fixed="final"/>
+						<!--<xsd:attribute name="Value" use="required" fixed="final"/>-->
+						<xsd:attribute name="Value" use="required">
+							<xsd:simpleType>
+								<xsd:restriction base="xsd:string">
+									<xsd:enumeration value="draft"/>
+									<xsd:enumeration value="final"/>
+									<xsd:enumeration value="revised"/>
+									<xsd:enumeration value="proposed"/>
+								</xsd:restriction>
+							</xsd:simpleType>
+						</xsd:attribute>
 					</xsd:complexType>
 				</xsd:element>
 				<xsd:element name="DocumentMinorType" minOccurs="0">
@@ -260,18 +297,7 @@
 						<xsd:documentation>Defines the subtype of the document. This currently only applies to secondary legislation</xsd:documentation>
 					</xsd:annotation>
 					<xsd:complexType>
-						<xsd:attribute name="Value" use="required">
-							<xsd:simpleType>
-								<xsd:restriction base="xsd:string">
-									<xsd:enumeration value="order"/>
-									<xsd:enumeration value="regulation"/>
-									<xsd:enumeration value="rule"/>
-									<xsd:enumeration value="scheme"/>
-									<xsd:enumeration value="resolution"/>
-									<xsd:enumeration value="unknown"/>
-								</xsd:restriction>
-							</xsd:simpleType>
-						</xsd:attribute>
+						<xsd:attribute name="Value" type="leg:UKMinorType" use="required"/>
 					</xsd:complexType>
 				</xsd:element>
 			</xsd:all>
@@ -280,42 +306,10 @@
 
 	<xsd:element name="DocumentMainType">
 		<xsd:annotation>
-			<xsd:documentation>Defines the type of the document. This covers all the possible varities of UK legislation</xsd:documentation>
+			<xsd:documentation>Defines the type of the document. This covers all the possible varieties of UK legislation</xsd:documentation>
 		</xsd:annotation>
 		<xsd:complexType>
-			<xsd:attribute name="Value" use="required">
-				<xsd:simpleType>
-					<xsd:restriction base="xsd:string">
-						<xsd:enumeration value="EnglandAct"/>
-						<xsd:enumeration value="GreatBritainAct"/>
-						<xsd:enumeration value="IrelandAct"/>
-						<xsd:enumeration value="NorthernIrelandAct"/>
-						<xsd:enumeration value="NorthernIrelandAssemblyMeasure"/>
-						<xsd:enumeration value="NorthernIrelandParliamentAct"/>
-						<xsd:enumeration value="NorthernIrelandOrderInCouncil"/>
-						<xsd:enumeration value="NorthernIrelandDraftOrderInCouncil"/>
-						<xsd:enumeration value="NorthernIrelandStatutoryRule"/>
-						<xsd:enumeration value="NorthernIrelandDraftStatutoryRule"/>
-						<xsd:enumeration value="ScottishAct"/>
-						<xsd:enumeration value="ScottishOldAct"/>
-						<xsd:enumeration value="ScottishStatutoryInstrument"/>
-						<xsd:enumeration value="ScottishDraftStatutoryInstrument"/>
-						<xsd:enumeration value="UnitedKingdomChurchInstrument"/>
-						<xsd:enumeration value="UnitedKingdomChurchMeasure"/>
-						<xsd:enumeration value="UnitedKingdomPrivateAct"/>
-						<xsd:enumeration value="UnitedKingdomPublicGeneralAct"/>
-						<xsd:enumeration value="UnitedKingdomLocalAct"/>
-						<xsd:enumeration value="UnitedKingdomMinisterialOrder"/>
-						<xsd:enumeration value="UnitedKingdomStatutoryInstrument"/>
-						<xsd:enumeration value="UnitedKingdomDraftStatutoryInstrument"/>
-						<xsd:enumeration value="UnitedKingdomImpactAssessment"/>
-						<xsd:enumeration value="WelshAssemblyMeasure"/>
-						<xsd:enumeration value="WelshStatutoryInstrument"/>
-						<xsd:enumeration value="WelshDraftStatutoryInstrument"/>
-						
-					</xsd:restriction>
-				</xsd:simpleType>
-			</xsd:attribute>
+			<xsd:attribute name="Value" type="leg:DocumentMainTypeBasic" use="required"/>
 		</xsd:complexType>
 	</xsd:element>
 

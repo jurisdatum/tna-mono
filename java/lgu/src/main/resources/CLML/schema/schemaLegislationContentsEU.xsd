@@ -2,15 +2,23 @@
 <xsd:schema targetNamespace="http://www.legislation.gov.uk/namespaces/legislation"
 	xmlns="http://www.legislation.gov.uk/namespaces/legislation"
 	xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified"
-	attributeFormDefault="unqualified" version="1.2" id="SchemaLegislationContents">
+	attributeFormDefault="unqualified" version="2.0" id="SchemaLegislationContents">
 
 	<xsd:annotation>
 		<xsd:appinfo xmlns:dcq="http://purl.org/dc/terms/" xmlns:dc="http://purl.org/dc/elements/1.1/">
 			<dc:title>EU Legislation Contents Schema</dc:title>
 			<dc:description>This schema describes a general table of contents structure for EU documents</dc:description>
+			<dc:creator>TSO</dc:creator>
 			<dc:identifier>SchemaLegislationContentsEU</dc:identifier>
+			<dc:publisher>The Stationery Office</dc:publisher>
 			<dc:language>en</dc:language>
-			<dc:rights>Crown Copyright 2007</dc:rights>
+			<dc:rights>Crown Copyright 2018</dc:rights>
+			<dc:date>
+				<dcq:created>2018-11-20</dcq:created>
+			</dc:date>
+			<dc:date>
+				<dcq:modified>2018-11-20</dcq:modified>
+			</dc:date>
 			<xsd:documentation>
 			Modification information
 			Version		Name				Modification
@@ -20,6 +28,9 @@
 	</xsd:annotation>
 
 	<xsd:element name="ContentsEUPart">
+		<xsd:annotation>
+			<xsd:documentation>A contents entry for a part. This should correspond to a part in the body of the EU document</xsd:documentation>
+		</xsd:annotation>
 		<xsd:complexType>
 			<xsd:sequence>
 				<xsd:element ref="ContentsNumber" minOccurs="0"/>
@@ -28,6 +39,7 @@
 					<xsd:element ref="ContentsEUTitle"/>
 					<xsd:element ref="ContentsEUChapter"/>
 					<xsd:element ref="ContentsEUSection"/>
+					<xsd:element ref="ContentsDivision"/>
 					<xsd:element ref="ContentsPblock"/>
 					<xsd:element ref="ContentsItem"/>
 				</xsd:choice>
@@ -38,6 +50,9 @@
 	</xsd:element>
 
 	<xsd:element name="ContentsEUTitle">
+		<xsd:annotation>
+			<xsd:documentation>The title of an entry in the contents for EU information</xsd:documentation>
+		</xsd:annotation>
 		<xsd:complexType>
 			<xsd:sequence>
 				<xsd:element ref="ContentsNumber" minOccurs="0"/>
@@ -45,6 +60,7 @@
 				<xsd:choice minOccurs="0" maxOccurs="unbounded">
 					<xsd:element ref="ContentsEUChapter"/>
 					<xsd:element ref="ContentsEUSection"/>
+					<xsd:element ref="ContentsDivision"/>
 					<xsd:element ref="ContentsPblock"/>
 					<xsd:element ref="ContentsItem"/>
 				</xsd:choice>
@@ -55,12 +71,16 @@
 	</xsd:element>
 
 	<xsd:element name="ContentsEUChapter">
+		<xsd:annotation>
+			<xsd:documentation>A contents entry for a chapter. This should correspond to a chapter in the body of the EU document</xsd:documentation>
+		</xsd:annotation>
 		<xsd:complexType>
 			<xsd:sequence>
 				<xsd:element ref="ContentsNumber" minOccurs="0"/>
 				<xsd:element ref="ContentsTitle" minOccurs="0" maxOccurs="unbounded"/>
 				<xsd:choice minOccurs="0" maxOccurs="unbounded">
 					<xsd:element ref="ContentsEUSection"/>
+					<xsd:element ref="ContentsDivision"/>
 					<xsd:element ref="ContentsPblock"/>
 					<xsd:element ref="ContentsItem"/>
 				</xsd:choice>
@@ -71,12 +91,16 @@
 	</xsd:element>
 
 	<xsd:element name="ContentsEUSection">
+		<xsd:annotation>
+			<xsd:documentation>A contents entry for a EU Section</xsd:documentation>
+		</xsd:annotation>
 		<xsd:complexType>
 			<xsd:sequence>
 				<xsd:element ref="ContentsNumber" minOccurs="0"/>
 				<xsd:element ref="ContentsTitle" minOccurs="0" maxOccurs="unbounded"/>
 				<xsd:choice minOccurs="0" maxOccurs="unbounded">
 					<xsd:element ref="ContentsEUSubsection"/>
+					<xsd:element ref="ContentsDivision"/>
 					<xsd:element ref="ContentsPblock"/>
 					<xsd:element ref="ContentsItem"/>
 				</xsd:choice>
@@ -87,11 +111,15 @@
 	</xsd:element>
 
 	<xsd:element name="ContentsEUSubsection">
+		<xsd:annotation>
+			<xsd:documentation>A contents entry for a EU SubSection</xsd:documentation>
+		</xsd:annotation>
 		<xsd:complexType>
 			<xsd:sequence>
 				<xsd:element ref="ContentsNumber" minOccurs="0"/>
 				<xsd:element ref="ContentsTitle"/>
 				<xsd:choice minOccurs="0" maxOccurs="unbounded">
+					<xsd:element ref="ContentsDivision"/>
 					<xsd:element ref="ContentsPblock"/>
 					<xsd:element ref="ContentsItem"/>
 				</xsd:choice>
@@ -102,10 +130,13 @@
 	</xsd:element>
 
 	<xsd:element name="ContentsDivision">
+		<xsd:annotation>
+			<xsd:documentation>A contents entry for a EU Division</xsd:documentation>
+		</xsd:annotation>
 		<xsd:complexType>
 			<xsd:sequence>
 				<xsd:element ref="ContentsNumber" minOccurs="0"/>
-				<xsd:element ref="ContentsTitle"/>
+				<xsd:element ref="ContentsTitle" minOccurs="0"/>
 				<xsd:choice minOccurs="0" maxOccurs="unbounded">
 					<xsd:element ref="ContentsDivision"/>
 					<xsd:element ref="ContentsEUPart"/>
@@ -122,14 +153,39 @@
 	</xsd:element>
 
 	<xsd:element name="ContentsAttachments">
+		<xsd:annotation>
+			<xsd:documentation>A contents entry for EU attachments</xsd:documentation>
+		</xsd:annotation>
 		<xsd:complexType>
 			<xsd:sequence>
-				<xsd:element ref="ContentsAttachment" maxOccurs="unbounded"/>
+				<xsd:element ref="ContentsTitle" minOccurs="0"/>
+				<xsd:choice maxOccurs="unbounded">
+					<xsd:element ref="ContentsAttachmentGroup" minOccurs="0"/>
+					<xsd:element ref="ContentsAttachment" minOccurs="0"/>
+				</xsd:choice>
 			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	
+	<xsd:element name="ContentsAttachmentGroup">
+		<xsd:annotation>
+			<xsd:documentation>A contents entry for a group of EU attachments</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="ContentsNumber" minOccurs="0"/>
+				<xsd:element ref="ContentsTitle"/>
+				<xsd:element ref="ContentsAttachment" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+			<xsd:attributeGroup ref="CommonAttributes"/>
+			<xsd:attributeGroup ref="ContentsAttributes"/>
 		</xsd:complexType>
 	</xsd:element>
 
 	<xsd:element name="ContentsAttachment">
+		<xsd:annotation>
+			<xsd:documentation>A contents entry for a single EU attachment</xsd:documentation>
+		</xsd:annotation>
 		<xsd:complexType>
 			<xsd:sequence>
 				<xsd:element ref="ContentsTitle"/>

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsd:schema xmlns="http://www.legislation.gov.uk/namespaces/legislation" targetNamespace="http://www.legislation.gov.uk/namespaces/legislation" xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.2" id="SchemaFigure">
+<xsd:schema xmlns="http://www.legislation.gov.uk/namespaces/legislation" targetNamespace="http://www.legislation.gov.uk/namespaces/legislation" xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified" xmlns:h="http://www.w3.org/1999/xhtml" version="2.0" id="SchemaFigure">
 
 	<xsd:annotation>
 		<xsd:appinfo xmlns:dcq="http://purl.org/dc/terms/" xmlns:dc="http://purl.org/dc/elements/1.1/">
@@ -10,27 +10,29 @@
 			<dc:identifier>SchemaFigure</dc:identifier>
 			<dc:language>en</dc:language>
 			<dc:publisher>The Stationery Office</dc:publisher>
-			<dc:rights>Crown Copyright 2005</dc:rights>
+			<dc:rights>Crown copyright 2018</dc:rights>
 			<dc:date>
 				<dcq:created>2003-10-20</dcq:created>
 			</dc:date>
 			<dc:date>
-				<dcq:modified>2015-11-02</dcq:modified>
+				<dcq:modified>2018-11-20</dcq:modified>
 			</dc:date>
 			<xsd:documentation>
 			Modification information
-			Version		Name					Modification
-			1.3				Mark Jones			Modified expression of restriction pattern (though kept same rules) on FigureSizeType
-			1.2				Paul Appleby		Fixed id attribute on figure to be lower case. Overruled frozen schema as an important change
-			1.1				Paul Appleby		Altered ResourceRef attriubte on Image to be xsd:string (so as to work in fragment mode)
-			1.0				Paul Appleby		Created
+			Version		Name				Modification
+			2.0			Colin Mackenzie		Numbering restarted at 2 for new EU and merged schema
+			1.2			Paul Appleby		Fixed id attribute on figure to be lower case. Overruled frozen schema as an important change
+			1.1			Paul Appleby		Altered ResourceRef attriubte on Image to be xsd:string (so as to work in fragment mode)
+			1.0			Paul Appleby		Created
 			</xsd:documentation>
 		</xsd:appinfo>
 	</xsd:annotation>
-	
+
 	<xsd:element name="Figure">
 		<xsd:annotation>
-			<xsd:documentation>A container for graphic(s) material. There may also be a number, caption, associated text and notes to accompany the images</xsd:documentation>
+			<xsd:documentation>
+				<h:p>A container for graphic(s) material. There may also be a number, caption, associated text and notes to accompany the images</h:p>
+			</xsd:documentation>
 		</xsd:annotation>
 		<xsd:complexType>
 			<xsd:sequence>
@@ -55,27 +57,53 @@
 			</xsd:attribute>
 			<xsd:attribute name="ImageLayout" default="vertical">
 				<xsd:annotation>
-					<xsd:documentation>Defines the layout of the images. This mainly applies when there is more than one image in a figure. They may be laid vertically (normal), horizontally, e.g. across the page, or when there are many images, in a matrix format upto 5 images wide.</xsd:documentation>
-					<xsd:documentation>There is the possibility that this option may cause a conflict on image widths and page size. It it left to individual implementations as to how this should be resolved.</xsd:documentation>
+					<xsd:documentation>
+						<h:p>Defines the layout of the images. This mainly applies when there is more than one image in a figure. They may be laid vertically (normal), horizontally, e.g. across the page, or when there are many images, in a matrix format up to 5 images wide.</h:p>
+						<h:p>There is the possibility that this option may cause a conflict on image widths and page size. It it left to individual implementations as to how this should be resolved.</h:p>
+					</xsd:documentation>
 				</xsd:annotation>
 				<xsd:simpleType>
 					<xsd:restriction base="xsd:string">
-						<xsd:enumeration value="vertical"/>
-						<xsd:enumeration value="horizontal"/>
-						<xsd:enumeration value="matrix-2-wide"/>
-						<xsd:enumeration value="matrix-3-wide"/>
-						<xsd:enumeration value="matrix-4-wide"/>
-						<xsd:enumeration value="matrix-5-wide"/>
+						<xsd:enumeration value="vertical">
+							<xsd:annotation>
+								<xsd:documentation>Images will be laid below each other on the page</xsd:documentation>
+							</xsd:annotation>
+						</xsd:enumeration>
+						<xsd:enumeration value="horizontal">
+							<xsd:annotation>
+								<xsd:documentation>Images will be placed beside each other on the page</xsd:documentation>
+							</xsd:annotation>
+						</xsd:enumeration>
+						<xsd:enumeration value="matrix-2-wide">
+							<xsd:annotation>
+								<xsd:documentation>Images will be placed two to a line, using enough lines as needed to place all the images</xsd:documentation>
+							</xsd:annotation>
+						</xsd:enumeration>
+						<xsd:enumeration value="matrix-3-wide">
+							<xsd:annotation>
+								<xsd:documentation>Images will be placed three to a line, using enough lines as needed to place all the images</xsd:documentation>
+							</xsd:annotation>
+						</xsd:enumeration>
+						<xsd:enumeration value="matrix-4-wide">
+							<xsd:annotation>
+								<xsd:documentation>Images will be placed four to a line, using enough lines as needed to place all the images</xsd:documentation>
+							</xsd:annotation>
+						</xsd:enumeration>
+						<xsd:enumeration value="matrix-5-wide">
+							<xsd:annotation>
+								<xsd:documentation>Images will be placed five to a line, using enough lines as needed to place all the images</xsd:documentation>
+							</xsd:annotation>
+						</xsd:enumeration>
 					</xsd:restriction>
 				</xsd:simpleType>
 			</xsd:attribute>
 		</xsd:complexType>
 	</xsd:element>
-	
+
 	<xsd:attributeGroup name="FigureElementIDattributes">
 		<xsd:attribute name="id">
 			<xsd:annotation>
-				<xsd:documentation>A unique identifier in the format g00000</xsd:documentation>
+				<xsd:documentation>A unique identifier for the figure in the format g00000</xsd:documentation>
 			</xsd:annotation>
 			<xsd:simpleType>
 				<xsd:restriction base="xsd:ID">
@@ -84,7 +112,7 @@
 			</xsd:simpleType>
 		</xsd:attribute>
 	</xsd:attributeGroup>
-	
+
 	<xsd:element name="Notes">
 		<xsd:annotation>
 			<xsd:documentation>A placeholder for footnotes to the figure</xsd:documentation>
@@ -97,18 +125,45 @@
 			<xsd:attributeGroup ref="CommonAttributes"/>
 		</xsd:complexType>
 	</xsd:element>
-	
+
 	<xsd:element name="Image">
+		<xsd:annotation>
+			<xsd:documentation>
+				<h:p>A single image. An image may be inline, or alternatively display as a block when it is contained in a <h:code>&lt;Figure></h:code> element or in a  <h:code>&lt;Signee></h:code> element in a signature.</h:p>
+				<h:p>An image does not link directly to a file, but instead to a resource represented by a <h:code>&lt;Resource></h:code> element. The reason for this is that the resource may be external (i.e. a file) or it may be internal (i.e. the image data is held within the document).</h:p>
+				<h:p>The resource is referenced with a ResourceRef attribute. It is perfectly acceptable for more than one Image element to reference the same resource.</h:p>
+				<h:p>Each Image element must have Width and Height attributes. The values held  are expected to reflect the size of the original image as printed (not necessarily the actual native size of the image) if absolute values are held (for example, 580pt). The values can be in points or ems. Ems are expected mainly to be used inline (where it would be likely that the image would be less than 1em high to avoid problems with line spacing). Obviously for display images ems may not have a defined value, in which case it would be down to the implementation to define what an em is.</h:p>
+				<h:p>It it is possible to use relative values. These have been created with authoring of legislation in mind and are explained below:</h:p>
+				<h:ul>
+					<h:li>auto (default value) - This indicates that the image should be scaled automatically for the output format. This is generally used in conjunction with ‘scale-to-fit’ on the other attribute to maintain the aspect ratio of the image. If the image will not fit on the output then it should be cropped. If both attributes are auto then the image should be output at its native size.</h:li>
+					<h:li>scale-to-fit - This should enlarge the image for either the width or height (whichever attribute this is on) to fit the output format. For printed output this would generally be the page width or height. It would be down to implementations as to how to treat this value for, say, web output.</h:li>
+					<h:li>fit-page-to-image - This is designed for use with oversize images where it is desirable to enlarge the page size to fit the image. For other output formats it would be down to implementation as to how to treat this value</h:li>
+					<h:li>spread - This is also designed for use with oversize images but in this instance it indicates that for printed documents the output should be put on a page spread.</h:li>
+					<h:li>% - For values defined as percent this should be a percentage of the containing area. For printed output this will be the printable section of the page.</h:li>
+				</h:ul>
+			</xsd:documentation>
+		</xsd:annotation>
 		<xsd:complexType>
 			<xsd:attribute name="Description" type="xsd:string" use="optional"/>
 			<xsd:attribute name="ResourceRef" type="xsd:string" use="required"/>
 			<xsd:attributeGroup ref="CommonSubAttributes"/>
 			<xsd:attributeGroup ref="FigureElementIDattributes"/>
+			<!-- issue ID #156763855
 			<xsd:attribute name="Height" type="FigureSizeType" use="required"/>
-			<xsd:attribute name="Width" type="FigureSizeType" use="required"/>
+			<xsd:attribute name="Width" type="FigureSizeType" use="required"/>  -->
+			<xsd:attribute name="Height" type="FigureSizeType" use="optional" default="auto">
+				<xsd:annotation>
+					<xsd:documentation>The height of the image</xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+			<xsd:attribute name="Width" type="FigureSizeType" use="optional" default="auto">
+				<xsd:annotation>
+					<xsd:documentation>The width of the image</xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
 		</xsd:complexType>
 	</xsd:element>
-	
+
 	<xsd:simpleType name="FigureSizeType">
 		<xsd:annotation>
 			<xsd:documentation>Defines a size in either pixels, points or ems; alternatively the value can be auto (inherent, but cropped if larger than the page size), scale-to-fit (i.e. image is scaled to fit the page), spread (as in a two-page spread), or fit-page-to-image (where the page grows to fit around the image).</xsd:documentation>
@@ -117,5 +172,5 @@
 			<xsd:pattern value="(auto|scale-to-fit|fit-page-to-image|spread|\d{1,}\.?\d{0,3}%|\d{1,}\.?\d{0,3}pt|\d{1,}\.?\d{0,3}em)"/>
 		</xsd:restriction>
 	</xsd:simpleType>
-	
+
 </xsd:schema>

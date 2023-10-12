@@ -2,7 +2,7 @@
 <xsd:schema xmlns="http://www.legislation.gov.uk/namespaces/legislation"
 	targetNamespace="http://www.legislation.gov.uk/namespaces/legislation"
 	xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified"
-	attributeFormDefault="unqualified" version="0.1" id="SchemaENcommentary">
+	attributeFormDefault="unqualified" version="2.0" id="SchemaENcommentary">
 
 	<xsd:annotation>
 		<xsd:appinfo xmlns:dcq="http://purl.org/dc/terms/" xmlns:dc="http://purl.org/dc/elements/1.1/">
@@ -13,24 +13,28 @@
 			<dc:identifier>SchemaENcommentary</dc:identifier>
 			<dc:language>en</dc:language>
 			<dc:publisher>The Stationery Office</dc:publisher>
-			<dc:rights>Crown Copyright 2008</dc:rights>
+			<dc:rights>Crown copyright 2018</dc:rights>
 			<dc:date>
 				<dcq:created>2008-07-04</dcq:created>
 			</dc:date>
 			<dc:date>
-				<dcq:modified>2008-08-22</dcq:modified>
+				<dcq:modified>2018-11-20</dcq:modified>
 			</dc:date>
 			<xsd:documentation>
 			Modification information
 			Version		Name						Modification
-			0.1				Jeni Tennison		Created
-			0.2       Jeni Tennison   Allowed CommentaryDivision to hold more Commentary
-			0.3       Jeni Tennison   Added a CommentarySubDivision
-			0.4       Jeni Tennison   Allowed CommentarySchedule to contain CommentaryPart and CommentaryP1
+			2.0			Colin Mackenzie				Numbering restarted at 2 for new EU and merged schema
+			2.0			Colin Mackenzie				URI and Document URI now optional as they are only present in front end data.
+			0.4			Jeni Tennison				Allowed CommentarySchedule to contain CommentaryPart and CommentaryP1
+			0.3			Jeni Tennison				Added a CommentarySubDivision
+			0.2			Jeni Tennison				Allowed CommentaryDivision to hold more Commentary
+			0.1			Jeni Tennison				Created
 			</xsd:documentation>
 		</xsd:appinfo>
 	</xsd:annotation>
 
+	<xsd:include schemaLocation="../schemaModules/schemaCommon.xsd"/>
+	
 	<xsd:group name="Commentary">
 		<xsd:choice>
 			<xsd:element ref="CommentaryGroup"/>
@@ -44,7 +48,7 @@
 	<xsd:attributeGroup name="CommentaryIDattributes">
 		<xsd:attribute name="id">
 			<xsd:annotation>
-				<xsd:documentation>A unique identifier in the format d00000</xsd:documentation>
+				<xsd:documentation>A unique identifier for EN Commentary in the format d00000</xsd:documentation>
 			</xsd:annotation>
 			<xsd:simpleType>
 				<xsd:restriction base="xsd:ID">
@@ -52,13 +56,17 @@
 				</xsd:restriction>
 			</xsd:simpleType>
 		</xsd:attribute>
-		<xsd:attribute name="IdURI" type="xsd:anyURI" use="required"/>
-		<xsd:attribute name="DocumentURI" type="xsd:anyURI" use="required"/>
+		<!-- In all copies of the schema these URI attributes  were mandatory.
+			However in the publication teams  Z:/ENschema/ folder these were optional
+			We will use optional as these values are only present in front end data 
+			(having been inserted automatically via xQuery). -->
+		<xsd:attributeGroup ref="OptionalURIs"/>
+		<!--<xsd:attributeGroup ref="MandatoryURIs"/>-->
 	</xsd:attributeGroup>
 
 	<xsd:element name="CommentaryGroup">
 		<xsd:annotation>
-			<xsd:documentation>Commentary on a Group within the legislation.</xsd:documentation>
+			<xsd:documentation>Commentary on a Group within the EN.</xsd:documentation>
 		</xsd:annotation>
 		<xsd:complexType>
 			<xsd:sequence>
@@ -85,7 +93,7 @@
 
 	<xsd:element name="CommentaryPart">
 		<xsd:annotation>
-			<xsd:documentation>Commentary on a Part within the legislation.</xsd:documentation>
+			<xsd:documentation>Commentary on a Part within the EN.</xsd:documentation>
 		</xsd:annotation>
 		<xsd:complexType>
 			<xsd:sequence>
@@ -111,7 +119,7 @@
 
 	<xsd:element name="CommentaryChapter">
 		<xsd:annotation>
-			<xsd:documentation>Commentary on a Chapter within the legislation.</xsd:documentation>
+			<xsd:documentation>Commentary on Chapter within the EN.</xsd:documentation>
 		</xsd:annotation>
 		<xsd:complexType>
 			<xsd:sequence>
