@@ -21,7 +21,7 @@ class EUUtils {
         Iterator<Annotation> iterator = newFullCites.iterator();
         while (iterator.hasNext()) {
             Annotation cite = iterator.next();
-            String text = gate.Utils.stringFor(doc, cite);
+//            String text = gate.Utils.stringFor(doc, cite);
             FeatureMap features = cite.getFeatures();
 
             String c = (String) features.get("Class");

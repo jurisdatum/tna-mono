@@ -12,10 +12,14 @@ public class GetPrecedingCite implements Function<AnnotationSet, Annotation> {
     public Annotation apply(AnnotationSet set) {
         AnnotationSet originalMarkups = set.getDocument().getNamedAnnotationSets().get(CiteEnricher.OriginalMarkups);
         AnnotationSet newMarkups = set.getDocument().getNamedAnnotationSets().get(CiteEnricher.NewMarkups);
-        AnnotationSet text = originalMarkups.get("Text", set.firstNode().getOffset(), set.lastNode().getOffset());
-        if (text.isEmpty())
+        AnnotationSet line = originalMarkups.get("Text", set.firstNode().getOffset(), set.lastNode().getOffset());
+        if (line.isEmpty())
+            line = originalMarkups.get("td", set.firstNode().getOffset(), set.lastNode().getOffset());
+        if (line.isEmpty())
+            line = originalMarkups.get("html:td", set.firstNode().getOffset(), set.lastNode().getOffset());
+        if (line.isEmpty())
             return null;
-        AnnotationSet newCites = newMarkups.get("Citation", text.firstNode().getOffset(), set.firstNode().getOffset());
+        AnnotationSet newCites = newMarkups.get("Citation", line.firstNode().getOffset(), set.firstNode().getOffset());
         if (newCites.isEmpty())
             return null;
         Annotation fullCite = newCites.inDocumentOrder().get(newCites.size() - 1);
