@@ -35,13 +35,6 @@ class Steps {
         sac.add(transfer3);
     }
 
-    static void addNamespaceCheck(SerialAnalyserController sac) throws ResourceInstantiationException {
-        FeatureMap features = Factory.newFeatureMap();
-        features.put("grammarURL", Steps.class.getResource("/Namespace.jape"));
-        features.put("inputASName", CiteEnricher.NewMarkups);
-        addTransducer(sac, features);
-    }
-
     static void addRemove(SerialAnalyserController sac) throws ResourceInstantiationException {
         String temp = "TempForRemoval";
         copyAnnotations(sac, CiteEnricher.OriginalMarkups, temp);
@@ -53,11 +46,27 @@ class Steps {
         sac.add(transducer);
     }
 
+    static void addNamespaceCheck(SerialAnalyserController sac) throws ResourceInstantiationException {
+        addTransducer(sac, "/Namespace.jape", CiteEnricher.NewMarkups);
+    }
+
+    static void addURIs(SerialAnalyserController sac) throws ResourceInstantiationException {
+        addTransducer(sac,"/AddURIs.jape", CiteEnricher.NewMarkups);
+    }
+
     /* helpers */
 
     private static void addTransducer(SerialAnalyserController sac, String grammar) throws ResourceInstantiationException {
         FeatureMap features = Factory.newFeatureMap();
         features.put("grammarURL", Steps.class.getResource(grammar));
+        features.put("outputASName", CiteEnricher.NewMarkups);
+        addTransducer(sac, features);
+    }
+
+    private static void addTransducer(SerialAnalyserController sac, String grammar, String inputASName) throws ResourceInstantiationException {
+        FeatureMap features = Factory.newFeatureMap();
+        features.put("grammarURL", Steps.class.getResource(grammar));
+        features.put("inputASName", inputASName);
         features.put("outputASName", CiteEnricher.NewMarkups);
         addTransducer(sac, features);
     }

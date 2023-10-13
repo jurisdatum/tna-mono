@@ -1,8 +1,8 @@
-package uk.gov.legislation.cites.gate;
+package uk.gov.legislation.cites.gate.inject;
 
 import java.util.function.Function;
 
-class RomanToArabic implements Function<String, Integer> {
+public class RomanToArabic implements Function<String, Integer> {
 
     @Override
     public Integer apply(String roman) {

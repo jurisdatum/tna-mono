@@ -7,6 +7,10 @@ import gate.creole.ResourceInstantiationException;
 import gate.creole.SerialAnalyserController;
 import gate.util.GateException;
 import uk.gov.legislation.ClmlBeautifier;
+import uk.gov.legislation.cites.gate.inject.GetPrecedingCite;
+import uk.gov.legislation.cites.gate.inject.IsWithinCitation;
+import uk.gov.legislation.cites.gate.inject.MakeURI;
+import uk.gov.legislation.cites.gate.inject.RomanToArabic;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -14,8 +18,8 @@ import java.nio.file.Path;
 
 public class CiteEnricher {
 
-    static final String OriginalMarkups = "Original markups";
-    static final String NewMarkups = "New markups";
+    public static final String OriginalMarkups = "Original markups";
+    public static final String NewMarkups = "New markups";
 
     private final SerialAnalyserController sac;
     private final GateArtifactRemover artifactRemover = new GateArtifactRemover();
@@ -29,6 +33,7 @@ public class CiteEnricher {
         sac.getFeatures().put("romanToArabic", new RomanToArabic());
         sac.getFeatures().put("getPrecedingCite", new GetPrecedingCite());
         sac.getFeatures().put("isWithinCitation", new IsWithinCitation());
+        sac.getFeatures().put("makeURI", new MakeURI());
 
         Gate.getCreoleRegister().registerPlugin(new Plugin.Directory(getClass().getResource("/annie/")));
 
@@ -37,9 +42,9 @@ public class CiteEnricher {
 
         Steps.addMainGrammar(sac);
         Steps.addLoneNumberStep(sac);
-//        Steps.mysteryStep(sac);
-        Steps.addNamespaceCheck(sac);
         Steps.addRemove(sac);
+        Steps.addNamespaceCheck(sac);
+        Steps.addURIs(sac);
 
         Corpus corpus = Factory.newCorpus("Corpus");
         sac.setCorpus(corpus);
