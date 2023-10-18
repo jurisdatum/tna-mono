@@ -11,10 +11,24 @@ Priority: 1
 	( { Token.string == "." } ) ?
 	( { Token.kind == "number" } ) :number
 	( { Token.string == ")" } ) ?
-): cite --> :cite.Citation = {
-	Class = "UnitedKingdomPublicGeneralAct",
-	Year = :year.Token.string,
-	Number = :number.Token.string
+): cite --> {
+	gate.AnnotationSet set = (gate.AnnotationSet) bindings.get("cite");
+	int year = Integer.parseInt((String) bindings.get("year").iterator().next().getFeatures().get("string"));
+	String number = (String) bindings.get("number").iterator().next().getFeatures().get("string");
+	String cls;
+	if (year >= 1801)
+		cls = "UnitedKingdomPublicGeneralAct";
+	else if (year >= 1707)
+		cls = "GreatBritainAct";
+	else if (year >= 1267)
+		cls = "EnglandAct";
+	else
+		cls = "UnitedKingdomPublicGeneralAct";
+	gate.FeatureMap features = Factory.newFeatureMap();
+	features.put("Class", cls);
+	features.put("Year", year);
+	features.put("Number", number);
+	outputAS.add(set.firstNode(), set.lastNode(), "Citation", features);
 }
 
 Rule: UKLA
@@ -28,16 +42,22 @@ Priority: 1
 	( { Token.string == ")" } ) ?
 ): cite --> {
 	gate.AnnotationSet cite = (gate.AnnotationSet) bindings.get("cite");
-	String cls = "UnitedKingdomLocalAct";
-	String year = (String) bindings.get("year").iterator().next().getFeatures().get("string");
+	int year = Integer.parseInt((String) bindings.get("year").iterator().next().getFeatures().get("string"));
 	String roman = (String) bindings.get("number").iterator().next().getFeatures().get("string");
 	java.util.function.Function<String, Integer> romanToArabic = (java.util.function.Function<String, Integer>) this.ctx.getController().getFeatures().get("romanToArabic");
 	Integer number = romanToArabic.apply(roman);
+	String cls;
+	if (year >= 1801)
+		cls = "UnitedKingdomLocalAct";
+	else if (year >= 1797)
+		cls = "GreatBritainLocalAct";
+	else
+		cls = "UnitedKingdomLocalAct";
 	gate.FeatureMap features = Factory.newFeatureMap();
-    features.put("Class", cls);
-    features.put("Year", year);
-    features.put("Number", number);
-    outputAS.add(cite.firstNode(), cite.lastNode(), "Citation", features);
+	features.put("Class", cls);
+	features.put("Year", year);
+	features.put("Number", number);
+	outputAS.add(cite.firstNode(), cite.lastNode(), "Citation", features);
 }
 
 Rule: ASP
@@ -119,10 +139,10 @@ Priority: 2
 	String number = (String) bindings.get("number").iterator().next().getFeatures().get("string");
 	String type = year <= 1972 ? "NorthernIrelandParliamentAct" : "NorthernIrelandAct";
 	gate.FeatureMap features = Factory.newFeatureMap();
-    features.put("Class", type);
-    features.put("Year", year);
-    features.put("Number", number);
-    outputAS.add(cite.firstNode(), cite.lastNode(), "Citation", features);
+	features.put("Class", type);
+	features.put("Year", year);
+	features.put("Number", number);
+	outputAS.add(cite.firstNode(), cite.lastNode(), "Citation", features);
 }
 
 Rule: NIA2
@@ -139,7 +159,7 @@ Priority: 2
 		{ Token.string == "N" }
 		{ Token.string == "." }
 		{ Token.string == "I" }
-		{ Token.string == "." }
+		( { Token.string == "." } ) ?
 		( { Token.string == ")" } ) ?
 		( { Token.string == ")" } ) ?
 	): cite
@@ -149,10 +169,10 @@ Priority: 2
 	String number = (String) bindings.get("number").iterator().next().getFeatures().get("string");
 	String type = year <= 1972 ? "NorthernIrelandParliamentAct" : "NorthernIrelandAct";
 	gate.FeatureMap features = Factory.newFeatureMap();
-    features.put("Class", type);
-    features.put("Year", year);
-    features.put("Number", number);
-    outputAS.add(cite.firstNode(), cite.lastNode(), "Citation", features);
+	features.put("Class", type);
+	features.put("Year", year);
+	features.put("Number", number);
+	outputAS.add(cite.firstNode(), cite.lastNode(), "Citation", features);
 }
 
 Rule: NIA3
@@ -178,10 +198,26 @@ Priority: 2
 	String number = (String) bindings.get("number").iterator().next().getFeatures().get("string");
 	String type = year <= 1972 ? "NorthernIrelandParliamentAct" : "NorthernIrelandAct";
 	gate.FeatureMap features = Factory.newFeatureMap();
-    features.put("Class", type);
-    features.put("Year", year);
-    features.put("Number", number);
-    outputAS.add(cite.firstNode(), cite.lastNode(), "Citation", features);
+	features.put("Class", type);
+	features.put("Year", year);
+	features.put("Number", number);
+	outputAS.add(cite.firstNode(), cite.lastNode(), "Citation", features);
+}
+
+Rule: UKCM
+Priority: 2
+(
+	{ Token.string == "Measure" }
+	( { Token.kind == "number", Token.length == 4 } ) :year
+	{ Token.string == "(" }
+	{ Token.string == "No" }
+	{ Token.string == "." }
+	( { Token.kind == "number" } ) :number
+	{ Token.string == ")" }
+): cite --> :cite.Citation = {
+	Class = "UnitedKingdomChurchMeasure",
+	Year = :year.Token.string,
+	Number = :number.Token.string
 }
 
 
@@ -240,11 +276,11 @@ Priority: 4
 	String number2 = (String) bindings.get("number2").iterator().next().getFeatures().get("string");
 	String altNumber = series + " " + number2;
 	gate.FeatureMap features = Factory.newFeatureMap();
-    features.put("Class", "UnitedKingdomStatutoryInstrument");
-    features.put("Year", year);
-    features.put("Number", number);
-    features.put("AlternativeNumber", altNumber);
-    outputAS.add(cite.firstNode(), cite.lastNode(), "Citation", features);
+	features.put("Class", "UnitedKingdomStatutoryInstrument");
+	features.put("Year", year);
+	features.put("Number", number);
+	features.put("AlternativeNumber", altNumber);
+	outputAS.add(cite.firstNode(), cite.lastNode(), "Citation", features);
 }
 
 Rule: UKSISuccessive1
@@ -258,10 +294,10 @@ Priority: 1
 	String year = (String) bindings.get("year").iterator().next().getFeatures().get("string");
 	String number = (String) bindings.get("number").iterator().next().getFeatures().get("string");
 	gate.FeatureMap features = Factory.newFeatureMap();
-    features.put("Class", "Unknown");
-    features.put("Year", year);
-    features.put("Number", number);
-    inputAS.add(cite.firstNode(), cite.lastNode(), "SuccessiveCitation", features);
+	features.put("Class", "Unknown");
+	features.put("Year", year);
+	features.put("Number", number);
+	inputAS.add(cite.firstNode(), cite.lastNode(), "SuccessiveCitation", features);
 }
 
 Rule: UKSISuccessive2
@@ -283,11 +319,11 @@ Priority: 2
 	String number2 = (String) bindings.get("number2").iterator().next().getFeatures().get("string");
 	String altNumber = series + " " + number2;
 	gate.FeatureMap features = Factory.newFeatureMap();
-    features.put("Class", "Unknown");
-    features.put("Year", year);
-    features.put("Number", number);
-    features.put("AlternativeNumber", altNumber);
-    inputAS.add(cite.firstNode(), cite.lastNode(), "SuccessiveCitation", features);
+	features.put("Class", "Unknown");
+	features.put("Year", year);
+	features.put("Number", number);
+	features.put("AlternativeNumber", altNumber);
+	inputAS.add(cite.firstNode(), cite.lastNode(), "SuccessiveCitation", features);
 }
 
 Rule: SSI
@@ -298,7 +334,7 @@ Priority: 5
 	{ Token.string == "S" }
 	{ Token.string == "." }
 	{ Token.string == "I" }
-	{ Token.string == "." }
+	( { Token.string == "." } ) ?
 	( { Token.kind == "number", Token.length == 4 } ) :year
 	{ Token.string == "/" }
 	( { Token.kind == "number" } ) :number
@@ -332,11 +368,11 @@ Priority: 5
 	String number2 = (String) bindings.get("number2").iterator().next().getFeatures().get("string");
 	String altNumber = "W. " + number2;
 	gate.FeatureMap features = Factory.newFeatureMap();
-    features.put("Class", "WelshStatutoryInstrument");
-    features.put("Year", year);
-    features.put("Number", number);
-    features.put("AlternativeNumber", altNumber);
-    outputAS.add(cite.firstNode(), cite.lastNode(), "Citation", features);
+	features.put("Class", "WelshStatutoryInstrument");
+	features.put("Year", year);
+	features.put("Number", number);
+	features.put("AlternativeNumber", altNumber);
+	outputAS.add(cite.firstNode(), cite.lastNode(), "Citation", features);
 }
 
 Rule: WSI1
@@ -359,11 +395,11 @@ Priority: 5
 	String number2 = (String) bindings.get("number2").iterator().next().getFeatures().get("string");
 	String altNumber = "W. " + number2;
 	gate.FeatureMap features = Factory.newFeatureMap();
-    features.put("Class", "WelshStatutoryInstrument");
-    features.put("Year", year);
-    features.put("Number", number);
-    features.put("AlternativeNumber", altNumber);
-    outputAS.add(cite.firstNode(), cite.lastNode(), "Citation", features);
+	features.put("Class", "WelshStatutoryInstrument");
+	features.put("Year", year);
+	features.put("Number", number);
+	features.put("AlternativeNumber", altNumber);
+	outputAS.add(cite.firstNode(), cite.lastNode(), "Citation", features);
 }
 
 Rule: WSISuccessive1
@@ -384,12 +420,12 @@ Priority: 2
 	String number2 = (String) bindings.get("number2").iterator().next().getFeatures().get("string");
 	String altNumber = "W. " + number2;
 	gate.FeatureMap features = Factory.newFeatureMap();
-    features.put("Class", "WelshStatutoryInstrument");
-    features.put("Year", year);
-    features.put("Number", number);
-    features.put("AlternativeNumber", altNumber);
-//    outputAS.add(cite.firstNode(), cite.lastNode(), "Citation", features);
-    inputAS.add(cite.firstNode(), cite.lastNode(), "SuccessiveCitation", features);
+	features.put("Class", "WelshStatutoryInstrument");
+	features.put("Year", year);
+	features.put("Number", number);
+	features.put("AlternativeNumber", altNumber);
+//	outputAS.add(cite.firstNode(), cite.lastNode(), "Citation", features);
+	inputAS.add(cite.firstNode(), cite.lastNode(), "SuccessiveCitation", features);
 }
 
 
@@ -432,8 +468,7 @@ Priority: 5
 ): cite --> :cite.Citation = {
 	Class = "NorthernIrelandStatutoryRule",
 	Year = :year.Token.string,
-	Number = :number.Token.string,
-	NorthernIrishNumber = :number.Token.string
+	Number = :number.Token.string
 }
 Rule: NISR2
 Priority: 5
@@ -442,9 +477,29 @@ Priority: 5
 	{ Token.string == "." }
 	{ Token.string == "R" }
 	{ Token.string == "." }
-	( { Token.string == "&" }
-	  { Token.string == "O" }
-	  { Token.string == "." } ) ?
+	{ Token.string == "(" }
+	( ( { Token.string == "N" } { Token.string == "." } { Token.string == "I" } { Token.string == "." } ) |
+		{ Token.string == "NI" } )
+	{ Token.string == ")" }
+	( { Token.kind == "number", Token.length == 4 } ) :year
+	( { Token.string == "/" } |
+	  ( { Token.string ==~ "Nos?" } { Token.string == "." } ) )
+	( { Token.kind == "number" } ) :number
+): cite --> :cite.Citation = {
+	Class = "NorthernIrelandStatutoryRule",
+	Year = :year.Token.string,
+	Number = :number.Token.string
+}
+Rule: NISRO
+Priority: 5
+(
+	{ Token.string == "S" }
+	{ Token.string == "." }
+	{ Token.string == "R" }
+	{ Token.string == "." }
+	{ Token.string == "&" }
+	{ Token.string == "O" }
+	{ Token.string == "." }
 	{ Token.string == "(" }
 	{ Token.string == "N" }
 	{ Token.string == "." }
@@ -456,8 +511,40 @@ Priority: 5
 	  ( { Token.string ==~ "Nos?" } { Token.string == "." } ) )
 	( { Token.kind == "number" } ) :number
 ): cite --> :cite.Citation = {
-	Class = "NorthernIrelandStatutoryRule",
+	Class = "NorthernIrelandStatutoryRuleOrOrder",
 	Year = :year.Token.string,
-	Number = :number.Token.string,
-	NorthernIrishNumber = :number.Token.string
+	Number = :number.Token.string
+}
+
+Rule: NISX
+Priority: 4
+(
+	( { Token.kind == "number", Token.length == 4 } ) :year
+	( { Token.string == "," } ) ?
+	( { Token.string ==~ "Nos?" } { Token.string == "." } )
+	( { Token.kind == "number" } ) :number
+	{ Token.string == "(" }
+	{ Token.string == "N" }
+	{ Token.string == "." }
+	{ Token.string == "I" }
+	{ Token.string == "." }
+	( { Token.kind == "number" } ) :number2
+	{ Token.string == ")" }
+): cite --> {
+	gate.AnnotationSet set = (gate.AnnotationSet) bindings.get("cite");
+	int year = Integer.parseInt((String) bindings.get("year").iterator().next().getFeatures().get("string"));
+	String number = (String) bindings.get("number").iterator().next().getFeatures().get("string");
+	String number2 = (String) bindings.get("number2").iterator().next().getFeatures().get("string");
+	String altNumber = "N.I. " + number2;
+	String type;
+//	if (year >= 1972)
+//		type = "NorthernIrelandOrderInCouncil";
+//	else
+		type = "NorthernIrelandOrderInCouncil";
+	gate.FeatureMap features = Factory.newFeatureMap();
+	features.put("Class", type);
+	features.put("Year", year);
+	features.put("Number", number);
+	features.put("AlternativeNumber", altNumber);
+	outputAS.add(set.firstNode(), set.lastNode(), "Citation", features);
 }

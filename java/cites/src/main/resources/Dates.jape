@@ -9,7 +9,7 @@ Priority: 1
 	( { Lookup.minorType == month } ) :month
 	( { Token.kind == "number", Token.length == 4 } ) :year
 ): date --> :date.Date = {
-    Year = :year.Token.string,
-    Month = :month.Lookup@string,
-    Day = :day.Token.string
+	Year = :year.Token.string,
+	Month = :month.Lookup@string,
+	Day = :day.Token.string
 }

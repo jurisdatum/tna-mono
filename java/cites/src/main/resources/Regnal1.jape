@@ -3,9 +3,11 @@ Input: Token
 Options: control = appelt
 
 Macro: MONARCH
-( { Token.string == "Eliz" } |
-  { Token.string == "Geo" } |
+( { Token.string == "Ann" } |
   { Token.string == "Edw" } |
+  { Token.string == "Eliz" } |
+  { Token.string == "Geo" } |
+  { Token.string == "Hen" } |
   { Token.string == "Vict" } |
   { Token.string == "Will" } )
 
@@ -27,7 +29,7 @@ Rule: YearAfter
 	{ Token.string == ")" }
 ): cite --> {
 	gate.AnnotationSet cite = (gate.AnnotationSet) bindings.get("cite");
-// 	String regnal = (String) bindings.get("regnal").iterator().next().getFeatures().get("string");
+	String regnal = gate.Utils.stringFor(doc, (gate.AnnotationSet) bindings.get("regnal"));
 	String year = (String) bindings.get("year").iterator().next().getFeatures().get("string");
 	String roman = (String) bindings.get("number").iterator().next().getFeatures().get("string");
 	java.util.function.Function<String, Integer> romanToArabic = (java.util.function.Function<String, Integer>) this.ctx.getController().getFeatures().get("romanToArabic");
@@ -36,6 +38,7 @@ Rule: YearAfter
 	features.put("Class", "UnitedKingdomLocalAct");
 	features.put("Year", year);
 	features.put("Number", number);
+	features.put("AlternativeNumber", regnal);
 	outputAS.add(cite.firstNode(), cite.lastNode(), "Citation", features);
 }
 
@@ -44,8 +47,7 @@ Rule: YearBefore
 	( { Token.kind == "number", Token.length == 4 } ) :year
 	{ Token.string == "(" }
 	(	( { Token.kind == "number" }
-		{ Token.string == "&" }
-		{ Token.kind == "number" }
+		( { Token.string == "&" } { Token.kind == "number" } ) ?
 		MONARCH
 		{ Token.string == "." }
 		( { Token.kind == "number" } ) ? ) :regnal
@@ -57,6 +59,7 @@ Rule: YearBefore
 ) --> {
 	gate.AnnotationSet cite = (gate.AnnotationSet) bindings.get("cite");
 	String year = (String) bindings.get("year").iterator().next().getFeatures().get("string");
+	String regnal = gate.Utils.stringFor(doc, (gate.AnnotationSet) bindings.get("regnal"));
 	String roman = (String) bindings.get("number").iterator().next().getFeatures().get("string");
 	java.util.function.Function<String, Integer> romanToArabic = (java.util.function.Function<String, Integer>) this.ctx.getController().getFeatures().get("romanToArabic");
 	Integer number = romanToArabic.apply(roman);
@@ -64,5 +67,39 @@ Rule: YearBefore
 	features.put("Class", "UnitedKingdomLocalAct");
 	features.put("Year", year);
 	features.put("Number", number);
+	features.put("AlternativeNumber", regnal);
+	outputAS.add(cite.firstNode(), cite.lastNode(), "Citation", features);
+}
+
+Rule: YearBefore2
+(
+	( { Token.kind == "number", Token.length == 4 } ) :year
+	{ Token.string == "(" }
+	(	( { Token.kind == "number" }
+		MONARCH
+		{ Token.string == "." }
+		{ Token.kind == "number" }
+		{ Token.string == "&" }
+		{ Token.kind == "number" }
+		MONARCH
+		{ Token.string == "." }
+		{ Token.kind == "number" } ) :regnal
+		{ Token.string == "c" }
+		{ Token.string == "." }
+		( ROMAN ) :number
+	): cite
+	{ Token.string == ")" }
+) --> {
+	gate.AnnotationSet cite = (gate.AnnotationSet) bindings.get("cite");
+	String year = (String) bindings.get("year").iterator().next().getFeatures().get("string");
+	String regnal = gate.Utils.stringFor(doc, (gate.AnnotationSet) bindings.get("regnal"));
+	String roman = (String) bindings.get("number").iterator().next().getFeatures().get("string");
+	java.util.function.Function<String, Integer> romanToArabic = (java.util.function.Function<String, Integer>) this.ctx.getController().getFeatures().get("romanToArabic");
+	Integer number = romanToArabic.apply(roman);
+	gate.FeatureMap features = Factory.newFeatureMap();
+	features.put("Class", "UnitedKingdomLocalAct");
+	features.put("Year", year);
+	features.put("Number", number);
+	features.put("AlternativeNumber", regnal);
 	outputAS.add(cite.firstNode(), cite.lastNode(), "Citation", features);
 }

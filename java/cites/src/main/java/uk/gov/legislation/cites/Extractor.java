@@ -76,9 +76,31 @@ public class Extractor {
             return;
         if (number.isEmpty())
             return;
+        String altNum = element.getAttribute("AlternativeNumber");
+        if (altNum == null || altNum.isEmpty()) {
+            String wNum = element.getAttribute("WelshNumber");
+            if (wNum != null && !wNum.isEmpty())
+                altNum = "W. " + wNum;
+        }
+        if (altNum == null || altNum.isEmpty()) {
+            String sNum = element.getAttribute("ScottishNumber");
+            if (sNum != null && !sNum.isEmpty())
+                altNum = "S. " + sNum;
+        }
+        if (altNum == null || altNum.isEmpty()) {
+            String niNum = element.getAttribute("NorthernIrishNumber");
+            if (niNum != null && !niNum.isEmpty())
+                altNum = "N.I. " + niNum;
+        }
+        if (altNum == null || altNum.isEmpty()) {
+            String cNum = element.getAttribute("CommencementNumber");
+            if (cNum != null && !cNum.isEmpty())
+                altNum = "C. " + cNum;
+        }
         Cite cite;
         try {
             cite = new Cite(text, type, year, Integer.parseInt(number));
+            cite.setAltNumber(altNum);
         } catch (NumberFormatException e) {
             e.printStackTrace();
             return;

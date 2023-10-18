@@ -46,6 +46,8 @@ public class MakeURI implements Function<Annotation, String> {
                 return "aip";
             case "GreatBritainAct":
                 return "apgb";
+            case "GreatBritainLocalAct":
+                return "gbla";
             case "NorthernIrelandAssemblyMeasure":
                 return "mnia";
             case "NorthernIrelandParliamentAct":

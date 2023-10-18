@@ -19,6 +19,10 @@
     <xsl:apply-templates mode="remove" />
 </xsl:template>
 
+<xsl:template match="CitationSubRef" mode="remove">
+    <xsl:apply-templates mode="remove" />
+</xsl:template>
+
 <xsl:template match="Citation//Acronym" mode="remove">
     <xsl:apply-templates mode="remove" />
 </xsl:template>

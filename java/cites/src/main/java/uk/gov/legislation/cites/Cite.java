@@ -10,6 +10,7 @@ public class Cite {
     private String type;
     private int year;
     private int number;
+    private String altNumber;
 
     public String text() {
         return text;
@@ -38,6 +39,13 @@ public class Cite {
 //    public void setNumber(int number) {
 //        this.number = number;
 //    }
+
+    public String altNumber() {
+        return altNumber;
+    }
+    public void setAltNumber(String altNum) {
+        this.altNumber = altNum;
+    }
 
     public Cite(String text, String type, int year, int number) {
         this.text = text;
