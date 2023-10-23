@@ -52,7 +52,7 @@ Priority: 1
 	else if (year >= 1797)
 		cls = "GreatBritainLocalAct";
 	else
-		cls = "UnitedKingdomLocalAct";
+		cls = "UnitedKingdomPublicGeneralAct";
 	gate.FeatureMap features = Factory.newFeatureMap();
 	features.put("Class", cls);
 	features.put("Year", year);
@@ -283,49 +283,6 @@ Priority: 4
 	outputAS.add(cite.firstNode(), cite.lastNode(), "Citation", features);
 }
 
-Rule: UKSISuccessive1
-Priority: 1
-(
-	( { Token.kind == "number", Token.length == 4 } ) :year
-	{ Token.string == "/" }
-	( { Token.kind == "number" } ) :number
-): cite --> {
-	gate.AnnotationSet cite = (gate.AnnotationSet) bindings.get("cite");
-	String year = (String) bindings.get("year").iterator().next().getFeatures().get("string");
-	String number = (String) bindings.get("number").iterator().next().getFeatures().get("string");
-	gate.FeatureMap features = Factory.newFeatureMap();
-	features.put("Class", "Unknown");
-	features.put("Year", year);
-	features.put("Number", number);
-	inputAS.add(cite.firstNode(), cite.lastNode(), "SuccessiveCitation", features);
-}
-
-Rule: UKSISuccessive2
-Priority: 2
-(
-	( { Token.kind == "number", Token.length == 4 } ) :year
-	{ Token.string == "/" }
-	( { Token.kind == "number" } ) :number
-	{ Token.string == "(" }
-	( { Token.string == "C" } ) :series
-	{ Token.string == "." }
-	( { Token.kind == "number" } ) :number2
-	{ Token.string == ")" }
-): cite --> {
-	gate.AnnotationSet cite = (gate.AnnotationSet) bindings.get("cite");
-	String year = (String) bindings.get("year").iterator().next().getFeatures().get("string");
-	String number = (String) bindings.get("number").iterator().next().getFeatures().get("string");
-	String series = (String) bindings.get("series").iterator().next().getFeatures().get("string");
-	String number2 = (String) bindings.get("number2").iterator().next().getFeatures().get("string");
-	String altNumber = series + " " + number2;
-	gate.FeatureMap features = Factory.newFeatureMap();
-	features.put("Class", "Unknown");
-	features.put("Year", year);
-	features.put("Number", number);
-	features.put("AlternativeNumber", altNumber);
-	inputAS.add(cite.firstNode(), cite.lastNode(), "SuccessiveCitation", features);
-}
-
 Rule: SSI
 Priority: 5
 (
@@ -342,6 +299,37 @@ Priority: 5
 	Class = "ScottishStatutoryInstrument",
 	Year = :year.Token.string,
 	Number = :number.Token.string
+}
+
+Rule: SSI2
+Priority: 6
+(
+	{ Token.string == "S" }
+	{ Token.string == "." }
+	{ Token.string == "S" }
+	{ Token.string == "." }
+	{ Token.string == "I" }
+	( { Token.string == "." } ) ?
+	( { Token.kind == "number", Token.length == 4 } ) :year
+	( { Token.string == "/" } | { Token.string == "No" } { Token.string == "." } )
+	( { Token.kind == "number" } ) :number
+	{ Token.string == "(" }
+	{ Token.string == "C" }
+	{ Token.string == "." }
+	( { Token.kind == "number" } ) :number2
+	{ Token.string == ")" }
+): cite --> {
+	gate.AnnotationSet cite = (gate.AnnotationSet) bindings.get("cite");
+	String year = (String) bindings.get("year").iterator().next().getFeatures().get("string");
+	String number = (String) bindings.get("number").iterator().next().getFeatures().get("string");
+	String number2 = (String) bindings.get("number2").iterator().next().getFeatures().get("string");
+	String altNumber = "C. " + number2;
+	gate.FeatureMap features = Factory.newFeatureMap();
+	features.put("Class", "ScottishStatutoryInstrument");
+	features.put("Year", year);
+	features.put("Number", number);
+	features.put("AlternativeNumber", altNumber);
+	outputAS.add(cite.firstNode(), cite.lastNode(), "Citation", features);
 }
 
 Rule: WSI
@@ -402,14 +390,14 @@ Priority: 5
 	outputAS.add(cite.firstNode(), cite.lastNode(), "Citation", features);
 }
 
-Rule: WSISuccessive1
-Priority: 2
+Rule: WSI2
+Priority: 4
 (
 	( { Token.kind == "number", Token.length == 4 } ) :year
 	{ Token.string == "/" }
 	( { Token.kind == "number" } ) :number
 	{ Token.string == "(" }
-	( { Token.string == "W" } ) :series
+	( { Token.string == "W" } )
 	{ Token.string == "." }
 	( { Token.kind == "number" } ) :number2
 	{ Token.string == ")" }
@@ -424,10 +412,8 @@ Priority: 2
 	features.put("Year", year);
 	features.put("Number", number);
 	features.put("AlternativeNumber", altNumber);
-//	outputAS.add(cite.firstNode(), cite.lastNode(), "Citation", features);
-	inputAS.add(cite.firstNode(), cite.lastNode(), "SuccessiveCitation", features);
+	outputAS.add(cite.firstNode(), cite.lastNode(), "Citation", features);
 }
-
 
 Rule: NISI
 Priority: 5

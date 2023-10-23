@@ -37,33 +37,6 @@ Priority: 1
 	outputAS.add(cite.firstNode(), cite.lastNode(), "Citation", features);
 }
 
-Rule: SuccessiveCitation
-Priority: 1
-(
-	( { Token.string == "," } | { Token.string == "and" } | { Token.string == "or" } )
-	(
-	  ( { Token.string == "(" }
-	    ( { Token.string == "EU" } | { Token.string == "EC" } | { Token.string == "EEC" } )
-	    { Token.string == ")" } ) ?
-	  ( { Token.string == "No" }
-	    ( { Token.string == "." } ) ? ) ?
-	  ( { Token.kind == "number" } ) :number
-	  { Token.string == "/" }
-	  ( { Token.kind == "number" } ) :year
-	  ( { Token.string == "/" }
-	    ( { Token.string == "EU" } | { Token.string == "EC" } | { Token.string == "EEC" } ) ) ?
-	): cite
-) --> {
-	gate.AnnotationSet cite = (gate.AnnotationSet) bindings.get("cite");
-	String year = (String) bindings.get("year").iterator().next().getFeatures().get("string");
-	String number = (String) bindings.get("number").iterator().next().getFeatures().get("string");
-	gate.FeatureMap features = Factory.newFeatureMap();
-	features.put("Class", "EUUnknown");
-	features.put("Year", year);
-	features.put("Number", number);
-	inputAS.add(cite.firstNode(), cite.lastNode(), "SuccessiveCitation", features);
-}
-
 Rule: OJCitation
 Priority: 1
 (
