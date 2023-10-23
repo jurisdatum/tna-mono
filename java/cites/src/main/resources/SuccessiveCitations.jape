@@ -9,14 +9,53 @@ Priority: 3
 	(
 	  ( { Token.string == "(" }
 	    ( { Token.string == "EU" } | { Token.string == "EC" } | { Token.string == "EEC" } )
-	    { Token.string == ")" } ) ?
+	    { Token.string == ")" } )
+	  ( { Token.string == "No" }
+	    ( { Token.string == "." } ) ? ) ?
+	  ( { Token.kind == "number" } ) :number
+	  { Token.string == "/" }
+	  ( { Token.kind == "number" } ) :year
+	): cite
+) --> {
+
+	java.util.function.Predicate<gate.AnnotationSet> isWithinCitation =
+		(java.util.function.Predicate<gate.AnnotationSet>) this.ctx.getController().getFeatures().get("isWithinCitation");
+	java.util.function.Function<gate.AnnotationSet, gate.Annotation> getPrecedingCite =
+		(java.util.function.Function<gate.AnnotationSet, gate.Annotation>) this.ctx.getController().getFeatures().get("getPrecedingCite");
+
+	gate.AnnotationSet cite = (gate.AnnotationSet) bindings.get("cite");
+
+	if (isWithinCitation.test(cite))
+		return;
+	gate.Annotation full = getPrecedingCite.apply(cite);
+	if (full == null)
+		return;
+
+	String fullClass = (String) full.getFeatures().get("Class");
+	if (!fullClass.startsWith("EuropeanUnion"))
+		return;
+	String year = (String) bindings.get("year").iterator().next().getFeatures().get("string");
+	String number = (String) bindings.get("number").iterator().next().getFeatures().get("string");
+
+	gate.FeatureMap features = Factory.newFeatureMap();
+	features.put("Class", fullClass);
+	features.put("Year", year);
+	features.put("Number", number);
+	outputAS.add(cite.firstNode(), cite.lastNode(), "Citation", features);
+}
+
+Rule: EUSuccessive2
+Priority: 3
+(
+	( { Token.string == "," } | { Token.string == "and" } | { Token.string == "or" } )
+	(
 	  ( { Token.string == "No" }
 	    ( { Token.string == "." } ) ? ) ?
 	  ( { Token.kind == "number" } ) :number
 	  { Token.string == "/" }
 	  ( { Token.kind == "number" } ) :year
 	  ( { Token.string == "/" }
-	    ( { Token.string == "EU" } | { Token.string == "EC" } | { Token.string == "EEC" } ) ) ?
+	    ( { Token.string == "EU" } | { Token.string == "EC" } | { Token.string == "EEC" } ) )
 	): cite
 ) --> {
 
@@ -60,7 +99,6 @@ Priority: 1
 		(java.util.function.Function<gate.AnnotationSet, gate.Annotation>) this.ctx.getController().getFeatures().get("getPrecedingCite");
 
 	gate.AnnotationSet cite = (gate.AnnotationSet) bindings.get("cite");
-
 	if (isWithinCitation.test(cite))
 		return;
 	gate.Annotation full = getPrecedingCite.apply(cite);
@@ -75,7 +113,7 @@ Priority: 1
 	features.put("Class", fullClass);
 	features.put("Year", year);
 	features.put("Number", number);
-	inputAS.add(cite.firstNode(), cite.lastNode(), "SuccessiveCitation", features);
+	outputAS.add(cite.firstNode(), cite.lastNode(), "Citation", features);
 }
 
 Rule: UKSISuccessive2
@@ -112,5 +150,5 @@ Priority: 2
 	features.put("Class", fullClass);
 	features.put("Year", year);
 	features.put("Number", number);
-	inputAS.add(cite.firstNode(), cite.lastNode(), "SuccessiveCitation", features);
+	outputAS.add(cite.firstNode(), cite.lastNode(), "Citation", features);
 }
