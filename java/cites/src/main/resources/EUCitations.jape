@@ -40,10 +40,8 @@ Priority: 1
 Rule: OJCitation
 Priority: 1
 (
-	{ Token.string == "O" }
-	{ Token.string == "." }
-	{ Token.string == "J" }
-	{ Token.string == "." }
+	( ( { Token.string == "O" } { Token.string == "." } { Token.string == "J" } { Token.string == "." } ) |
+	  { Token.string == "OJ" } )
 	{ Token.string == "No" }
 	{ Token.string == "." }
 	( { Token.string == "L" } | { Token.string == "C" } ) :series
@@ -58,12 +56,31 @@ Priority: 1
 	{ Token.string == "p" }
 	{ Token.string == "." }
 	( { Token.kind == "number" } ) :page
-): cite --> :cite.Citation = {
-	Class = "OfficialJournal",
-	Series = :series.Token.string,
-	Issue = :issue.Token.string,
-	Year = :year.Token.string,
-	Month = :month.Token.string,
-	Day = :day.Token.string,
-	Page = :page.Token.string
+): cite --> {
+
+	gate.AnnotationSet cite = (gate.AnnotationSet) bindings.get("cite");
+
+	String type = "EuropeanUnionOfficialJournal";
+
+	String series = (String) bindings.get("series").iterator().next().getFeatures().get("string");
+	String number = (String) bindings.get("issue").iterator().next().getFeatures().get("string");
+	int day = Integer.parseInt((String) bindings.get("day").iterator().next().getFeatures().get("string"));
+	int month = Integer.parseInt((String) bindings.get("month").iterator().next().getFeatures().get("string"));
+	int year = Integer.parseInt((String) bindings.get("year").iterator().next().getFeatures().get("string"));
+	String page = (String) bindings.get("page").iterator().next().getFeatures().get("string");
+
+	java.util.function.Function<Integer, Integer> normalizeYear =
+		(java.util.function.Function<Integer, Integer>) this.ctx.getController().getFeatures().get("normalizeYear");
+	year = normalizeYear.apply(year);
+
+	String date = year + "-" + String.format("%02d", month) + "-" + String.format("%02d", day);
+
+	gate.FeatureMap features = Factory.newFeatureMap();
+	features.put("Class", type);
+	features.put("Year", year);
+	features.put("Series", series);
+	features.put("Number", number);
+	features.put("Date", date);
+	features.put("StartPage", page);
+	outputAS.add(cite.firstNode(), cite.lastNode(), "Citation", features);
 }

@@ -9,13 +9,21 @@ import gate.creole.SerialAnalyserController;
 
 class Steps {
 
-    static final String MainGrammar = "/Citations.jape";
-
-    static void addMainGrammar(SerialAnalyserController sac) throws ResourceInstantiationException {
-        addTransducer(sac, MainGrammar);
+    static void addAll(SerialAnalyserController sac) throws ResourceInstantiationException {
+        addMainGrammar(sac);
+        addLoneNumberStep(sac);
+        addRemove(sac);
+        addCiteIds(sac);
+        subRefs(sac);
+        addNamespaceCheck(sac);
+        addURIs(sac);
     }
 
-    static void addLoneNumberStep(SerialAnalyserController sac) throws ResourceInstantiationException {
+    private static void addMainGrammar(SerialAnalyserController sac) throws ResourceInstantiationException {
+        addTransducer(sac, "/Citations.jape");
+    }
+
+    private static void addLoneNumberStep(SerialAnalyserController sac) throws ResourceInstantiationException {
         copyAnnotations(sac, CiteEnricher.NewMarkups, null);
         addTransducer(sac,"/UKCitations3.jape");
     }
@@ -35,7 +43,7 @@ class Steps {
         sac.add(transfer3);
     }
 
-    static void addRemove(SerialAnalyserController sac) throws ResourceInstantiationException {
+    private static void addRemove(SerialAnalyserController sac) throws ResourceInstantiationException {
         String temp = "TempForRemoval";
         copyAnnotations(sac, CiteEnricher.OriginalMarkups, temp);
         copyAnnotations(sac, CiteEnricher.NewMarkups, temp);
@@ -46,11 +54,20 @@ class Steps {
         sac.add(transducer);
     }
 
-    static void addNamespaceCheck(SerialAnalyserController sac) throws ResourceInstantiationException {
+    private static void addCiteIds(SerialAnalyserController sac) throws ResourceInstantiationException {
+        addTransducer(sac,"/AddCiteIDs.jape", CiteEnricher.NewMarkups);
+    }
+
+    private static void subRefs(SerialAnalyserController sac) throws ResourceInstantiationException {
+        copyAnnotations(sac, CiteEnricher.NewMarkups, null);
+        addTransducer(sac,"/SubRefs.jape");
+    }
+
+    private static void addNamespaceCheck(SerialAnalyserController sac) throws ResourceInstantiationException {
         addTransducer(sac, "/Namespace.jape", CiteEnricher.NewMarkups);
     }
 
-    static void addURIs(SerialAnalyserController sac) throws ResourceInstantiationException {
+    private static void addURIs(SerialAnalyserController sac) throws ResourceInstantiationException {
         addTransducer(sac,"/AddURIs.jape", CiteEnricher.NewMarkups);
     }
 

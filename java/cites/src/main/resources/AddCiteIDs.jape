@@ -1,0 +1,13 @@
+Phase: AddCiteID
+Input: Citation
+Options: control = appelt
+
+Rule: Citation
+Priority: 1
+( { Citation } ) :cite --> {
+	gate.Annotation cite = (gate.Annotation) bindings.get("cite").iterator().next();
+	gate.AnnotationSet prev = inputAS.get("Citation", inputAS.firstNode().getOffset(), cite.getStartNode().getOffset());
+	long count = prev.stream().count();
+	String id = "c" + String.format("%05d", count + 1);
+	cite.getFeatures().put("id", id);
+}

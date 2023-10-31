@@ -7,10 +7,7 @@ import gate.creole.ResourceInstantiationException;
 import gate.creole.SerialAnalyserController;
 import gate.util.GateException;
 import uk.gov.legislation.ClmlBeautifier;
-import uk.gov.legislation.cites.gate.inject.GetPrecedingCite;
-import uk.gov.legislation.cites.gate.inject.IsWithinCitation;
-import uk.gov.legislation.cites.gate.inject.MakeURI;
-import uk.gov.legislation.cites.gate.inject.RomanToArabic;
+import uk.gov.legislation.cites.gate.inject.*;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -30,24 +27,23 @@ public class CiteEnricher {
             Gate.init();
         sac = (SerialAnalyserController) Factory.createResource("gate.creole.SerialAnalyserController");
 
+        // add custom functions to feature map
         sac.getFeatures().put("romanToArabic", new RomanToArabic());
         sac.getFeatures().put("getPrecedingCite", new GetPrecedingCite());
         sac.getFeatures().put("isWithinCitation", new IsWithinCitation());
+        sac.getFeatures().put("normalizeYear", new NormalizeYear());
         sac.getFeatures().put("makeURI", new MakeURI());
 
+        // add ANNIE
         Gate.getCreoleRegister().registerPlugin(new Plugin.Directory(getClass().getResource("/annie/")));
 
-        ProcessingResource tokenizer = (ProcessingResource) Factory.createResource("gate.creole.tokeniser.DefaultTokeniser");
-        sac.add(tokenizer);
+        // add tokenizer
+        sac.add((ProcessingResource) Factory.createResource("gate.creole.tokeniser.DefaultTokeniser"));
 
-        Steps.addMainGrammar(sac);
-        Steps.addLoneNumberStep(sac);
-        Steps.addRemove(sac);
-        Steps.addNamespaceCheck(sac);
-        Steps.addURIs(sac);
+        // add custom JAPE grammars
+        Steps.addAll(sac);
 
-        Corpus corpus = Factory.newCorpus("Corpus");
-        sac.setCorpus(corpus);
+        sac.setCorpus(Factory.newCorpus("Corpus"));
     }
 
     public byte[] enrich(byte[] clml) throws IOException, ResourceInstantiationException, ExecutionException {
@@ -65,7 +61,7 @@ public class CiteEnricher {
     private String enrich(Document doc) throws ExecutionException {
         sac.getCorpus().add(doc);
         sac.execute();
-        EUUtils.correctOJCites(doc);
+//        EUUtils.correctOJCites(doc);
         EUUtils.correctFeatures(doc);
         String enriched = serialize(doc);
         sac.getCorpus().remove(doc);

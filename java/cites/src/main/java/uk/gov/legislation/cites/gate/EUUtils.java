@@ -51,55 +51,55 @@ class EUUtils {
         newMarkups.removeAll(toRemove);
     }
 
-    static void correctOJCites(Document doc) {
-        AnnotationSet newMarkups = doc.getAnnotations(CiteEnricher.NewMarkups);
-        AnnotationSet newFullCites = newMarkups.get("Citation");
-        AnnotationSetImpl toRemove = new AnnotationSetImpl(doc);
-        Iterator<Annotation> iterator = newFullCites.iterator();
-        while (iterator.hasNext()) {
-            Annotation cite = iterator.next();
-            String c = (String) cite.getFeatures().get("Class");
-            if (!c.equals("OfficialJournal"))
-                continue;
-            boolean ok = correctOJCite(cite);
-            if (!ok)
-                toRemove.add(cite);
-        }
-        newMarkups.removeAll(toRemove);
-    }
+//    static void correctOJCites(Document doc) {
+//        AnnotationSet newMarkups = doc.getAnnotations(CiteEnricher.NewMarkups);
+//        AnnotationSet newFullCites = newMarkups.get("Citation");
+//        AnnotationSetImpl toRemove = new AnnotationSetImpl(doc);
+//        Iterator<Annotation> iterator = newFullCites.iterator();
+//        while (iterator.hasNext()) {
+//            Annotation cite = iterator.next();
+//            String c = (String) cite.getFeatures().get("Class");
+//            if (!c.equals("OfficialJournal"))
+//                continue;
+//            boolean ok = correctOJCite(cite);
+//            if (!ok)
+//                toRemove.add(cite);
+//        }
+//        newMarkups.removeAll(toRemove);
+//    }
 
-    private static boolean correctOJCite(Annotation cite) {
-        FeatureMap features = cite.getFeatures();
-        String c = (String) features.get("Class");
-        if (!c.startsWith("EuropeanUnion")) {
-            c = "EuropeanUnion" + c;
-            features.put("Class", c);
-        }
-        String series = (String) features.get("Series");
-        String issue = (String) features.get("Issue");
-        int year = Integer.parseInt((String) features.get("Year"));
-        int month = Integer.parseInt((String) features.get("Month"));
-        int day = Integer.parseInt((String) features.get("Day"));
-        String page = (String) features.get("Page");
-        try {
-            year = EUNumbers.normalizeYear(year);
-        } catch (IllegalArgumentException e) {
-            return false;
-        }
-        if (month < 1 || month > 12)
-            return false;
-        if (day < 1 || day > 31)
-            return false;
-        features.remove("Series");
-        features.remove("Issue");
-        features.put("Year", year);
-        features.remove("Month");
-        features.remove("Day");
-        features.remove("Page");
-        String date = year + "-" + String.format("%02d", month) + "-" + String.format("%02d", day);
-        features.put("Date", date);
-        return true;
-    }
+//    private static boolean correctOJCite(Annotation cite) {
+//        FeatureMap features = cite.getFeatures();
+//        String c = (String) features.get("Class");
+//        if (!c.startsWith("EuropeanUnion")) {
+//            c = "EuropeanUnion" + c;
+//            features.put("Class", c);
+//        }
+//        String series = (String) features.get("Series");
+//        String issue = (String) features.get("Issue");
+//        int year = Integer.parseInt((String) features.get("Year"));
+//        int month = Integer.parseInt((String) features.get("Month"));
+//        int day = Integer.parseInt((String) features.get("Day"));
+//        String page = (String) features.get("Page");
+//        try {
+//            year = EUNumbers.normalizeYear(year);
+//        } catch (IllegalArgumentException e) {
+//            return false;
+//        }
+//        if (month < 1 || month > 12)
+//            return false;
+//        if (day < 1 || day > 31)
+//            return false;
+//        features.remove("Series");
+//        features.remove("Issue");
+//        features.put("Year", year);
+//        features.remove("Month");
+//        features.remove("Day");
+//        features.remove("Page");
+//        String date = year + "-" + String.format("%02d", month) + "-" + String.format("%02d", day);
+//        features.put("Date", date);
+//        return true;
+//    }
 
     private static Integer getYearFromFollowingOJCite(Annotation cite, Document doc) {
         Annotation next = Utils.getNextNewCite(cite, doc, 50);

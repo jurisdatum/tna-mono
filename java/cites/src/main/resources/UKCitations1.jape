@@ -10,6 +10,11 @@ Priority: 1
 	{ Token.string == "c" }
 	( { Token.string == "." } ) ?
 	( { Token.kind == "number" } ) :number
+	( { Token.string == "," }
+	  { Token.string == "SIF" }
+	  { Token.kind == "number" }
+	  ( { Token.string == ":" }
+	    { Token.kind == "number" } ) ? ) ?
 	( { Token.string == ")" } ) ?
 ): cite --> {
 	gate.AnnotationSet set = (gate.AnnotationSet) bindings.get("cite");

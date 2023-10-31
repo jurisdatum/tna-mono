@@ -1,0 +1,61 @@
+Phase: SubRefs1
+Input: Citation Token
+Options: control = appelt
+
+Macro: X
+( { Token.string == "s" } |
+  { Token.string == "ss" } |
+  { Token.string == "art" } |
+  { Token.string == "arts" } |
+  { Token.string == "reg" } |
+  { Token.string == "regs" } |
+  { Token.string == "Sch" } )
+
+Macro: Subref
+( ( X ) :x
+  { Token.string == "." }
+  ( { Token.kind == "number" } ) :num
+  ( { Token.string == "(" } ( { Token.kind == "number" } ) :num2 { Token.string == ")" }
+    ( { Token.string == "(" } ( { Token.kind == "number" } ) :num3 { Token.string == ")" } ) ? ) ?
+)
+
+Rule: First
+Priority: 1
+(
+	( { Citation } ) :cite
+	( { Token.string == ")" } ) ?
+	{ Token.string == "," }
+	( Subref ) :subref
+) --> {
+	gate.Annotation cite = (gate.Annotation) bindings.get("cite").iterator().next();
+	String citeId = (String) cite.getFeatures().get("id");
+	String x = (String) bindings.get("x").iterator().next().getFeatures().get("string");
+	String num = (String) bindings.get("num").iterator().next().getFeatures().get("string");
+	gate.AnnotationSet subref = (gate.AnnotationSet) bindings.get("subref");
+	String sectRef;
+	if ("s".equals(x) || "ss".equals(x))
+		sectRef = "section-" + num;
+	else if ("art".equals(x) || "arts".equals(x))
+		sectRef = "article-" + num;
+	else if ("reg".equals(x) || "regs".equals(x))
+		sectRef = "regulation-" + num;
+	else if ("Sch".equals(x))
+		sectRef = "schedule-" + num;
+	else
+		sectRef = "section-" + num;
+
+	String num2 = bindings.containsKey("num2") ?
+		(String) bindings.get("num2").iterator().next().getFeatures().get("string") : null;
+	if (num2 != null)
+		sectRef += "-" + num2;
+
+	String num3 = bindings.containsKey("num3") ?
+		(String) bindings.get("num3").iterator().next().getFeatures().get("string") : null;
+	if (num3 != null)
+		sectRef += "-" + num3;
+
+	gate.FeatureMap features = Factory.newFeatureMap();
+	features.put("CitationRef", citeId);
+	features.put("SectionRef", sectRef);
+	outputAS.add(subref.firstNode(), subref.lastNode(), "CitationSubRef", features);
+}
