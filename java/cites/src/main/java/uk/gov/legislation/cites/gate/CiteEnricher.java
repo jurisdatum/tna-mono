@@ -23,19 +23,17 @@ public class CiteEnricher {
     private final ClmlBeautifier beautifier = new ClmlBeautifier();
 
     public CiteEnricher() throws GateException {
-        if (!Gate.isInitialised())
+        if (!Gate.isInitialised()) {
             Gate.init();
+            // add ANNIE
+            Gate.getCreoleRegister().registerPlugin(new Plugin.Directory(getClass().getResource("/annie/")));
+            // add custom component
+            Gate.getCreoleRegister().registerComponent(EUNumberCorrector.class);
+        }
         sac = (SerialAnalyserController) Factory.createResource("gate.creole.SerialAnalyserController");
 
         // add custom functions to feature map
-        sac.getFeatures().put("romanToArabic", new RomanToArabic());
-        sac.getFeatures().put("getPrecedingCite", new GetPrecedingCite());
-        sac.getFeatures().put("isWithinCitation", new IsWithinCitation());
-        sac.getFeatures().put("normalizeYear", new NormalizeYear());
-        sac.getFeatures().put("makeURI", new MakeURI());
-
-        // add ANNIE
-        Gate.getCreoleRegister().registerPlugin(new Plugin.Directory(getClass().getResource("/annie/")));
+        Functions.addAll(sac);
 
         // add tokenizer
         sac.add((ProcessingResource) Factory.createResource("gate.creole.tokeniser.DefaultTokeniser"));
@@ -61,8 +59,6 @@ public class CiteEnricher {
     private String enrich(Document doc) throws ExecutionException {
         sac.getCorpus().add(doc);
         sac.execute();
-//        EUUtils.correctOJCites(doc);
-        EUUtils.correctFeatures(doc);
         String enriched = serialize(doc);
         sac.getCorpus().remove(doc);
         return enriched;

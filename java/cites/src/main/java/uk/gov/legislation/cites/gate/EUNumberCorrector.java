@@ -2,22 +2,22 @@ package uk.gov.legislation.cites.gate;
 
 import gate.Annotation;
 import gate.AnnotationSet;
-import gate.Document;
 import gate.FeatureMap;
 import gate.annotation.AnnotationSetImpl;
+import gate.creole.metadata.CreoleResource;
 
 import java.util.Iterator;
 
-class EUUtils {
+// https://gate.ac.uk/sale/talks/gate-course-jun19/module-8-developers/2-creole-writing/2-creole-writing.pdf
 
-    /**
-     * Adjusts the @Class, @Year and @Number attributes of EU cites that are not OJ cites,
-     * and removes those with bad dates
-     */
-    static void correctFeatures(Document doc) {
-        AnnotationSet newMarkups = doc.getAnnotations(CiteEnricher.NewMarkups);
+@CreoleResource(name = "EU Number Corrector", comment = "adjust year and number of EU cites")
+public class EUNumberCorrector extends gate.creole.AbstractLanguageAnalyser implements gate.LanguageAnalyser {
+
+    @Override
+    public void execute() {  // throws ExecutionException
+        AnnotationSet newMarkups = document.getAnnotations(CiteEnricher.NewMarkups);
         AnnotationSet newFullCites = newMarkups.get("Citation");
-        AnnotationSetImpl toRemove = new AnnotationSetImpl(doc);
+        AnnotationSetImpl toRemove = new AnnotationSetImpl(document);
         Iterator<Annotation> iterator = newFullCites.iterator();
         while (iterator.hasNext()) {
             Annotation cite = iterator.next();
@@ -32,9 +32,9 @@ class EUUtils {
 
             int num1 = Integer.parseInt((String) features.get("Number"));
             int num2 = Integer.parseInt((String) features.get("Year"));
-            Integer year = getYearFromFollowingDate(cite, doc);
+            Integer year = getYearFromFollowingDate(cite);
             if (year == null)
-                year = getYearFromFollowingOJCite(cite, doc);
+                year = getYearFromFollowingOJCite(cite);
             EUNumbers numbers;
             try {
                 numbers = EUNumbers.interpret(num1, num2, year);
@@ -51,22 +51,22 @@ class EUUtils {
         newMarkups.removeAll(toRemove);
     }
 
-    private static Integer getYearFromFollowingOJCite(Annotation cite, Document doc) {
-        Annotation next = Utils.getNextNewCite(cite, doc, 50);
+    private Integer getYearFromFollowingOJCite(Annotation cite) {
+        Annotation next = Utils.getNextNewCite(cite, document, 50);
         // should also check that there are no annotations in between?
         if (next != null && "EuropeanUnionOfficialJournal".equals(next.getFeatures().get("Class"))) {
 //            logger.info("using year from following OJ cite: " + gate.Utils.stringFor(doc, next) + " " + next.getFeatures().toString());
             return (Integer) next.getFeatures().get("Year");
         }
-        return getYearFromOJCiteInFollowingFootnote(cite, doc);
+        return getYearFromOJCiteInFollowingFootnote(cite);
     }
 
-    private static Integer getYearFromOJCiteInFollowingFootnote(Annotation cite, Document doc) {
-        Annotation fnRef = Utils.getNextFootnoteRef(cite, doc);
+    private Integer getYearFromOJCiteInFollowingFootnote(Annotation cite) {
+        Annotation fnRef = Utils.getNextFootnoteRef(cite, document);
         if (fnRef == null)
             return null;
-        AnnotationSet originalMarkups = doc.getAnnotations(CiteEnricher.OriginalMarkups);
-        AnnotationSet newAnnotations = doc.getAnnotations(CiteEnricher.NewMarkups);
+        AnnotationSet originalMarkups = document.getAnnotations(CiteEnricher.OriginalMarkups);
+        AnnotationSet newAnnotations = document.getAnnotations(CiteEnricher.NewMarkups);
         // if there is another citation before the footnote ref, don't consider the footnote
         Annotation next = Utils.getNextAnnotationWithinSameText(cite, originalMarkups, "Citation");
         if (next != null && next.getStartNode().getOffset() < fnRef.getStartNode().getOffset())
@@ -75,7 +75,7 @@ class EUUtils {
         if (next != null && next.getStartNode().getOffset() < fnRef.getStartNode().getOffset())
             return null;
         String footnoteId = (String) fnRef.getFeatures().get("Ref");
-        Annotation cite2 = Utils.getNewCitationFromFootnote(doc, footnoteId);
+        Annotation cite2 = Utils.getNewCitationFromFootnote(document, footnoteId);
         if (cite2 == null)
             return null;
         if ("EuropeanUnionOfficialJournal".equals(cite2.getFeatures().get("Class"))) {
@@ -85,8 +85,8 @@ class EUUtils {
         return null;
     }
 
-    private static Integer getYearFromFollowingDate(Annotation cite, Document doc) {
-        Annotation date = DateAnnotator.getFollowingDate(cite, doc, 20);
+    private Integer getYearFromFollowingDate(Annotation cite) {
+        Annotation date = DateAnnotator.getFollowingDate(cite, document, 20);
         if (date == null)
             return null;
         return DateAnnotator.getYear(date);

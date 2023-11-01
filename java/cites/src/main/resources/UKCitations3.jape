@@ -1,5 +1,5 @@
 Phase: UKCitations3
-Input: Citation Token
+Input: Citation CitationSubRef Token
 Options: control = all
 
 Rule: NumberAfterCite
@@ -30,4 +30,56 @@ Priority: 1
 	features.put("Number", number);
 	features.put("AlternativeNumber", altNum);
 	outputAS.add(numAnn.getStartNode(), numAnn.getEndNode(), "Citation", features);
+}
+
+
+// Subrefs
+
+Macro: NumberWithBindings
+( ( { Token.kind == "number" } ) :num
+  ( { Token.string == "(" } ( { Token.kind == "number" } ) :num2 { Token.string == ")" }
+    ( { Token.string == "(" } ( { Token.kind == "number" } ) :num3 { Token.string == ")" } ) ? ) ?
+)
+Macro: NumberWithoutBindings
+( { Token.kind == "number" }
+  ( { Token.string == "(" } { Token.kind == "number" } { Token.string == ")" } ) *
+)
+
+
+Rule: NumberAfterSubRef
+Priority: 1
+(	( { CitationSubRef } ) :prev
+	( { Token.string == "," } NumberWithoutBindings ) *
+	( { Token.string == "and" } | { Token.string == "," } )
+	( NumberWithBindings ) :number
+//	{ Token.string != "/" }
+) --> {
+	gate.Annotation prev = (gate.Annotation) bindings.get("prev").iterator().next();
+
+	gate.AnnotationSet numSet = (gate.AnnotationSet) bindings.get("number");
+	java.util.function.Predicate<gate.AnnotationSet> isWithinCitation =
+		(java.util.function.Predicate<gate.AnnotationSet>) this.ctx.getController().getFeatures().get("isWithinCitation");
+	if (isWithinCitation.test(numSet))
+		return;
+
+	String sectRef = (String) prev.getFeatures().get("SectionRef");
+	sectRef = sectRef.substring(0, sectRef.indexOf('-') + 1);
+
+	String num = (String) bindings.get("num").iterator().next().getFeatures().get("string");
+	sectRef += num;
+
+	String num2 = bindings.containsKey("num2") ?
+		(String) bindings.get("num2").iterator().next().getFeatures().get("string") : null;
+	if (num2 != null)
+		sectRef += "-" + num2;
+
+	String num3 = bindings.containsKey("num3") ?
+		(String) bindings.get("num3").iterator().next().getFeatures().get("string") : null;
+	if (num3 != null)
+		sectRef += "-" + num3;
+
+	gate.FeatureMap features = Factory.newFeatureMap();
+	features.putAll(prev.getFeatures());
+	features.put("SectionRef", sectRef);
+	outputAS.add(numSet.firstNode(), numSet.lastNode(), "CitationSubRef", features);
 }

@@ -11,10 +11,11 @@ class Steps {
 
     static void addAll(SerialAnalyserController sac) throws ResourceInstantiationException {
         addMainGrammar(sac);
-        addLoneNumberStep(sac);
         addRemove(sac);
+        sac.add(new EUNumberCorrector());
         addCiteIds(sac);
         subRefs(sac);
+        addLoneNumberStep(sac);
         addNamespaceCheck(sac);
         addURIs(sac);
     }
