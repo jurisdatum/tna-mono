@@ -1,0 +1,19 @@
+Phase: AddURIs2
+
+Rule: CitationSubRef
+( { CitationSubRef } ) :subref  --> {
+	gate.Annotation subref = (gate.Annotation) bindings.get("subref").iterator().next();
+	String citeId = (String) subref.getFeatures().get("CitationRef");
+
+	gate.FeatureMap constraint = Factory.newFeatureMap();
+	constraint.put("id", citeId);
+	gate.Annotation cite = inputAS.get("Citation", constraint).iterator().next();
+	String citeUri = (String) cite.getFeatures().get("URI");
+	if (citeUri == null)
+		return;
+
+	String sectRef = (String) subref.getFeatures().get("SectionRef");
+
+	String uri = citeUri + "/" + sectRef.replace('-', '/');
+	subref.getFeatures().put("URI", uri);
+}

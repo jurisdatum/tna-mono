@@ -1,0 +1,11 @@
+Phase: AddURIs1
+
+Rule: Citation
+( { Citation } ) :cite  --> {
+	gate.Annotation cite = (gate.Annotation) bindings.get("cite").iterator().next();
+	java.util.function.Function<gate.Annotation, String> makeURI =
+		(java.util.function.Function<gate.Annotation, String>) this.ctx.getController().getFeatures().get("makeURI");
+	String uri = makeURI.apply(cite);
+	if (uri != null)
+		cite.getFeatures().put("URI", uri);
+}

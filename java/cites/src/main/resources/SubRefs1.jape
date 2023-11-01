@@ -2,7 +2,7 @@ Phase: SubRefs1
 Input: Citation Token
 Options: control = appelt
 
-Macro: X
+Macro: S
 ( { Token.string == "s" } |
   { Token.string == "ss" } |
   { Token.string == "art" } |
@@ -12,7 +12,7 @@ Macro: X
   { Token.string == "Sch" } )
 
 Macro: Subref
-( ( X ) :x
+( ( S ) :x
   { Token.string == "." }
   ( { Token.kind == "number" } ) :num
   ( { Token.string == "(" } ( { Token.kind == "number" } ) :num2 { Token.string == ")" }
