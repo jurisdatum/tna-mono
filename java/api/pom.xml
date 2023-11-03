@@ -11,6 +11,9 @@
     </parent>
     <artifactId>api</artifactId>
     <packaging>pom</packaging>
+    <modules>
+        <module>cites</module>
+    </modules>
 
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
