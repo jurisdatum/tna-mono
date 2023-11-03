@@ -36,8 +36,11 @@ public class CitationsEnrich implements RequestHandler<APIGatewayV2HTTPEvent, AP
             context.getLogger().log(e1.getClass().getSimpleName() + " " + e1.getLocalizedMessage());
             context.getLogger().log("returning status code 400");
             return APIGatewayV2HTTPResponse.builder().withStatusCode(400).build();
-        } catch (IOException | InterruptedException e2) {
-            context.getLogger().log(e2.getClass().getSimpleName() + " " + e2.getLocalizedMessage());
+        } catch (NotFoundException e2) {
+            context.getLogger().log("returning status code 404");
+            return APIGatewayV2HTTPResponse.builder().withStatusCode(404).build();
+        } catch (IOException | InterruptedException e3) {
+            context.getLogger().log(e3.getClass().getSimpleName() + " " + e3.getLocalizedMessage());
             context.getLogger().log("returning status code 500");
             return APIGatewayV2HTTPResponse.builder().withStatusCode(500).build();
         }
@@ -58,7 +61,9 @@ public class CitationsEnrich implements RequestHandler<APIGatewayV2HTTPEvent, AP
             .build();
     }
 
-    private byte[] getClml(APIGatewayV2HTTPEvent request, Context context) throws URISyntaxException, IOException, InterruptedException {
+    static class NotFoundException extends Exception { }
+
+    private byte[] getClml(APIGatewayV2HTTPEvent request, Context context) throws URISyntaxException, IOException, InterruptedException, NotFoundException {
         context.getLogger().log("getting CLML");
         context.getLogger().log("http method is " + request.getRequestContext().getHttp().getMethod());
         if ("POST".equals(request.getRequestContext().getHttp().getMethod()))
@@ -70,6 +75,11 @@ public class CitationsEnrich implements RequestHandler<APIGatewayV2HTTPEvent, AP
         HttpRequest http = HttpRequest.newBuilder().uri(uri).build();
         HttpClient client = HttpClient.newHttpClient();
         HttpResponse<byte[]> response = client.send(http, HttpResponse.BodyHandlers.ofByteArray());
+        context.getLogger().log("LGU returned status code " + response.statusCode());
+        if (response.statusCode() == 404)
+            throw new NotFoundException();
+        if (response.statusCode() != 200)
+            throw new IOException("LGU returned status code " + response.statusCode());
         return response.body();
     }
 

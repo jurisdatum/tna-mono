@@ -7,6 +7,7 @@ import Document, { loadDocument } from './docs/document';
 
 import './App.css';
 import NavBar from './comp/navbar';
+import CiteTest from './cites/citetest';
 
 const router = createBrowserRouter([
   {
@@ -41,6 +42,9 @@ const router = createBrowserRouter([
       }
     ]
   }, {
+    path: "/citetest",
+    element: <CiteTest />
+}, {
     path: "*",
     loader: loadDocument,
     element: <Document />

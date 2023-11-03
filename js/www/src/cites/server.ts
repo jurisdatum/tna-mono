@@ -22,3 +22,14 @@ export async function getCitesFrom(docId: string): Promise<Cite[]> {
     }
     return await response.json();
 }
+
+export async function enrich(docId: string): Promise<string> {
+    const url = 'https://api.tna.jurisdatum.com/legislation/citations/enrich?id=' + docId;
+    const response = await fetch(url);
+    if (!response.ok) {
+        let message = await response.text();
+        console.error(message);
+        throw message;
+    }
+    return await response.text();
+}
