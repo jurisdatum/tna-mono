@@ -272,6 +272,7 @@ Resources:
     Properties:
       Name: ScrapeTrigger
       Description: trigger scrape new
+      State: DISABLED
       ScheduleExpression: rate(24 hours)
       Targets:
         - Arn: !GetAtt Lambda4.Arn
@@ -479,7 +480,7 @@ Resources:
         S3Bucket: mono-code
         S3Key: 'api-tables-0.1.0.jar'
       Handler: 'uk.gov.legislation.api.Tables::handleRequest'
-      MemorySize: 256
+      MemorySize: 512
       Role: !GetAtt RoleForTablesLambda.Arn
       Timeout: 60
       Environment:
