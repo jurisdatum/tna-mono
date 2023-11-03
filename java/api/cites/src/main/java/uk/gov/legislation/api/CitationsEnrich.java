@@ -15,6 +15,7 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
+import java.util.Collections;
 
 public class CitationsEnrich implements RequestHandler<APIGatewayV2HTTPEvent, APIGatewayV2HTTPResponse> {
 
@@ -30,10 +31,14 @@ public class CitationsEnrich implements RequestHandler<APIGatewayV2HTTPEvent, AP
     public APIGatewayV2HTTPResponse handleRequest(APIGatewayV2HTTPEvent request, Context context) {
         byte[] original;
         try {
-            original = getClml(request);
+            original = getClml(request, context);
         } catch (URISyntaxException e1) {
+            context.getLogger().log(e1.getClass().getSimpleName() + " " + e1.getLocalizedMessage());
+            context.getLogger().log("returning status code 400");
             return APIGatewayV2HTTPResponse.builder().withStatusCode(400).build();
         } catch (IOException | InterruptedException e2) {
+            context.getLogger().log(e2.getClass().getSimpleName() + " " + e2.getLocalizedMessage());
+            context.getLogger().log("returning status code 500");
             return APIGatewayV2HTTPResponse.builder().withStatusCode(500).build();
         }
         byte[] removed = remover.remove(original);
@@ -41,15 +46,26 @@ public class CitationsEnrich implements RequestHandler<APIGatewayV2HTTPEvent, AP
         try {
             enriched = enricher.enrich(removed);
         } catch (Exception e) {
+            context.getLogger().log(e.getClass().getSimpleName() + " " + e.getLocalizedMessage());
+            context.getLogger().log("returning status code 500");
             return APIGatewayV2HTTPResponse.builder().withStatusCode(500).build();
         }
-        return APIGatewayV2HTTPResponse.builder().withBody(new String(enriched, StandardCharsets.UTF_8)).build();
+        context.getLogger().log("success: returning status code 200");
+        return APIGatewayV2HTTPResponse.builder()
+            .withStatusCode(200)
+            .withHeaders(Collections.singletonMap("Content-Type", "application/xml; charset=utf-8"))
+            .withBody(new String(enriched, StandardCharsets.UTF_8))
+            .build();
     }
 
-    private byte[] getClml(APIGatewayV2HTTPEvent request) throws URISyntaxException, IOException, InterruptedException {
+    private byte[] getClml(APIGatewayV2HTTPEvent request, Context context) throws URISyntaxException, IOException, InterruptedException {
+        context.getLogger().log("getting CLML");
+        context.getLogger().log("http method is " + request.getRequestContext().getHttp().getMethod());
         if ("POST".equals(request.getRequestContext().getHttp().getMethod()))
             return request.getBody().getBytes();
+        context.getLogger().log("query string parameters are " + request.getRawQueryString());
         String id = request.getQueryStringParameters().get("id");
+        context.getLogger().log("id is " + id);
         URI uri = new URI("https://www.legislation.gov.uk/" + id + "/data.xml");
         HttpRequest http = HttpRequest.newBuilder().uri(uri).build();
         HttpClient client = HttpClient.newHttpClient();

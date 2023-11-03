@@ -674,6 +674,26 @@ Resources:
                     description: internal error
               x-amazon-apigateway-integration:
                 $ref: '#/components/x-amazon-apigateway-integrations/int-leg-docs'
+          /legislation/citations/enrich:
+            get:
+              summary: Enrich citations within a CLML document
+              parameters:
+                  - name: id
+                    in: query
+                    required: true
+                    schema:
+                      type: string
+              responses:
+                  '200':
+                    description: a CLML document
+                  '400':
+                    description: bad reqeust
+                  # '404':
+                  #   description: not found
+                  '500':
+                    description: internal error
+              x-amazon-apigateway-integration:
+                $ref: '#/components/x-amazon-apigateway-integrations/int-cites-enrich'
           /legislation/tables:
             get:
               summary: Retrieve a table from a document
@@ -736,6 +756,10 @@ Resources:
             int-leg-docs:
               type: 'aws_proxy'
               uri: !GetAtt ApiLambdaDocsGet.Arn
+              payloadFormatVersion: '2.0'
+            int-cites-enrich:
+              type: 'aws_proxy'
+              uri: !GetAtt LambdaForApiCitationsEnrich.Arn
               payloadFormatVersion: '2.0'
             int-tables:
               type: 'aws_proxy'
@@ -988,3 +1012,21 @@ Resources:
               Service: lambda.amazonaws.com
       ManagedPolicyArns:
         - arn:aws:iam::aws:policy/service-role/AWSLambdaVPCAccessExecutionRole
+
+  LambdaPermissionForitationsEnrichEndpoint:
+    Description: Allows /legislation/citations/enrich endpoint to invoke mono-api-citations-enrich function
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: 'lambda:InvokeFunction'
+      FunctionName: !Ref LambdaForApiCitationsEnrich
+      Principal: 'apigateway.amazonaws.com'
+      SourceArn:
+        !Join
+          - ''
+          - - 'arn:aws:execute-api:'
+            - !Ref AWS::Region
+            - ':'
+            - !Ref AWS::AccountId
+            - ':'
+            - !Ref Api
+            - '/*/*/legislation/citations/enrich'
