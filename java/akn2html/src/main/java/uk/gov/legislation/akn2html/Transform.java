@@ -43,6 +43,18 @@ public class Transform {
         }
     }
 
+    private void transform(Source clml, Destination destination, String cssPath) {
+        XsltTransformer transform = executable.load();
+        if (cssPath != null)
+            transform.setParameter(new QName("css-path"), XdmValue.makeValue(cssPath));
+        try {
+            transform.setSource(clml);
+            transform.setDestination(destination);
+            transform.transform();
+        } catch (SaxonApiException e) {
+            throw new RuntimeException(e);
+        }
+    }
     private void transform(Source clml, Destination destination) {
         XsltTransformer transform = executable.load();
         try {
@@ -64,6 +76,12 @@ public class Transform {
         ByteArrayOutputStream html = new ByteArrayOutputStream();
         Serializer serializer = executable.getProcessor().newSerializer(html);
         transform(akn.asSource(), serializer);
+        return html.toByteArray();
+    }
+    public byte[] transform(XdmNode akn, String cssPath) {
+        ByteArrayOutputStream html = new ByteArrayOutputStream();
+        Serializer serializer = executable.getProcessor().newSerializer(html);
+        transform(akn.asSource(), serializer, cssPath);
         return html.toByteArray();
     }
 

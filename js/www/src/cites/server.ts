@@ -33,3 +33,14 @@ export async function enrich(docId: string): Promise<string> {
     }
     return await response.text();
 }
+
+export async function convertClmlToHtml(clml: string): Promise<string> {
+    const url = 'https://api.tna.jurisdatum.com/clml2html';
+    const response = await fetch(url, { method: 'POST', body: clml });
+    if (!response.ok) {
+        let message = await response.text();
+        console.error(message);
+        throw message;
+    }
+    return await response.text();
+}
