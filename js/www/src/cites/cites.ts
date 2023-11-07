@@ -4,7 +4,12 @@ export type Cite = {
     section: string,
     type: string,
     year: number,
-    number: number
+    number: number,
+    altNumber?: string,
+    date?: string,
+    series?: string,
+    startPage?: number,
+    uri?: string,
     text: string
 };
 
