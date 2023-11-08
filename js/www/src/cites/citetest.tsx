@@ -97,13 +97,13 @@ function ToggleView(props: { state: number, toggle: ListDocToggle, setToggle: (t
             <button style={ { backgroundColor: props.toggle === ListDocToggle.Doc ? 'lavender' : undefined } } onClick={ () => { props.setToggle(ListDocToggle.Doc); } }>Document Text</button>
         </p>
         { props.toggle === ListDocToggle.List ?
-            <List cites={ props.cites } /> :
+            <List cites={ props.cites } setToggle={ props.setToggle } /> :
             <DocText state={ props.state } html={ props.html } /> }
     </div>;
 
 }
 
-function List(props: { cites: Cite[] }) {
+function List(props: { cites: Cite[], setToggle: (t: ListDocToggle) => void }) {
 
     const left = { padding: '3pt 6pt', textAlign: 'left' } as React.CSSProperties;
     const center = { padding: '3pt 6pt', textAlign: 'center' } as React.CSSProperties;
@@ -120,22 +120,33 @@ function List(props: { cites: Cite[] }) {
             return uri.substring('http://www.legislation.gov.uk/id/'.length);
     };
 
+    const goToSection = (id: string) => {
+        props.setToggle(ListDocToggle.Doc);
+        setTimeout(() => {
+            const e = document.getElementById(id);
+            if (e)
+                e.scrollIntoView();
+        }, 500);
+    };
+
     return <table style={ { margin: '0 auto' } }>
         <thead>
-            <th style={ left }>text</th>
-            <th style={ center }>Class</th>
-            <th style={ center }>Year</th>
-            <th style={ center }>Number</th>
-            { hasAltNum && <th style={ center }>Alternative<br/>Number</th> }
-            { hasDate && <th style={ center }>Date</th> }
-            { hasSeries && <th style={ center }>Series</th> }
-            { hasStartPage && <th style={ center }>Start<br/>Page</th> }
-            <th style={ left }>URI</th>
+            <tr>
+                <th style={ left }>text</th>
+                <th style={ center }>Class</th>
+                <th style={ center }>Year</th>
+                <th style={ center }>Number</th>
+                { hasAltNum && <th style={ center }>Alternative<br/>Number</th> }
+                { hasDate && <th style={ center }>Date</th> }
+                { hasSeries && <th style={ center }>Series</th> }
+                { hasStartPage && <th style={ center }>Start<br/>Page</th> }
+                <th style={ left }>URI</th>
+            </tr>
         </thead>
         <tbody>
-            { props.cites.map(cite => <>
-                <tr>
-                    <td style={ left }>{ cite.text }</td>
+            { props.cites.map((cite, i) => <>
+                <tr key={ i }>
+                    <td style={ { ...left, textDecoration: 'underline', cursor: 'pointer' } } title="click to view in document" onClick={ () => { goToSection(cite.section); } }>{ cite.text }</td>
                     <td style={ center }>{ cite.type }</td>
                     <td style={ center }>{ cite.year }</td>
                     { hasSeries && <td style={ center }>{ cite.series }</td> }
@@ -143,7 +154,7 @@ function List(props: { cites: Cite[] }) {
                     { hasAltNum && <td style={ center }>{ cite.altNumber }</td> }
                     { hasDate && <td style={ center }>{ cite.date }</td> }
                     { hasStartPage && <td style={ center }>{ cite.startPage }</td> }
-                    <td style={ left }>{ shortenURI(cite.uri) }</td>
+                    <td style={ left }>{ cite.uri && <a href={ cite.uri } target="_blank" rel="noreferrer">{ shortenURI(cite.uri) }</a> }</td>
                 </tr>
             </>) }
         </tbody>
