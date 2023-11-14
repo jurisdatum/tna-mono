@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
 import { Cite } from './cites';
@@ -12,12 +12,12 @@ export default function CiteTest() {
 
     const [ searchParams ] = useSearchParams();
 
-    const [docId, setDocId] = useState(searchParams.get('id') || '');
-    const [state, setState] = useState(0);
-    const [enrichedDataURL, setEnrichedDataURL] = useState('');
-    const [toggle, setToggle] = useState(searchParams.get('show') === 'text' ? ListDocToggle.Doc : ListDocToggle.List);
-    const [cites, setCites] = useState([] as Cite[]);
-    const [enrichedHtml, setEnrichedHtml] = useState('');
+    const [ docId, setDocId ] = useState(searchParams.get('id') || '');
+    const [ state, setState ] = useState(0);
+    const [ enrichedDataURL, setEnrichedDataURL ] = useState('');
+    const [ toggle, setToggle ] = useState(searchParams.get('show') === 'text' ? ListDocToggle.Doc : ListDocToggle.List);
+    const [ cites, setCites ] = useState([] as Cite[]);
+    const [ enrichedHtml, setEnrichedHtml ] = useState('');
 
     const load = async () => {
         if (!docId)
@@ -47,7 +47,7 @@ export default function CiteTest() {
         }
     };
 
-    // console.log('cites', cites);
+    useEffect(() => { load(); }, [ ]);
 
     return <div className="citetest">
         <h1 style={ { textAlign: 'center' } }>Test Citations</h1>
