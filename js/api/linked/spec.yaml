@@ -1,0 +1,48 @@
+openapi: 3.0.3
+info:
+  title: ''
+  version: 1.0.0
+paths:
+  /legislation/types:
+    get:
+      summary: Retrieve available document types
+      parameters:
+        - name: indent
+          in: query
+          required: false
+          schema:
+            type: string
+            enum:
+              - 'true'
+              - 'false'
+      responses:
+        '200':
+          description: the types
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    type:
+                      description: A
+                      type: string
+                    acronym:
+                      description: The abbreviation (or initialism) used to refer to entities belonging to a class (e.g. ukpga, ssi, nisi).
+                      type: string
+                    label:
+                      description: A human-readable version of the type's name
+                      type: string
+                    class:
+                      description: The class of legislation to which the type belongs
+                      type: string
+                      enum:
+                        - Primary
+                        - Secondary
+                        - EuropeanUnionLegislation
+                    comment:
+                      description: A human-readable description of the type
+                      type: string
+        '500':
+          description: internal error
