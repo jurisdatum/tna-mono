@@ -177,9 +177,12 @@ function DocText(props: { state: number, html: string }) {
 function extractArticle(html: string): string {
     const i1 = html.indexOf('<article');
     const i2 = html.lastIndexOf('</article>');
+    const i3 = html.lastIndexOf('</footer>');
     if (i1 === -1)
         return html;
     if (i2 === -1)
         return html;
+    if (i3 > i2)
+        return html.substring(i1, i3 + 9);
     return html.substring(i1, i2 + 10);
 }
