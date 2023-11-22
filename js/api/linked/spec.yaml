@@ -5,7 +5,7 @@ info:
 paths:
   /legislation/types:
     get:
-      summary: Retrieve available document types
+      summary: get available document types
       parameters:
         - name: indent
           in: query
@@ -26,23 +26,66 @@ paths:
                   type: object
                   properties:
                     type:
-                      description: A
+                      description: the document type (e.g. UnitedKingdomPublicGeneralAct, ScottishStatutoryInstrument)
                       type: string
                     acronym:
-                      description: The abbreviation (or initialism) used to refer to entities belonging to a class (e.g. ukpga, ssi, nisi).
+                      description: the abbreviation (or initialism) used to refer to entities belonging to a class (e.g. ukpga, ssi, nisi).
                       type: string
                     label:
-                      description: A human-readable version of the type's name
+                      description: a human-readable version of the type's name
                       type: string
                     class:
-                      description: The class of legislation to which the type belongs
+                      description: the class of legislation to which the type belongs
                       type: string
                       enum:
                         - Primary
                         - Secondary
                         - EuropeanUnionLegislation
                     comment:
-                      description: A human-readable description of the type
+                      description: a human-readable description of the type
                       type: string
+        '400':
+          description: bad request
+        '500':
+          description: internal error
+  /legislation/years/{type}:
+    get:
+      summary: Get available years for a document type
+      parameters:
+        - name: type
+          in: path
+          required: true
+        - name: indent
+          in: query
+          required: false
+          schema:
+            type: string
+            enum:
+              - 'true'
+              - 'false'
+      responses:
+        '200':
+          description: get available years for a document type
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    type:
+                      description: the document type
+                      type: string
+                    acronym:
+                      description: the abbreviation of the document type
+                      type: string
+                    year:
+                      description: the year
+                      type: integer
+                    documents:
+                      description: the number of documents of the type in the year
+                      type: integer
+        '400':
+          description: bad request
         '500':
           description: internal error

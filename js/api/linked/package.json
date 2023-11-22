@@ -11,6 +11,6 @@
 		"postbuild": "# cp package*.json dist && cd dist && npm ci --omit=dev",
 		"package": "rm dist.zip && zip -r -j dist.zip dist/* -x **/.DS_Store -q",
 		"upload": "aws s3 cp ./dist.zip s3://mono-code/api/linked.zip --profile jd-tna",
-		"update": "aws lambda update-function-code --function-name api-leg-types --s3-bucket mono-code --s3-key api/linked.zip --profile jd-tna"
+		"update": "aws lambda update-function-code --function-name api-leg-types --s3-bucket mono-code --s3-key api/linked.zip --no-cli-pager --profile jd-tna && aws lambda update-function-code --function-name api-leg-years --s3-bucket mono-code --s3-key api/linked.zip --no-cli-pager --profile jd-tna"
 	}
 }

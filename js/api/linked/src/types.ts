@@ -3,8 +3,10 @@ import { Handler, APIGatewayProxyEventV2, APIGatewayProxyResultV2 } from 'aws-la
 import { query } from './sparql';
 
 export const handler: Handler<APIGatewayProxyEventV2, APIGatewayProxyResultV2> = async (event, context) => {
-	const indent = event.queryStringParameters && event.queryStringParameters['indent'] && event.queryStringParameters['indent'].toLowerCase() === 'true';
-	const types = await get();
+	event.queryStringParameters ??= {};
+	event.queryStringParameters['indent'] ??= 'false';
+	const indent: boolean = event.queryStringParameters['indent'].toLowerCase() === 'true';
+	const types: Result[] = await get();
 	return {
 		statusCode: 200,
 		headers: { 'Content-Type': 'application/json' },
@@ -73,3 +75,14 @@ function simplify(result: RawResult): Result {
 		comment: result.comment.value
 	};
 }
+
+// var cache: Map<string, string>;
+
+// export async function shortToLong(short: string): Promise<string | undefined> {
+// 	if (!cache) {
+// 		const types = await get();
+// 		const mappings = types.map(t => [ t.acronym, t.type ]) as [ string, string ][];
+// 		cache = new Map(mappings);
+// 	}
+// 	return cache.get(short);
+// }
