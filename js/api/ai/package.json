@@ -1,0 +1,16 @@
+{
+	"dependencies": {
+		"openai": "^4.19.1"
+	},
+	"devDependencies": {
+		"@types/aws-lambda": "^8.10.128",
+		"@types/node": "^20.9.0"
+	},
+	"scripts": {
+		"build": "tsc",
+		"postbuild": "cp package*.json dist && cd dist && npm ci --omit=dev && rm dist.zip",
+		"package": "cd dist && zip -r  ../dist.zip * -x **/.DS_Store -q",
+		"upload": "aws s3 cp ./dist.zip s3://mono-code/api/ai.zip --profile jd-tna",
+		"update": "aws lambda update-function-code --function-name api-ai-effects --s3-bucket mono-code --s3-key api/ai.zip --no-cli-pager --profile jd-tna"
+	}
+}

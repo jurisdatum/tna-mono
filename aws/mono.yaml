@@ -592,6 +592,37 @@ Resources:
                   - 'arn:aws:s3:::lgu-cache'
                   - 'arn:aws:s3:::lgu-cache/*'
 
+  LambdaAIEffects:
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName: api-ai-effects
+      Description: ''
+      Runtime: nodejs20.x
+      Code:
+        S3Bucket: mono-code
+        S3Key: api/ai.zip
+      Handler: effects.handler
+      MemorySize: 128
+      Role: arn:aws:iam::128539174500:role/ReadSecrets
+      Timeout: 30
+  PermissionForLambdaAIEffects:
+    Description: Allows /ai/effects endpoint to invoke api-ai-effects function
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: 'lambda:InvokeFunction'
+      FunctionName: !Ref LambdaAIEffects
+      Principal: 'apigateway.amazonaws.com'
+      SourceArn:
+        !Join
+          - ''
+          - - 'arn:aws:execute-api:'
+            - !Ref AWS::Region
+            - ':'
+            - !Ref AWS::AccountId
+            - ':'
+            - !Ref Api
+            - '/*/*/ai/effects'
+
 
 ### networking ###
 
@@ -662,6 +693,27 @@ Resources:
           title: Mono
           version: '0.1.0'
         paths:
+          /ai/effects:
+            post:
+              parameters:
+                - name: password
+                  in: query
+              x-amazon-apigateway-integration:
+                type: 'aws_proxy'
+                uri: !GetAtt LambdaAIEffects.Arn
+                payloadFormatVersion: '2.0'
+            get:
+              parameters:
+                - name: password
+                  in: query
+                - name: thread
+                  in: query
+                - name: run
+                  in: query
+              x-amazon-apigateway-integration:
+                type: 'aws_proxy'
+                uri: !GetAtt LambdaAIEffects.Arn
+                payloadFormatVersion: '2.0'
           /cites:
             get:
               summary: Retrieve cites to or from
