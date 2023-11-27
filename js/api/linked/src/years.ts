@@ -38,7 +38,7 @@ export async function get(type: string): Promise<Result[]> {
 
 function makeQuery1(type: string): string {
 	return `PREFIX leg: <http://www.legislation.gov.uk/def/legislation/>
-SELECT ('${type}' as ?type) ?acronym ?year ?documents
+SELECT (<http://www.legislation.gov.uk/def/legislation/${type}> as ?type) ?acronym ?year ?documents
 WHERE {
 	leg:${type} leg:acronym ?acronym .
 	{   SELECT ?year (count(?item) as ?documents)
@@ -58,15 +58,14 @@ SELECT ?item ?type ?year WHERE {
 	{ SELECT ?type WHERE { ?type leg:acronym '${acronym}' } }
 }
 GROUP BY ?year
-ORDER BY desc(?year)
 }
+ORDER BY desc(?year)
 `;
 }
 
-
 type RawResult = {
 	type: {
-		type: 'literal',
+		type: 'uri',
 		value: string
 	},
 	acronym: {
@@ -94,7 +93,7 @@ export type Result = {
 
 function simplify(result: RawResult): Result {
 	return {
-		type: result.type.value,
+		type: result.type.value.substring(46),
 		acronym: result.acronym.value,
 		year: parseInt(result.year.value),
 		documents: parseInt(result.documents.value)
