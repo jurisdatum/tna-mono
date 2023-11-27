@@ -7,7 +7,7 @@ export const handler: Handler<APIGatewayProxyEventV2, APIGatewayProxyResultV2> =
 	event.pathParameters ??= {};
 	event.queryStringParameters ??= {};
 	event.queryStringParameters['indent'] ??= 'false';
-	const type: string | undefined = event.pathParameters['type'] || event.queryStringParameters['type'];
+	const type = event.pathParameters['type'] || event.queryStringParameters['type'];
 	const indent: boolean = event.queryStringParameters['indent'].toLowerCase() === 'true';
 	if (!type)
 		return { statusCode: 400, body: "missing 'type' parameter" };
