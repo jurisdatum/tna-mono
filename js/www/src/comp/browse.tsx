@@ -72,7 +72,7 @@ export function Docs() {
         <Await resolve={ data.docs } errorElement={ <ul><li>error</li></ul> }>
             { (docs: any[]) => <ul>
                 { docs.map(doc => <li key={ doc.number }>
-                    <Link to={ '/' + doc.id }>
+                    <Link to={ '/citetest?id=' + doc.id }>
                         <span>{ doc.number }</span>
                         <span>{ doc.title }</span>
                     </Link>

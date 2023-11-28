@@ -17,7 +17,7 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <Navigate to="/browse/ukpga/2023" />
+        element: <Navigate to="/citetest" />
       }, {
         path: "/citations",
         element: <Citations />,
