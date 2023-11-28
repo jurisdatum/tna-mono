@@ -2,10 +2,12 @@
 import { useState } from 'react';
 import { Loading } from '../comp/shared';
 
+const pwKey = 'JURIS_DATUM_PASSWORD';
+
 export default function Effects() {
 
     const [ state, setState ] = useState(0);
-    const [ password, setPassword ] = useState('');
+    const [ password, setPassword ] = useState(localStorage.getItem(pwKey) || '');
     const [ showPassword, setShowPassword ] = useState(false);
     const [ provision, setProvision ] = useState(sample);
     const [ effects, setEffects ] = useState([] as any[]);
@@ -17,11 +19,13 @@ export default function Effects() {
         const url = 'https://api.tna.jurisdatum.com/ai/effects?password=' + password;
         const response = await fetch(url, { method: 'POST', body: provision });
         if (!response.ok) {
+            localStorage.removeItem(pwKey);
             setState(-1);
             let message = await response.text();
             console.error(message);
             throw message;
         }
+        localStorage.setItem(pwKey, password);
         setState(2);
         const data = await response.json() as { thread: string, run: string };
         setTimeout(() => { check(data); }, 5000);
@@ -57,13 +61,15 @@ export default function Effects() {
         </p>
         <div id="effects">
             <div style={ { position: 'absolute', width: '40vw' } }>
-                <p style={ { textAlign: 'center' } }>Amending Provision</p>
+                <p style={ { textAlign: 'center' } }>
+                    <span>Amending Provision </span>
+                    <button disabled={ !password || state === 1 || state === 2 } onClick={ start }>Extract</button>
+                </p>
                 <textarea style={ { width: 'calc(40vw - 15pt)', marginLeft: '9pt', height: '50vh', resize: 'vertical' } } value={ provision } onChange={ (e) => { setProvision(e.target.value); } }></textarea>
             </div>
             <div style={ { position: 'absolute', left: 'calc(40vw + 1em)', width: 'calc(60vw - 2em)' } }>
                 <p style={ { textAlign: 'center' } }>
-                    <span>Effects </span>
-                    <button disabled={ state === 1 || state === 2 } onClick={ start }>Extract</button>
+                    <span>Effects</span>
                 </p>
                 { state === 1 && <p style={ { textAlign: 'center' } }><span>Extracting <Loading /></span></p> }
                 { state === -1 && <p style={ { textAlign: 'center' } }><span>There was an error</span></p> }
