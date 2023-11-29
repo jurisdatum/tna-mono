@@ -599,6 +599,36 @@ Resources:
             - !Ref Api
             - '/*/*/v2/legislation/documents'
 
+  ApiLambdaLegSearchV2:
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName: api-leg-search
+      Description: search documents by title from LGU API
+      Runtime: nodejs20.x
+      Code:
+        S3Bucket: mono-code
+        S3Key: api/linked.zip
+      Handler: search.handler
+      MemorySize: 128
+      Role: arn:aws:iam::128539174500:role/LambdaBasic
+      Timeout: 30
+  LambdaPermissionForLegSearch2:
+    Description: Allows /v2/legislation/search endpoint to invoke api-leg-search function
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: 'lambda:InvokeFunction'
+      FunctionName: !Ref ApiLambdaLegSearchV2
+      Principal: 'apigateway.amazonaws.com'
+      SourceArn:
+        !Join
+          - ''
+          - - 'arn:aws:execute-api:'
+            - !Ref AWS::Region
+            - ':'
+            - !Ref AWS::AccountId
+            - ':'
+            - !Ref Api
+            - '/*/*/v2/legislation/search'
 
   ExtractTableLambda:
     Type: AWS::Lambda::Function
@@ -888,7 +918,17 @@ Resources:
                 type: 'aws_proxy'
                 uri: !GetAtt ApiLambdaDocsGetV2.Arn
                 payloadFormatVersion: '2.0'
-
+          /v2/legislation/search:
+            get:
+              parameters:
+                - name: title
+                  in: query
+                - name: indent
+                  in: query
+              x-amazon-apigateway-integration:
+                type: 'aws_proxy'
+                uri: !GetAtt ApiLambdaLegSearchV2.Arn
+                payloadFormatVersion: '2.0'
 
           /legislation/years/{type}:
             get:

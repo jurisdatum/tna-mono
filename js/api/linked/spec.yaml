@@ -7,14 +7,7 @@ paths:
     get:
       summary: get available document types
       parameters:
-        - name: indent
-          in: query
-          required: false
-          schema:
-            type: string
-            enum:
-              - 'true'
-              - 'false'
+        - $ref: '#/components/parameters/indent'
       responses:
         '200':
           description: the types
@@ -57,14 +50,7 @@ paths:
           required: true
           schema:
             type: string
-        - name: indent
-          in: query
-          required: false
-          schema:
-            type: string
-            enum:
-              - 'true'
-              - 'false'
+        - $ref: '#/components/parameters/indent'
       responses:
         '200':
           description: the available years for a document type
@@ -105,14 +91,7 @@ paths:
           required: true
           schema:
             type: integer
-        - name: indent
-          in: query
-          required: false
-          schema:
-            type: string
-            enum:
-              - 'true'
-              - 'false'
+        - $ref: '#/components/parameters/indent'
       responses:
         '200':
           description: the available documents for a document type and year
@@ -121,27 +100,69 @@ paths:
               schema:
                 type: array
                 items:
-                  type: object
-                  properties:
-                    type:
-                      description: the document type
-                      type: string
-                    acronym:
-                      description: the abbreviation of the document type
-                      type: string
-                    year:
-                      description: the year
-                      type: integer
-                    number:
-                      description: the number of the document
-                      type: integer
-                    id:
-                      description: the unique id of the document
-                      type: string
-                    title:
-                      description: the title of the document
-                      type: string
+                  $ref: '#/components/schemas/document'
         '400':
           description: bad request
         '500':
           description: internal error
+
+  /legislation/search:
+    get:
+      summary: search for documents based on title words
+      parameters:
+        - name: title
+          in: query
+          required: true
+          schema:
+            type: string
+        - $ref: '#/components/parameters/indent'
+      responses:
+        '200':
+          description: the matching documents
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/document'
+        '400':
+          description: bad request
+        '500':
+          description: internal error
+
+components:
+
+  parameters:
+    indent:
+      name: indent
+      in: query
+      description: whether to indent the output
+      required: false
+      schema:
+        type: string
+        enum:
+          - 'true'
+          - 'false'
+
+  schemas:
+    document:
+      type: object
+      properties:
+        type:
+          description: the document type
+          type: string
+        acronym:
+          description: the abbreviation of the document type
+          type: string
+        year:
+          description: the year
+          type: integer
+        number:
+          description: the number of the document
+          type: integer
+        id:
+          description: the unique id of the document
+          type: string
+        title:
+          description: the title of the document
+          type: string
