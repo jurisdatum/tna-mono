@@ -50,11 +50,13 @@ paths:
           description: internal error
   /legislation/years/{type}:
     get:
-      summary: Get available years for a document type
+      summary: get available years for a document type
       parameters:
         - name: type
           in: path
           required: true
+          schema:
+            type: string
         - name: indent
           in: query
           required: false
@@ -65,7 +67,7 @@ paths:
               - 'false'
       responses:
         '200':
-          description: get available years for a document type
+          description: the available years for a document type
           content:
             application/json:
               schema:
@@ -85,6 +87,60 @@ paths:
                     documents:
                       description: the number of documents of the type in the year
                       type: integer
+        '400':
+          description: bad request
+        '500':
+          description: internal error
+  /legislation/documents/{type}/{year}:
+    get:
+      summary: get available documents for a document type and year
+      parameters:
+        - name: type
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: year
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: indent
+          in: query
+          required: false
+          schema:
+            type: string
+            enum:
+              - 'true'
+              - 'false'
+      responses:
+        '200':
+          description: the available documents for a document type and year
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    type:
+                      description: the document type
+                      type: string
+                    acronym:
+                      description: the abbreviation of the document type
+                      type: string
+                    year:
+                      description: the year
+                      type: integer
+                    number:
+                      description: the number of the document
+                      type: integer
+                    id:
+                      description: the unique id of the document
+                      type: string
+                    title:
+                      description: the title of the document
+                      type: string
         '400':
           description: bad request
         '500':
