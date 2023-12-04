@@ -27,7 +27,7 @@ public class Transform {
     public Processor processor() { return executable.getProcessor(); }
 
     public Transform() {
-        Processor processor = new Processor(false);
+        Processor processor = new Processor(Helper.DontIndentAttributes);
         XsltCompiler compiler = processor.newXsltCompiler();
         compiler.setResourceResolver(new Resolver());
         InputStream stream = this.getClass().getResourceAsStream(stylesheet);
@@ -71,12 +71,16 @@ public class Transform {
     public void transform(InputStream clml, OutputStream akn) {
         Source source = new StreamSource(clml);
         Serializer serializer = executable.getProcessor().newSerializer(akn);
+        serializer.setOutputProperty(Serializer.Property.INDENT, "yes");
+        serializer.setOutputProperty(Serializer.Property.SAXON_SUPPRESS_INDENTATION, "{http://docs.oasis-open.org/legaldocml/ns/akn/3.0}p");
         transform(source, serializer);
     }
 
     public static byte[] serialize(XdmNode akn) throws SaxonApiException {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         Serializer serializer = akn.getProcessor().newSerializer(baos);
+        serializer.setOutputProperty(Serializer.Property.INDENT, "yes");
+        serializer.setOutputProperty(Serializer.Property.SAXON_SUPPRESS_INDENTATION, "{http://docs.oasis-open.org/legaldocml/ns/akn/3.0}p");
         serializer.serializeNode(akn);
         return baos.toByteArray();
     }

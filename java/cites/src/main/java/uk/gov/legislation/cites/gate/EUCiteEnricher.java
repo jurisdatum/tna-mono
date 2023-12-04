@@ -25,8 +25,8 @@ public class EUCiteEnricher {
     private static final Logger logger = Logger.getAnonymousLogger();
 
     private final SerialAnalyserController sac;
-    private final GateArtifactRemover artifactRemover = new GateArtifactRemover();
     private final ClmlBeautifier beautifier = new ClmlBeautifier();
+    private final GateArtifactRemover artifactRemover = new GateArtifactRemover(beautifier.getProcessor());
 
     public EUCiteEnricher() throws GateException {
         Gate.init();

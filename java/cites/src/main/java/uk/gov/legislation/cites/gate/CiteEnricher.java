@@ -1,5 +1,6 @@
 package uk.gov.legislation.cites.gate;
 
+import com.drew.lang.Charsets;
 import gate.*;
 import gate.creole.ExecutionException;
 import gate.creole.Plugin;
@@ -19,8 +20,9 @@ public class CiteEnricher {
     public static final String NewMarkups = "New markups";
 
     private final SerialAnalyserController sac;
-    private final GateArtifactRemover artifactRemover = new GateArtifactRemover();
     private final ClmlBeautifier beautifier = new ClmlBeautifier();
+    private final GateXMLPreparer preparer = new GateXMLPreparer(beautifier.getProcessor());
+    private final GateArtifactRemover artifactRemover = new GateArtifactRemover(beautifier.getProcessor());
 
     public CiteEnricher() throws GateException {
         if (!Gate.isInitialised()) {
@@ -46,6 +48,7 @@ public class CiteEnricher {
 
     public byte[] enrich(byte[] clml) throws IOException, ResourceInstantiationException, ExecutionException {
         clml = beautifier.transform(clml);
+        clml = preparer.prepare(clml);
         Path temp = Files.createTempFile("clml", ".xml");
         Files.write(temp, clml);
         Document doc = Factory.newDocument(temp.toUri().toURL());

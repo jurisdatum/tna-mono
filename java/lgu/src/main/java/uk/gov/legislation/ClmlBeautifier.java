@@ -30,6 +30,10 @@ public class ClmlBeautifier {
         }
     }
 
+    public Processor getProcessor() {
+        return executable.getProcessor();
+    }
+
     private void transform(Source source, Destination destination) {
         XsltTransformer transform = executable.load();
         try {

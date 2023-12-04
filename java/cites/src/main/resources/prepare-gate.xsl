@@ -7,17 +7,15 @@
 <xsl:output method="xml" version="1.0" encoding="utf-8" omit-xml-declaration="no" indent="yes" />
 
 <xsl:template match="FootnoteRef">
-    <xsl:copy copy-namespaces="no">
-        <xsl:copy-of select="namespace::*[. != 'http://www.gate.ac.uk']" />
-        <xsl:apply-templates select="@* except @gate:*" />
+    <xsl:copy>
+        <xsl:apply-templates select="@*|node()" />
+        <xsl:text> FootnoteRef </xsl:text>
     </xsl:copy>
 </xsl:template>
 
 <xsl:template match="@*|node()">
-    <xsl:copy copy-namespaces="no">
-        <xsl:copy-of select="namespace::*[. != 'http://www.gate.ac.uk']" />
-        <xsl:apply-templates select="@* except @gate:*" />
-        <xsl:apply-templates />
+    <xsl:copy>
+        <xsl:apply-templates select="@*|node()" />
     </xsl:copy>
 </xsl:template>
 

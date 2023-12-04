@@ -10,16 +10,16 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 
-public class GateArtifactRemover {
+public class GateXMLPreparer {
 
-    static final String stylesheet = "/remove-gate.xsl";
+    static final String stylesheet = "/prepare-gate.xsl";
 
     private final XsltExecutable executable;
 
-    public GateArtifactRemover(Processor processor) {
+    public GateXMLPreparer(Processor processor) {
         XsltCompiler compiler = processor.newXsltCompiler();
         InputStream stream = this.getClass().getResourceAsStream(stylesheet);
-        Source source = new StreamSource(stream, "remove-gate.xsl");
+        Source source = new StreamSource(stream, "prepare-gate.xsl");
         try {
             executable = compiler.compile(source);
         } catch (SaxonApiException e) {
@@ -38,17 +38,16 @@ public class GateArtifactRemover {
         }
     }
 
-    private void remove(InputStream input, OutputStream output) {
+    private void prepare(InputStream input, OutputStream output) {
         Source source = new StreamSource(input);
         Serializer serializer = executable.getProcessor().newSerializer(output);
-        serializer.setOutputProperty(Serializer.Property.SAXON_SUPPRESS_INDENTATION, "{http://www.legislation.gov.uk/namespaces/legislation}Text");
         transform(source, serializer);
     }
 
-    public byte[] remove(String clml) {
-        ByteArrayInputStream input = new ByteArrayInputStream(clml.getBytes(StandardCharsets.UTF_8));
+    public byte[] prepare(byte[] clml) {
+        ByteArrayInputStream input = new ByteArrayInputStream(clml);
         ByteArrayOutputStream output = new ByteArrayOutputStream();
-        remove(input, output);
+        prepare(input, output);
         return output.toByteArray();
     }
 
