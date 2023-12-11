@@ -21,14 +21,8 @@
     <dependencies>
         <dependency>
             <groupId>uk.gov.legislation</groupId>
-            <artifactId>clml2akn</artifactId>
+            <artifactId>clml2akn91</artifactId>
             <version>0.3.0</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>uk.gov.legislation</groupId>
-            <artifactId>akn2html</artifactId>
-            <version>0.1.0</version>
             <scope>compile</scope>
         </dependency>
     </dependencies>

@@ -22,7 +22,7 @@ public class Akn2Html91 {
 
     private final XsltExecutable executable;
 
-    public Akn2Html91(Processor processor) throws IOException {
+    public Akn2Html91(Processor processor) {
         XsltCompiler compiler = processor.newXsltCompiler();
         compiler.setURIResolver(new Importer());
         InputStream stream = this.getClass().getResourceAsStream(stylesheet);
@@ -32,10 +32,10 @@ public class Akn2Html91 {
         } catch (SaxonApiException e) {
             throw new RuntimeException(e);
         } finally {
-            stream.close();
+            try { stream.close(); } catch (IOException e) { }
         }
     }
-    public Akn2Html91() throws IOException {
+    public Akn2Html91() {
         this(Saxon.processor);
     }
 

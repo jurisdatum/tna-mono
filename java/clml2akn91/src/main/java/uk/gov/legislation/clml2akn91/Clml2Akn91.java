@@ -1,9 +1,6 @@
 package uk.gov.legislation.clml2akn91;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
 
 import javax.xml.transform.Source;
 import javax.xml.transform.TransformerException;
@@ -25,7 +22,9 @@ public class Clml2Akn91 {
 
 	private final XsltExecutable executable;
 
-	public Clml2Akn91() throws IOException {
+	public Processor getProcessor() { return executable.getProcessor(); }
+
+	public Clml2Akn91() {
 		XsltCompiler compiler = Saxon.processor.newXsltCompiler();
 		compiler.setURIResolver(new Importer());
 		InputStream stream = this.getClass().getResourceAsStream(stylesheet);
@@ -35,7 +34,7 @@ public class Clml2Akn91 {
 		} catch (SaxonApiException e) {
 			throw new RuntimeException(e);
 		} finally {
-			stream.close();
+			try { stream.close(); } catch (IOException e) { }
 		}
 	}
 
@@ -55,6 +54,10 @@ public class Clml2Akn91 {
 		XdmDestination destination = new XdmDestination();
 		transform(source, destination);
 		return destination.getXdmNode();
+	}
+	public XdmNode transform(String clml) {
+		ByteArrayInputStream stream = new ByteArrayInputStream(clml.getBytes());
+		return transform(stream);
 	}
 
 	public void transform(InputStream clml, OutputStream akn) {
