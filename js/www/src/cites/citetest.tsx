@@ -6,36 +6,37 @@ import { convertClmlToHtml, enrich } from './server';
 import { Loading } from '../comp/shared';
 import { extractCites } from './extractor';
 
-enum ListDocToggle { List, Doc };
-
 export default function CiteTest() {
 
     const [ searchParams ] = useSearchParams();
 
     const [ docId, setDocId ] = useState(searchParams.get('id') || '');
     const [ state, setState ] = useState(0);
-    const [ enrichedDataURL, setEnrichedDataURL ] = useState('');
-    const [ toggle, setToggle ] = useState(searchParams.get('show') === 'text' ? ListDocToggle.Doc : ListDocToggle.List);
+    const [ clmlUrl, setClmlUrl ] = useState('');
     const [ cites, setCites ] = useState([] as Cite[]);
-    const [ enrichedHtml, setEnrichedHtml ] = useState('');
+    const [ htmlUrl, setHtmlUrl ] = useState('');
 
     const load = async () => {
         if (!docId)
             return;
         setState(1);
+        setClmlUrl('');
         setCites([]);
+        setHtmlUrl('');
         try {
             const enriched = await enrich(docId);
             const blob = new Blob([ enriched ], { type: 'application/xml' });
             const url = URL.createObjectURL(blob);
-            setEnrichedDataURL(url);
+            setClmlUrl(url);
             setState(2);
 
             const p = convertClmlToHtml(enriched);
             setCites(extractCites(enriched));
             try {
                 const html = await p;
-                setEnrichedHtml(extractArticle(html));
+                const blob2 = new Blob([ html ], { type: 'text/html' });
+                const url2 = URL.createObjectURL(blob2);
+                setHtmlUrl(url2);
                 setState(3);
             } catch {
                 setState(-2);
@@ -76,34 +77,28 @@ export default function CiteTest() {
                     </li>
                     <li>
                         <span>newly enriched CLML: </span>
-                        <a target="_blank" rel="noreferrer" href={ enrichedDataURL }>open</a>
+                        <a target="_blank" rel="noreferrer" href={ clmlUrl }>open</a>
                         <span> or </span>
-                        <a download={ docId.replaceAll('/', '_') + '.xml' } href={ enrichedDataURL }>download</a>
+                        <a download={ docId.replaceAll('/', '_') + '.xml' } href={ clmlUrl }>download</a>
                     </li>
                 </> : <></> }
+                { (state === 2) && <li>converting to HTML <Loading/></li> }
+                { (state === -2) && <li>There was an error converting to HTML</li> }
+                { (state === 3) && <li>
+                    <span>newly enriched HTML: </span>
+                    <a target="_blank" rel="noreferrer" href={ htmlUrl }>open</a>
+                    <span> or </span>
+                    <a download={ docId.replaceAll('/', '_') + '.html' } href={ htmlUrl }>download</a>
+                </li> }
             </ul>
         </div>
-        { (state >= 2 || state === -2) && <ToggleView state={ state } toggle={ toggle } setToggle={ setToggle } cites={ cites } html={ enrichedHtml } /> }
+        { (state >= 2 || state === -2) && <List cites={ cites } htmlUrl={ htmlUrl } /> }
     </div>;
 
 }
 
-function ToggleView(props: { state: number, toggle: ListDocToggle, setToggle: (t: ListDocToggle) => void, cites: Cite[], html: string }) {
 
-    return <div>
-        <hr />
-        <p style={ { textAlign: 'center' } }>
-            <button style={ { backgroundColor: props.toggle === ListDocToggle.List ? 'lavender' : undefined } } onClick={ () => { props.setToggle(ListDocToggle.List); } }>List of Cites</button>
-            <button style={ { backgroundColor: props.toggle === ListDocToggle.Doc ? 'lavender' : undefined } } onClick={ () => { props.setToggle(ListDocToggle.Doc); } }>Document Text</button>
-        </p>
-        { props.toggle === ListDocToggle.List ?
-            <List cites={ props.cites } setToggle={ props.setToggle } /> :
-            <DocText state={ props.state } html={ props.html } /> }
-    </div>;
-
-}
-
-function List(props: { cites: Cite[], setToggle: (t: ListDocToggle) => void }) {
+function List(props: { cites: Cite[], htmlUrl: string }) {
 
     const left = { padding: '3pt 6pt', textAlign: 'left' } as React.CSSProperties;
     const center = { padding: '3pt 6pt', textAlign: 'center' } as React.CSSProperties;
@@ -113,23 +108,15 @@ function List(props: { cites: Cite[], setToggle: (t: ListDocToggle) => void }) {
     const hasDate = props.cites.some(cite => cite.date);
     const hasStartPage = props.cites.some(cite => cite.startPage);
 
-    const shortenURI = (uri: string | undefined) => {
-        if (!uri)
-            return uri;
-        if (uri.startsWith('http://www.legislation.gov.uk/id/'))
-            return uri.substring('http://www.legislation.gov.uk/id/'.length);
-    };
+    if (props.cites.length === 0)
+        return <>
+            <hr style={ { margin: '1em 2em 2em' } }/>
+            <p style={ { textAlign: 'center' } }>There are no citations in this document.</p>
+        </>;
 
-    const goToSection = (id: string) => {
-        props.setToggle(ListDocToggle.Doc);
-        setTimeout(() => {
-            const e = document.getElementById(id);
-            if (e)
-                e.scrollIntoView();
-        }, 500);
-    };
-
-    return <table style={ { margin: '0 auto' } }>
+    return <>
+    <hr style={ { margin: '1em 2em 2em' } }/>
+    <table style={ { margin: '0 auto' } }>
         <thead>
             <tr>
                 <th style={ left }>text</th>
@@ -146,7 +133,10 @@ function List(props: { cites: Cite[], setToggle: (t: ListDocToggle) => void }) {
         <tbody>
             { props.cites.map((cite, i) => <>
                 <tr key={ i }>
-                    <td style={ { ...left, textDecoration: 'underline', cursor: 'pointer' } } title="click to view in document" onClick={ () => { goToSection(cite.section); } }>{ cite.text }</td>
+                    <td style={ left }>
+                        { (props.htmlUrl && cite.section) ? <a href={ props.htmlUrl + '#' + cite.section } title="click to view in document" target="_blank" rel="noreferrer">{ cite.text }</a>
+                            : <span>{ cite.text }</span> }
+                    </td>
                     <td style={ center }>{ cite.type }</td>
                     <td style={ center }>{ cite.year }</td>
                     { hasSeries && <td style={ center }>{ cite.series }</td> }
@@ -154,35 +144,11 @@ function List(props: { cites: Cite[], setToggle: (t: ListDocToggle) => void }) {
                     { hasAltNum && <td style={ center }>{ cite.altNumber }</td> }
                     { hasDate && <td style={ center }>{ cite.date }</td> }
                     { hasStartPage && <td style={ center }>{ cite.startPage }</td> }
-                    <td style={ left }>{ cite.uri && <a href={ cite.uri } target="_blank" rel="noreferrer">{ shortenURI(cite.uri) }</a> }</td>
+                    <td style={ left }>{ cite.uri && <a href={ cite.uri } target="_blank" rel="noreferrer">{ cite.uri }</a> }</td>
                 </tr>
             </>) }
         </tbody>
-    </table>;
+    </table>
+    </>;
 
-}
-
-function DocText(props: { state: number, html: string }) {
-
-    if (props.state === 2)
-        return <p style={ { textAlign: 'center' } }>converting to HTML <Loading/></p>
-
-    if (props.state === -2)
-        return <p style={ { textAlign: 'center', color: 'red' } }>There was an error converting to HTML</p>
-
-    return <div dangerouslySetInnerHTML={ { __html: props.html } } />;
-
-}
-
-function extractArticle(html: string): string {
-    const i1 = html.indexOf('<article');
-    const i2 = html.lastIndexOf('</article>');
-    const i3 = html.lastIndexOf('</footer>');
-    if (i1 === -1)
-        return html;
-    if (i2 === -1)
-        return html;
-    if (i3 > i2)
-        return html.substring(i1, i3 + 9);
-    return html.substring(i1, i2 + 10);
 }
