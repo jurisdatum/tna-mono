@@ -9,6 +9,7 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamSource;
 import java.io.*;
 
+@Deprecated
 public class Transform {
 
     private static final String stylesheet = "/transform/clml2akn.xsl";

@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+@Deprecated
 public class Transform {
 
     private static final String stylesheet = "/transform/akn2html.xsl";
