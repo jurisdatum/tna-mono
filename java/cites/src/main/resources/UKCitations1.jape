@@ -132,6 +132,7 @@ Priority: 2
 		{ Token.string == "c" }
 		{ Token.string == "." }
 		( { Token.kind == "number" } ) :number
+		( { Token.string == "(" } ) ?
 		(	{ Token.string == "N" }
 			{ Token.string == "." }
 			{ Token.string == "I" }
