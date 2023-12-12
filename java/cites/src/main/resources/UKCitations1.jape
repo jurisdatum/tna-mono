@@ -138,6 +138,7 @@ Priority: 2
 			{ Token.string == "I" }
 			{ Token.string == "." } ) ?
 		( { Token.string == ")" } ) ?
+		( { Token.string == ")" } ) ?
 	): cite
 ) --> {
 	gate.AnnotationSet cite = (gate.AnnotationSet) bindings.get("cite");
