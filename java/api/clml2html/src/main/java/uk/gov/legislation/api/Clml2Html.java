@@ -14,7 +14,7 @@ import java.util.Collections;
 
 public class Clml2Html implements RequestHandler<APIGatewayV2HTTPEvent, APIGatewayV2HTTPResponse> {
 
-    private static final String cssPath = "https://s3.eu-west-2.amazonaws.com/www.tna.jurisdatum.com/css/";
+    private static final String cssPath = "https://www.tna.jurisdatum.com/css/";
 
     private Clml2Akn91 clml2akn;
     private Akn2Html91 akn2html;
