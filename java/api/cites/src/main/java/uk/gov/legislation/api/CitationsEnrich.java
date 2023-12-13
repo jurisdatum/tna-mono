@@ -73,7 +73,7 @@ public class CitationsEnrich implements RequestHandler<APIGatewayV2HTTPEvent, AP
         context.getLogger().log("id is " + id);
         URI uri = new URI("https://www.legislation.gov.uk/" + id + "/data.xml");
         HttpRequest http = HttpRequest.newBuilder().uri(uri).build();
-        HttpClient client = HttpClient.newHttpClient();
+        HttpClient client = HttpClient.newBuilder().followRedirects(HttpClient.Redirect.NORMAL).build();
         HttpResponse<byte[]> response = client.send(http, HttpResponse.BodyHandlers.ofByteArray());
         context.getLogger().log("LGU returned status code " + response.statusCode());
         if (response.statusCode() == 404)
