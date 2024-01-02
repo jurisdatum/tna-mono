@@ -1,6 +1,6 @@
 Phase: UKCitations3
 Input: Citation CitationSubRef Token
-Options: control = all
+Options: control = appelt
 
 Rule: NumberAfterCite
 Priority: 1
@@ -38,11 +38,13 @@ Priority: 1
 Macro: NumberWithBindings
 ( ( { Token.kind == "number" } ) :num
   ( { Token.string == "(" } ( { Token.kind == "number" } ) :num2 { Token.string == ")" }
-    ( { Token.string == "(" } ( { Token.kind == "number" } ) :num3 { Token.string == ")" } ) ? ) ?
+    ( { Token.string == "(" } ( { Token.kind == "number" } | { Token.string =~ "^[a-z]$" } ) :num3 { Token.string == ")" } ) ? ) ?
 )
+
 Macro: NumberWithoutBindings
-( { Token.kind == "number" }
-  ( { Token.string == "(" } { Token.kind == "number" } { Token.string == ")" } ) *
+( ( { Token.kind == "number" } )
+  ( { Token.string == "(" } ( { Token.kind == "number" } ) { Token.string == ")" }
+    ( { Token.string == "(" } ( { Token.kind == "number" } | { Token.string =~ "^[a-z]$" } ) { Token.string == ")" } ) ? ) ?
 )
 
 

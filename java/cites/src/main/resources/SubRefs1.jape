@@ -11,12 +11,18 @@ Macro: S
   { Token.string == "regs" } |
   { Token.string == "Sch" } )
 
+Macro: Letter
+( { Token.string =~ "^[a-z]$" } )
+
+Macro: NumberOrLetter
+( { Token.kind == "number" } | Letter )
+
 Macro: Subref
 ( ( S ) :x
   { Token.string == "." }
   ( { Token.kind == "number" } ) :num
   ( { Token.string == "(" } ( { Token.kind == "number" } ) :num2 { Token.string == ")" }
-    ( { Token.string == "(" } ( { Token.kind == "number" } ) :num3 { Token.string == ")" } ) ? ) ?
+    ( { Token.string == "(" } ( NumberOrLetter ) :num3 { Token.string == ")" } ) ? ) ?
 )
 
 Rule: First
@@ -53,6 +59,52 @@ Priority: 1
 		(String) bindings.get("num3").iterator().next().getFeatures().get("string") : null;
 	if (num3 != null)
 		sectRef += "-" + num3;
+
+	gate.FeatureMap features = Factory.newFeatureMap();
+	features.put("CitationRef", citeId);
+	features.put("SectionRef", sectRef);
+	outputAS.add(subref.firstNode(), subref.lastNode(), "CitationSubRef", features);
+}
+
+Rule: ScheduleParagraph
+Priority: 2
+(
+( { Citation } ) :cite
+( { Token.string == ")" } ) ?
+{ Token.string == "," }
+(
+	{ Token.string == "Sch" }
+	{ Token.string == "." }
+	( { Token.kind == "number" } ) ? :num
+	{ Token.string == "para" }
+	{ Token.string == "." }
+	( { Token.kind == "number" } ) :num1
+	( { Token.string == "(" } ( NumberOrLetter ) :num2 { Token.string == ")" } ) ?
+) :subref
+) --> {
+	gate.Annotation cite = (gate.Annotation) bindings.get("cite").iterator().next();
+	String citeId = (String) cite.getFeatures().get("id");
+	gate.AnnotationSet subref = (gate.AnnotationSet) bindings.get("subref");
+
+	String sectRef = "schedule";
+
+	String num = bindings.containsKey("num") ?
+		(String) bindings.get("num").iterator().next().getFeatures().get("string") : null;
+	if (num != null)
+		sectRef += "-" + num;
+
+	String num1 = (String) bindings.get("num1").iterator().next().getFeatures().get("string");
+	sectRef += "-paragraph-" + num1;
+
+	String num2 = bindings.containsKey("num2") ?
+		(String) bindings.get("num2").iterator().next().getFeatures().get("string") : null;
+	if (num2 != null)
+		sectRef += "-" + num2;
+
+//	String num3 = bindings.containsKey("num3") ?
+//		(String) bindings.get("num3").iterator().next().getFeatures().get("string") : null;
+//	if (num3 != null)
+//		sectRef += "-" + num3;
 
 	gate.FeatureMap features = Factory.newFeatureMap();
 	features.put("CitationRef", citeId);
