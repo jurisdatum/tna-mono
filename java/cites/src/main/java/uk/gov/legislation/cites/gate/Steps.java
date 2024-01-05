@@ -12,7 +12,8 @@ class Steps {
     static void addAll(SerialAnalyserController sac) throws ResourceInstantiationException {
         addMainGrammar(sac);
         addRemove(sac);
-        sac.add(new EUNumberCorrector());
+        sac.add((LanguageAnalyser) Factory.createResource(EUNumberCorrector.class.getName()));
+        sac.add((LanguageAnalyser) Factory.createResource(UKTypeCorrector.class.getName()));
         addCiteIds(sac);
         subRefs(sac);
         addLoneNumberStep(sac);

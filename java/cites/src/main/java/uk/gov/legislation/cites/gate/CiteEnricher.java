@@ -1,6 +1,5 @@
 package uk.gov.legislation.cites.gate;
 
-import com.drew.lang.Charsets;
 import gate.*;
 import gate.creole.ExecutionException;
 import gate.creole.Plugin;
@@ -8,7 +7,7 @@ import gate.creole.ResourceInstantiationException;
 import gate.creole.SerialAnalyserController;
 import gate.util.GateException;
 import uk.gov.legislation.ClmlBeautifier;
-import uk.gov.legislation.cites.gate.inject.*;
+import uk.gov.legislation.cites.gate.inject.Functions;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -29,9 +28,12 @@ public class CiteEnricher {
             Gate.init();
             // add ANNIE
             Gate.getCreoleRegister().registerPlugin(new Plugin.Directory(getClass().getResource("/annie/")));
-            // add custom component
-            Gate.getCreoleRegister().registerComponent(EUNumberCorrector.class);
+            // add custom plugin
+            // can't use Gate.getCreoleRegister().registerComponent() -- or Plugin.Component() -- they allow only one resource class
+            Gate.getCreoleRegister().registerPlugin( new CustomPlugin());
         }
+
+
         sac = (SerialAnalyserController) Factory.createResource("gate.creole.SerialAnalyserController");
 
         // add custom functions to feature map

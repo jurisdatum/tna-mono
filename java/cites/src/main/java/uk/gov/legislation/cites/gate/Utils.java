@@ -44,6 +44,63 @@ class Utils {
     }
 
     /**
+     *
+     * @param doc the Document
+     * @param cite the Citation
+     * @return true if the citation is within a footnote
+     */
+    static boolean isWithinFootnote(Document doc, Annotation cite) {
+        AnnotationSet originalMarkups = doc.getNamedAnnotationSets().get(CiteEnricher.OriginalMarkups);
+        AnnotationSet footnotes = originalMarkups.get("Footnote", cite.getStartNode().getOffset(), cite.getEndNode().getOffset());
+        return !footnotes.isEmpty();
+    }
+
+    /**
+     *
+     * @param doc the Document
+     * @param cite the Citation
+     * @return the containing footnote or null
+     */
+    static Annotation getContainingFootnote(Document doc, Annotation cite) {
+        AnnotationSet originalMarkups = doc.getNamedAnnotationSets().get(CiteEnricher.OriginalMarkups);
+        AnnotationSet footnotes = originalMarkups.get("Footnote", cite.getStartNode().getOffset(), cite.getEndNode().getOffset());
+        if (footnotes.isEmpty())
+            return null;
+        return footnotes.iterator().next();
+    }
+
+    /**
+     * Gets a FootnoteRef by Ref attribute
+     * @param doc the Document
+     * @param ref the footnote id
+     * @return a FootnoteRef annotation or null
+     */
+    static Annotation getFootnoteRef(Document doc, String ref) {
+        AnnotationSet originalMarkups = doc.getNamedAnnotationSets().get(CiteEnricher.OriginalMarkups);
+        FeatureMap map = new SimpleFeatureMapImpl();
+        map.put("Ref", ref);
+        AnnotationSet footnoteRefs = originalMarkups.get("FootnoteRef", map);
+        if (footnoteRefs.isEmpty())
+            return null;
+        return footnoteRefs.iterator().next();
+    }
+
+    /**
+     *
+     * @param doc
+     * @param fnRef
+     * @return
+     */
+    static String getTextBeforeFootnoteRef(Document doc, Annotation fnRef) {
+        AnnotationSet originalMarkups = doc.getNamedAnnotationSets().get(CiteEnricher.OriginalMarkups);
+        AnnotationSet texts = originalMarkups.get("Text", fnRef.getStartNode().getOffset(), fnRef.getEndNode().getOffset());
+        if (texts.isEmpty())
+            return "";
+        Annotation text = texts.iterator().next();
+        return gate.Utils.stringFor(doc, text.getStartNode().getOffset(), fnRef.getStartNode().getOffset());
+    }
+
+    /**
      * Finds the next FootnoteRef within the same Text parent
      * @param offset the annotation to search after
      * @param doc the Document

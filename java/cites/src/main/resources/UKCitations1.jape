@@ -2,20 +2,51 @@ Phase: UKCitations1
 Input: Token
 Options: control = appelt
 
-Rule: UKPGA
+Macro: SIF
+( { Token.string == "," }
+  { Token.string == "SIF" }
+  { Token.kind == "number" }
+  ( { Token.string == ":" } { Token.kind == "number" } ) ?
+)
+
+Rule: UKPGAwithoutParens
 Priority: 1
 (
 	( { Token.kind == "number", Token.length == 4 } ) :year
-	( { Token.string == "(" } ) ?
 	{ Token.string == "c" }
 	( { Token.string == "." } ) ?
 	( { Token.kind == "number" } ) :number
-	( { Token.string == "," }
-	  { Token.string == "SIF" }
-	  { Token.kind == "number" }
-	  ( { Token.string == ":" }
-	    { Token.kind == "number" } ) ? ) ?
-	( { Token.string == ")" } ) ?
+	( SIF ) ?
+): cite --> {
+	gate.AnnotationSet set = (gate.AnnotationSet) bindings.get("cite");
+	int year = Integer.parseInt((String) bindings.get("year").iterator().next().getFeatures().get("string"));
+	String number = (String) bindings.get("number").iterator().next().getFeatures().get("string");
+	String cls;
+	if (year >= 1801)
+		cls = "UnitedKingdomPublicGeneralAct";
+	else if (year >= 1707)
+		cls = "GreatBritainAct";
+	else if (year >= 1267)
+		cls = "EnglandAct";
+	else
+		cls = "UnitedKingdomPublicGeneralAct";
+	gate.FeatureMap features = Factory.newFeatureMap();
+	features.put("Class", cls);
+	features.put("Year", year);
+	features.put("Number", number);
+	outputAS.add(set.firstNode(), set.lastNode(), "Citation", features);
+}
+
+Rule: UKPGAwithParens
+Priority: 1
+(
+	( { Token.kind == "number", Token.length == 4 } ) :year
+	{ Token.string == "(" }
+	{ Token.string == "c" }
+	( { Token.string == "." } ) ?
+	( { Token.kind == "number" } ) :number
+	( SIF ) ?
+	{ Token.string == ")" }
 ): cite --> {
 	gate.AnnotationSet set = (gate.AnnotationSet) bindings.get("cite");
 	int year = Integer.parseInt((String) bindings.get("year").iterator().next().getFeatures().get("string"));
