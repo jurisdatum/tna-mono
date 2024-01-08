@@ -294,10 +294,10 @@ Priority: 3
 Rule: UKSI3
 Priority: 4
 (
-	{ Token.string == "S" }
-	{ Token.string == "." }
-	{ Token.string == "I" }
-	{ Token.string == "." }
+	( { Token.string == "S" }
+	  { Token.string == "." }
+	  { Token.string == "I" }
+	  { Token.string == "." } ) ?
 	( { Token.kind == "number", Token.length == 4 } ) :year
 	{ Token.string == "/" }
 	( { Token.kind == "number" } ) :number
@@ -306,13 +306,18 @@ Priority: 4
 	{ Token.string == "." }
 	( { Token.kind == "number" } ) :number2
 	{ Token.string == ")" }
+	( { Token.string == "(" }
+	  { Token.string == "S" }
+	  { Token.string == "." }
+	  { Token.kind == "number" }
+	  { Token.string == ")" } ) ?
 ): cite --> {
 	gate.AnnotationSet cite = (gate.AnnotationSet) bindings.get("cite");
 	String year = (String) bindings.get("year").iterator().next().getFeatures().get("string");
 	String number = (String) bindings.get("number").iterator().next().getFeatures().get("string");
 	String series = (String) bindings.get("series").iterator().next().getFeatures().get("string");
 	String number2 = (String) bindings.get("number2").iterator().next().getFeatures().get("string");
-	String altNumber = series + " " + number2;
+	String altNumber = series + "." + number2;
 	gate.FeatureMap features = Factory.newFeatureMap();
 	features.put("Class", "UnitedKingdomStatutoryInstrument");
 	features.put("Year", year);
