@@ -464,7 +464,7 @@ Priority: 5
 	{ Token.string == "S" }
 	{ Token.string == "." }
 	{ Token.string == "I" }
-	{ Token.string == "." }
+	( { Token.string == "." } ) ?  // error in uksi/2010/2493
 	( { Token.kind == "number", Token.length == 4 } ) :year
 	( { Token.string == "/" } |
 	  ( { Token.string ==~ "Nos?" } { Token.string == "." } ) )
