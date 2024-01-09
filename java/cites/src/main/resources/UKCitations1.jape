@@ -302,7 +302,7 @@ Priority: 4
 	{ Token.string == "/" }
 	( { Token.kind == "number" } ) :number
 	{ Token.string == "(" }
-	( { Token.string == "C" } ) :series
+	{ Token.string == "C" }
 	{ Token.string == "." }
 	( { Token.kind == "number" } ) :number2
 	{ Token.string == ")" }
@@ -315,14 +315,12 @@ Priority: 4
 	gate.AnnotationSet cite = (gate.AnnotationSet) bindings.get("cite");
 	String year = (String) bindings.get("year").iterator().next().getFeatures().get("string");
 	String number = (String) bindings.get("number").iterator().next().getFeatures().get("string");
-	String series = (String) bindings.get("series").iterator().next().getFeatures().get("string");
 	String number2 = (String) bindings.get("number2").iterator().next().getFeatures().get("string");
-	String altNumber = series + "." + number2;
 	gate.FeatureMap features = Factory.newFeatureMap();
 	features.put("Class", "UnitedKingdomStatutoryInstrument");
 	features.put("Year", year);
 	features.put("Number", number);
-	features.put("AlternativeNumber", altNumber);
+	features.put("CommencementNumber", number2);
 	outputAS.add(cite.firstNode(), cite.lastNode(), "Citation", features);
 }
 
@@ -366,12 +364,11 @@ Priority: 6
 	String year = (String) bindings.get("year").iterator().next().getFeatures().get("string");
 	String number = (String) bindings.get("number").iterator().next().getFeatures().get("string");
 	String number2 = (String) bindings.get("number2").iterator().next().getFeatures().get("string");
-	String altNumber = "C. " + number2;
 	gate.FeatureMap features = Factory.newFeatureMap();
 	features.put("Class", "ScottishStatutoryInstrument");
 	features.put("Year", year);
 	features.put("Number", number);
-	features.put("AlternativeNumber", altNumber);
+	features.put("CommencementNumber", number2);
 	outputAS.add(cite.firstNode(), cite.lastNode(), "Citation", features);
 }
 
@@ -397,12 +394,11 @@ Priority: 5
 	String year = (String) bindings.get("year").iterator().next().getFeatures().get("string");
 	String number = (String) bindings.get("number").iterator().next().getFeatures().get("string");
 	String number2 = (String) bindings.get("number2").iterator().next().getFeatures().get("string");
-	String altNumber = "W. " + number2;
 	gate.FeatureMap features = Factory.newFeatureMap();
 	features.put("Class", "WelshStatutoryInstrument");
 	features.put("Year", year);
 	features.put("Number", number);
-	features.put("AlternativeNumber", altNumber);
+	features.put("WelshNumber", number2);
 	outputAS.add(cite.firstNode(), cite.lastNode(), "Citation", features);
 }
 
@@ -424,12 +420,11 @@ Priority: 5
 	String year = (String) bindings.get("year").iterator().next().getFeatures().get("string");
 	String number = (String) bindings.get("number").iterator().next().getFeatures().get("string");
 	String number2 = (String) bindings.get("number2").iterator().next().getFeatures().get("string");
-	String altNumber = "W. " + number2;
 	gate.FeatureMap features = Factory.newFeatureMap();
 	features.put("Class", "WelshStatutoryInstrument");
 	features.put("Year", year);
 	features.put("Number", number);
-	features.put("AlternativeNumber", altNumber);
+	features.put("WelshNumber", number2);
 	outputAS.add(cite.firstNode(), cite.lastNode(), "Citation", features);
 }
 
@@ -449,12 +444,11 @@ Priority: 4
 	String year = (String) bindings.get("year").iterator().next().getFeatures().get("string");
 	String number = (String) bindings.get("number").iterator().next().getFeatures().get("string");
 	String number2 = (String) bindings.get("number2").iterator().next().getFeatures().get("string");
-	String altNumber = "W. " + number2;
 	gate.FeatureMap features = Factory.newFeatureMap();
 	features.put("Class", "WelshStatutoryInstrument");
 	features.put("Year", year);
 	features.put("Number", number);
-	features.put("AlternativeNumber", altNumber);
+	features.put("WelshNumber", number2);
 	outputAS.add(cite.firstNode(), cite.lastNode(), "Citation", features);
 }
 
@@ -564,7 +558,6 @@ Priority: 4
 	int year = Integer.parseInt((String) bindings.get("year").iterator().next().getFeatures().get("string"));
 	String number = (String) bindings.get("number").iterator().next().getFeatures().get("string");
 	String number2 = (String) bindings.get("number2").iterator().next().getFeatures().get("string");
-	String altNumber = "N.I. " + number2;
 	String type;
 //	if (year >= 1972)
 //		type = "NorthernIrelandOrderInCouncil";
@@ -574,6 +567,6 @@ Priority: 4
 	features.put("Class", type);
 	features.put("Year", year);
 	features.put("Number", number);
-	features.put("AlternativeNumber", altNumber);
+	features.put("NorthernIrishNumber", number2);
 	outputAS.add(set.firstNode(), set.lastNode(), "Citation", features);
 }
