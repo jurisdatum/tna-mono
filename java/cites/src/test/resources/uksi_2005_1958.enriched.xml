@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Legislation xmlns="http://www.legislation.gov.uk/namespaces/legislation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" NumberOfProvisions="4" SchemaVersion="1.0" xsi:schemaLocation="http://www.legislation.gov.uk/namespaces/legislation http://www.legislation.gov.uk/schema/legislation.xsd">
+   <ukm:Metadata xmlns:atom="http://www.w3.org/2005/Atom" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dct="http://purl.org/dc/terms/" xmlns:ukm="http://www.legislation.gov.uk/namespaces/metadata">
+      <dc:identifier>http://www.legislation.gov.uk/uksi/2005/1958/made</dc:identifier>
+      <dc:title>The National Assembly for Wales (Transfer of Functions) Order 2005</dc:title>
+      <dc:subject>Pollution</dc:subject>
+      <dc:publisher>King's Printer of Acts of Parliament</dc:publisher>
+      <dc:modified>2017-06-20</dc:modified>
+      <dc:subject scheme="SIheading">CONSTITUTIONAL LAW</dc:subject>
+      <dc:subject scheme="SIheading">DEVOLUTION, WALES</dc:subject>
+      <dc:description>This Order is made under sections 22 and 24 of the Government of Wales Act 1998.</dc:description>
+      <atom:link href="http://www.legislation.gov.uk/uksi/2005/1958/made/data.xml" rel="self" type="application/xml"/>
+      <atom:link href="http://www.legislation.gov.uk/uksi/2005/1958/resources" rel="http://www.legislation.gov.uk/def/navigation/resources" title="More Resources"/>
+      <atom:link href="http://www.legislation.gov.uk/uksi/2005/1958/memorandum" rel="http://www.legislation.gov.uk/def/navigation/memorandum" title="Explanatory Memorandum"/>
+      <atom:link href="http://www.legislation.gov.uk/uksi/2005/1958/memorandum/contents" rel="http://www.legislation.gov.uk/def/navigation/memorandum/toc" title="Explanatory Memorandum Table of Contents"/>
+      <atom:link href="http://www.legislation.gov.uk/uksi/2005/1958/made" rel="http://www.legislation.gov.uk/def/navigation/act" title="whole act"/>
+      <atom:link href="http://www.legislation.gov.uk/uksi/2005/1958/introduction/made" rel="http://www.legislation.gov.uk/def/navigation/introduction" title="introduction"/>
+      <atom:link href="http://www.legislation.gov.uk/uksi/2005/1958/signature/made" rel="http://www.legislation.gov.uk/def/navigation/signature" title="signature"/>
+      <atom:link href="http://www.legislation.gov.uk/uksi/2005/1958/note/made" rel="http://www.legislation.gov.uk/def/navigation/note" title="note"/>
+      <atom:link href="http://www.legislation.gov.uk/uksi/2005/1958/body/made" rel="http://www.legislation.gov.uk/def/navigation/body" title="body"/>
+      <atom:link href="http://www.legislation.gov.uk/uksi/2005/1958/made/data.rdf" rel="alternate" title="RDF/XML" type="application/rdf+xml"/>
+      <atom:link href="http://www.legislation.gov.uk/uksi/2005/1958/made/data.akn" rel="alternate" title="AKN" type="application/akn+xml"/>
+      <atom:link href="http://www.legislation.gov.uk/uksi/2005/1958/made/data.xht" rel="alternate" title="HTML snippet" type="application/xhtml+xml"/>
+      <atom:link href="http://www.legislation.gov.uk/uksi/2005/1958/made/data.htm" rel="alternate" title="Website (XHTML) Default View" type="text/html"/>
+      <atom:link href="http://www.legislation.gov.uk/uksi/2005/1958/made/data.pdf" rel="alternate" title="PDF" type="application/pdf"/>
+      <atom:link href="http://www.legislation.gov.uk/uksi/2005/1958/made/data.html" rel="alternate" title="HTML5 snippet" type="application/akn+xhtml"/>
+      <atom:link href="http://www.legislation.gov.uk/uksi/2005/1958/pdfs/uksi_20051958_en.pdf" rel="alternate" title="Print Version" type="application/pdf"/>
+      <atom:link href="http://www.legislation.gov.uk/uksi/2005/1958/contents/made" hreflang="en" rel="http://purl.org/dc/terms/tableOfContents" title="Table of Contents"/>
+      <ukm:SecondaryMetadata>
+         <ukm:DocumentClassification>
+            <ukm:DocumentCategory Value="secondary"/>
+            <ukm:DocumentMainType Value="UnitedKingdomStatutoryInstrument"/>
+            <ukm:DocumentStatus Value="final"/>
+            <ukm:DocumentMinorType Value="order"/>
+         </ukm:DocumentClassification>
+         <ukm:Year Value="2005"/>
+         <ukm:Number Value="1958"/>
+         <ukm:Made Date="2005-07-19"/>
+         <ukm:Laid Class="UnitedKingdomParliament" Date="2005-07-29"/>
+         <ukm:ComingIntoForce>
+            <ukm:DateTime Date="2006-01-01"/>
+         </ukm:ComingIntoForce>
+         <ukm:RoyalPresence Date="2005-07-19"/>
+         <ukm:ISBN Value="0110731751"/>
+      </ukm:SecondaryMetadata>
+      <ukm:Notes>
+         <ukm:Note/>
+         <ukm:Alternatives>
+            <ukm:Alternative Date="2008-12-08" Title="Explanatory Memorandum" URI="http://www.legislation.gov.uk/uksi/2005/1958/pdfs/uksiem_20051958_en.pdf"/>
+         </ukm:Alternatives>
+      </ukm:Notes>
+      <ukm:Alternatives>
+         <ukm:Alternative Date="2008-12-08" Title="Print Version" URI="http://www.legislation.gov.uk/uksi/2005/1958/pdfs/uksi_20051958_en.pdf"/>
+      </ukm:Alternatives>
+      <ukm:CorrectionSlips>
+         <ukm:CorrectionSlip Date="2008-12-09" Title="Correction Slip" URI="http://www.legislation.gov.uk/uksi/2005/1958/pdfs/uksics_20051958_en.pdf"/>
+      </ukm:CorrectionSlips>
+      <ukm:Statistics>
+         <ukm:TotalParagraphs Value="4"/>
+         <ukm:BodyParagraphs Value="4"/>
+         <ukm:ScheduleParagraphs Value="0"/>
+         <ukm:AttachmentParagraphs Value="0"/>
+         <ukm:TotalImages Value="0"/>
+      </ukm:Statistics>
+   </ukm:Metadata>
+   <Secondary>
+      <SecondaryPrelims>
+         <Number>2005 No. 1958</Number>
+         <SubjectInformation>
+            <Subject>
+               <Title>CONSTITUTIONAL LAW</Title>
+            </Subject>
+            <Subject>
+               <Title>DEVOLUTION, WALES</Title>
+            </Subject>
+         </SubjectInformation>
+         <Title>The National Assembly for Wales (Transfer of Functions) Order 2005</Title>
+         <MadeDate>
+            <Text>Made</Text>
+            <DateText>19th July 2005</DateText>
+         </MadeDate>
+         <LaidDate>
+            <Text>Laid before Parliament</Text>
+            <DateText>29th July 2005</DateText>
+         </LaidDate>
+         <ComingIntoForce>
+            <Text>Coming into force</Text>
+            <DateText>1st January 2006</DateText>
+         </ComingIntoForce>
+         <SecondaryPreamble>
+            <RoyalPresence>
+               <Para>
+                  <Text>At the Court at Buckingham Palace, the 19th of July 2005</Text>
+                  <Text>Present,</Text>
+                  <Text>The Queen’s Most Excellent Majesty in Council</Text>
+               </Para>
+            </RoyalPresence>
+            <EnactingText>
+               <Para>
+                  <Text>Her Majesty, in pursuance of sections 22 and 24(1) of, and paragraphs 1 and 3 of Schedule 3 to, the Government of Wales Act 1998<FootnoteRef Ref="f00001"/> is pleased, by and with the advice of Her Privy Council, to order, and it is hereby ordered, as follows—</Text>
+               </Para>
+            </EnactingText>
+         </SecondaryPreamble>
+      </SecondaryPrelims>
+      <Body NumberFormat="default" NumberOfProvisions="4">
+         <P1group>
+            <Title>Citation, commencement and interpretation</Title>
+            <P1 id="article-1">
+               <Pnumber>1</Pnumber>
+               <P1para>
+                  <P3 id="article-1-a">
+                     <Pnumber>a</Pnumber>
+                     <P3para>
+                        <Text>This Order may be cited as the National Assembly for Wales (Transfer of Functions) Order 2005.</Text>
+                     </P3para>
+                  </P3>
+                  <P2 id="article-1-1">
+                     <Pnumber>1</Pnumber>
+                     <P2para>
+                        <Text>This Order shall come into force on 1st January 2006.</Text>
+                     </P2para>
+                  </P2>
+                  <P2 id="article-1-2">
+                     <Pnumber>2</Pnumber>
+                     <P2para>
+                        <Text>In this Order—</Text>
+                        <UnorderedList Class="Definition" Decoration="none">
+                           <ListItem>
+                              <Para>
+                                 <Text>“ <Abbreviation Expansion="Pollution Prevention and Control Act 1999 c. 24">the Act</Abbreviation> ” means the Pollution Prevention and Control Act 1999<FootnoteRef Ref="f00002"/>;</Text>
+                              </Para>
+                           </ListItem>
+                           <ListItem>
+                              <Para>
+                                 <Text>“ <Abbreviation Expansion="the National Assembly for Wales">the Assembly</Abbreviation> ” means the National Assembly for Wales;</Text>
+                              </Para>
+                           </ListItem>
+                           <ListItem>
+                              <Para>
+                                 <Text>“offshore” means in the territorial sea adjacent to Wales, but excluding relevant territorial waters;</Text>
+                              </Para>
+                           </ListItem>
+                           <ListItem>
+                              <Para>
+                                 <Text>“relevant territorial waters” has the meaning given by section 104(1)(a) of the Water Resources Act 1991<FootnoteRef Ref="f00003"/>.</Text>
+                              </Para>
+                           </ListItem>
+                        </UnorderedList>
+                     </P2para>
+                  </P2>
+               </P1para>
+            </P1>
+         </P1group>
+         <P1group>
+            <Title>Statement Pursuant to section 5 of the Act</Title>
+            <P1 id="article-2">
+               <Pnumber>2</Pnumber>
+               <P1para>
+                  <Text>This Order makes no provision which is not—</Text>
+                  <P3 id="article-2-a">
+                     <Pnumber>a</Pnumber>
+                     <P3para>
+                        <Text>provision about functions under the Act; or</Text>
+                     </P3para>
+                  </P3>
+                  <P3 id="article-2-b">
+                     <Pnumber>b</Pnumber>
+                     <P3para>
+                        <Text>provision in connection with such provision.</Text>
+                     </P3para>
+                  </P3>
+               </P1para>
+            </P1>
+         </P1group>
+         <P1group>
+            <Title>Transfer of Functions</Title>
+            <P1 id="article-3">
+               <Pnumber>3</Pnumber>
+               <P1para>
+                  <P2 id="article-3-1">
+                     <Pnumber>1</Pnumber>
+                     <P2para>
+                        <Text>Subject to paragraph (2) below, the functions of the Secretary of State under or in relation to section 2 of the Act, so far as exercisable in relation to Wales, are transferred to the Assembly, except in relation to offshore oil and gas exploration and exploitation.</Text>
+                     </P2para>
+                  </P2>
+                  <P2 id="article-3-2">
+                     <Pnumber>2</Pnumber>
+                     <P2para>
+                        <Text>It is directed that, in so far as any of the functions under paragraph (1) are exercisable by the Secretary of State in relation to a cross-border body but which, by their nature, are not functions which can be specifically exercised in relation to Wales, such functions shall be exercisable by the Assembly in relation to that body concurrently with the Secretary of State.</Text>
+                     </P2para>
+                  </P2>
+                  <P2 id="article-3-3">
+                     <Pnumber>3</Pnumber>
+                     <P2para>
+                        <Text>For the purposes of paragraph (1) above, functions of the Secretary of State under section 2 of the Act include any functions of the Secretary of State which are included in regulations having effect under section 2 of the Act<FootnoteRef Ref="f00004"/>, and the power to confer functions on the Secretary of State or on a Minister of the Crown by any such regulations shall have effect as a power to confer such functions on the Assembly.</Text>
+                     </P2para>
+                  </P2>
+               </P1para>
+            </P1>
+         </P1group>
+         <P1group>
+            <Title>Transfer of Property</Title>
+            <P1 id="article-4">
+               <Pnumber>4</Pnumber>
+               <P1para>
+                  <Text>The provisions of section 23(1) of the Government of Wales Act 1998 shall not apply to any documentary or electronic records.</Text>
+               </P1para>
+            </P1>
+         </P1group>
+         <SignedSection>
+            <Signatory>
+               <Signee>
+                  <PersonName>A K Galloway</PersonName>
+                  <JobTitle>Clerk of the Privy Council</JobTitle>
+               </Signee>
+            </Signatory>
+         </SignedSection>
+      </Body>
+      <ExplanatoryNotes>
+         <Comment>
+            <Para>
+               <Text>(This note is not part of the Order)</Text>
+            </Para>
+         </Comment>
+         <P>
+            <Text>This Order is made under sections 22 and 24 of the Government of Wales Act 1998.</Text>
+         </P>
+         <P>
+            <Text>Article 2 contains a statement in the form required by section 5 of the Pollution Prevention and Control Act 1999 (“the <Abbreviation Expansion="Pollution Prevention and Control Act 1999 c. 24">1999 Act</Abbreviation> ”) so that a draft of this Order shall not have to be laid before, and approved by a resolution of, each House of Parliament but instead shall be subject to annulment in pursuance of a resolution of either House of Parliament.</Text>
+         </P>
+         <P>
+            <Text>Article 3 provides for the transfer to the National Assembly for Wales of the functions of the Secretary of State under or in relation to section 2 of the 1999 Act and of regulations made under section 2 of that Act. Functions in relation to offshore oil and gas exploration and exploitation are excluded. The transferred functions relate to the regulation of polluting activities pursuant to <Citation Class="EuropeanUnionDirective" Number="61" URI="http://www.legislation.gov.uk/id/eudr/1996/61" Year="1996" id="c00001">Council Directive 96/61/EC</Citation>.</Text>
+         </P>
+         <P>
+            <Text>Article 4 provides for the exclusion from that transfer of certain property that would otherwise transfer to the National Assembly for Wales under section 23(1) of the Government of Wales Act 1998.</Text>
+         </P>
+      </ExplanatoryNotes>
+   </Secondary>
+   <Footnotes>
+      <Footnote id="f00001">
+         <FootnoteText>
+            <Para>
+               <Text>
+                  <Citation Class="UnitedKingdomPublicGeneralAct" Number="38" URI="http://www.legislation.gov.uk/id/ukpga/1998/38" Year="1998" id="c00002">1998 c. 38</Citation>.</Text>
+            </Para>
+         </FootnoteText>
+      </Footnote>
+      <Footnote id="f00002">
+         <FootnoteText>
+            <Para>
+               <Text>
+                  <Citation Class="UnitedKingdomPublicGeneralAct" Number="24" URI="http://www.legislation.gov.uk/id/ukpga/1999/24" Year="1999" id="c00003">1999 c. 24</Citation>.</Text>
+            </Para>
+         </FootnoteText>
+      </Footnote>
+      <Footnote id="f00003">
+         <FootnoteText>
+            <Para>
+               <Text>
+                  <Citation Class="UnitedKingdomPublicGeneralAct" Number="57" URI="http://www.legislation.gov.uk/id/ukpga/1991/57" Year="1991" id="c00004">1991 c. 57</Citation>.</Text>
+            </Para>
+         </FootnoteText>
+      </Footnote>
+      <Footnote id="f00004">
+         <FootnoteText>
+            <Para>
+               <Text>Pollution Prevention and Control (England and Wales) Regulations 2000 (<Citation Class="UnitedKingdomStatutoryInstrument" Number="1973" URI="http://www.legislation.gov.uk/id/uksi/2000/1973" Year="2000" id="c00005">S.I. 2000/1973</Citation>).</Text>
+            </Para>
+         </FootnoteText>
+      </Footnote>
+   </Footnotes>
+</Legislation>
