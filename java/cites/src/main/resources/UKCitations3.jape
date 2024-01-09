@@ -12,7 +12,7 @@ Priority: 1
 ) --> {
 	gate.Annotation prev = (gate.Annotation) bindings.get("prev").iterator().next();
 	String cls = (String) prev.getFeatures().get("Class");
-	String year = (String) prev.getFeatures().get("Year");
+	Object year = prev.getFeatures().get("Year");  // can be an Integer
 	String altNum = (String) prev.getFeatures().get("AlternativeNumber");
 
 	gate.AnnotationSet numSet = (gate.AnnotationSet) bindings.get("number");
