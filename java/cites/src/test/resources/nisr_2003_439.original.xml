@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Legislation xmlns="http://www.legislation.gov.uk/namespaces/legislation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" NumberOfProvisions="2" SchemaVersion="1.0" xsi:schemaLocation="http://www.legislation.gov.uk/namespaces/legislation http://www.legislation.gov.uk/schema/legislation.xsd">
+   <ukm:Metadata xmlns:atom="http://www.w3.org/2005/Atom" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dct="http://purl.org/dc/terms/" xmlns:ukm="http://www.legislation.gov.uk/namespaces/metadata">
+      <dc:identifier>http://www.legislation.gov.uk/nisr/2003/439/made</dc:identifier>
+      <dc:title>The Access to Justice (Northern Ireland) Order 2003 (Commencement No. 1) (Amendment) Order (Northern Ireland) 2003</dc:title>
+      <dc:subject>Local Government</dc:subject>
+      <dc:publisher>Government Printer for Northern Ireland</dc:publisher>
+      <dc:modified>2016-09-15</dc:modified>
+      <dc:subject scheme="SIheading">ACCESS TO JUSTICE</dc:subject>
+      <dc:description>This Order amends the Access to Justice (Northern Ireland) Order 2003 (Commencement No. 1) Order (Northern Ireland) 2003 to amend the entry commencing certain provisions of Article 46 of the Access to Justice (Northern Ireland) Order 2003 on 1st November 2003. The effect of the amendment is that Article 46(2) will not now be commenced on that date.</dc:description>
+      <atom:link href="http://www.legislation.gov.uk/nisr/2003/439/made/data.xml" rel="self" type="application/xml"/>
+      <atom:link href="http://www.legislation.gov.uk/nisr/2003/439/resources" rel="http://www.legislation.gov.uk/def/navigation/resources" title="More Resources"/>
+      <atom:link href="http://www.legislation.gov.uk/nisr/2003/439/made" rel="http://www.legislation.gov.uk/def/navigation/act" title="whole act"/>
+      <atom:link href="http://www.legislation.gov.uk/nisr/2003/439/introduction/made" rel="http://www.legislation.gov.uk/def/navigation/introduction" title="introduction"/>
+      <atom:link href="http://www.legislation.gov.uk/nisr/2003/439/signature/made" rel="http://www.legislation.gov.uk/def/navigation/signature" title="signature"/>
+      <atom:link href="http://www.legislation.gov.uk/nisr/2003/439/note/made" rel="http://www.legislation.gov.uk/def/navigation/note" title="note"/>
+      <atom:link href="http://www.legislation.gov.uk/nisr/2003/439/body/made" rel="http://www.legislation.gov.uk/def/navigation/body" title="body"/>
+      <atom:link href="http://www.legislation.gov.uk/nisr/2003/439/made/data.rdf" rel="alternate" title="RDF/XML" type="application/rdf+xml"/>
+      <atom:link href="http://www.legislation.gov.uk/nisr/2003/439/made/data.akn" rel="alternate" title="AKN" type="application/akn+xml"/>
+      <atom:link href="http://www.legislation.gov.uk/nisr/2003/439/made/data.xht" rel="alternate" title="HTML snippet" type="application/xhtml+xml"/>
+      <atom:link href="http://www.legislation.gov.uk/nisr/2003/439/made/data.htm" rel="alternate" title="Website (XHTML) Default View" type="text/html"/>
+      <atom:link href="http://www.legislation.gov.uk/nisr/2003/439/made/data.pdf" rel="alternate" title="PDF" type="application/pdf"/>
+      <atom:link href="http://www.legislation.gov.uk/nisr/2003/439/made/data.html" rel="alternate" title="HTML5 snippet" type="application/akn+xhtml"/>
+      <atom:link href="http://www.legislation.gov.uk/nisr/2003/439/pdfs/nisr_20030439_en.pdf" rel="alternate" title="Print Version" type="application/pdf"/>
+      <atom:link href="http://www.legislation.gov.uk/nisr/2003/439/contents/made" hreflang="en" rel="http://purl.org/dc/terms/tableOfContents" title="Table of Contents"/>
+      <ukm:SecondaryMetadata>
+         <ukm:DocumentClassification>
+            <ukm:DocumentCategory Value="secondary"/>
+            <ukm:DocumentMainType Value="NorthernIrelandStatutoryRule"/>
+            <ukm:DocumentStatus Value="final"/>
+            <ukm:DocumentMinorType Value="order"/>
+         </ukm:DocumentClassification>
+         <ukm:Year Value="2003"/>
+         <ukm:Number Value="439"/>
+         <ukm:AlternativeNumber Category="C" Value="32"/>
+         <ukm:Made Date="2003-10-04"/>
+         <ukm:ComingIntoForce>
+            <ukm:DateTime Date="2003-10-29"/>
+         </ukm:ComingIntoForce>
+         <ukm:ISBN Value="0337952663"/>
+      </ukm:SecondaryMetadata>
+      <ukm:Alternatives>
+         <ukm:Alternative Date="2008-11-28" Title="Print Version" URI="http://www.legislation.gov.uk/nisr/2003/439/pdfs/nisr_20030439_en.pdf"/>
+      </ukm:Alternatives>
+      <ukm:Statistics>
+         <ukm:TotalParagraphs Value="2"/>
+         <ukm:BodyParagraphs Value="2"/>
+         <ukm:ScheduleParagraphs Value="0"/>
+         <ukm:AttachmentParagraphs Value="0"/>
+         <ukm:TotalImages Value="0"/>
+      </ukm:Statistics>
+   </ukm:Metadata>
+   <Secondary>
+      <SecondaryPrelims>
+         <Number>2003 No. 439 (C. 32)</Number>
+         <SubjectInformation>
+            <Subject>
+               <Title>ACCESS TO JUSTICE</Title>
+            </Subject>
+         </SubjectInformation>
+         <Title>The Access to Justice (Northern Ireland) Order 2003 (Commencement <Abbreviation Expansion="Number">No.</Abbreviation> 1) (Amendment) Order (Northern Ireland) 2003</Title>
+         <MadeDate>
+            <Text>Made</Text>
+            <DateText>4th October 2003</DateText>
+         </MadeDate>
+         <ComingIntoForce>
+            <Text>Coming into operation</Text>
+            <DateText>29th October 2003</DateText>
+         </ComingIntoForce>
+         <SecondaryPreamble>
+            <EnactingText>
+               <Para>
+                  <Text>The Lord Chancellor, in exercise of the powers conferred on him by Article 1(2) of the Access to Justice (Northern Ireland) Order 2003<FootnoteRef Ref="f00001"/> and of all other powers enabling him in that behalf, hereby makes the following Order: –</Text>
+               </Para>
+            </EnactingText>
+         </SecondaryPreamble>
+      </SecondaryPrelims>
+      <Body NumberFormat="default" NumberOfProvisions="2">
+         <P1group>
+            <Title>Citation and commencement</Title>
+            <P1 id="article-1">
+               <Pnumber>1</Pnumber>
+               <P1para>
+                  <Text>This Order may be cited as the Access to Justice (Northern Ireland) Order 2003 (Commencement No. 1) (Amendment) Order (Northern Ireland) 2003 and shall come into operation on 29th October 2003.</Text>
+               </P1para>
+            </P1>
+         </P1group>
+         <P1group>
+            <Title>Amendment</Title>
+            <P1 id="article-2">
+               <Pnumber>2</Pnumber>
+               <P1para>
+                  <Text>In Schedule 2 to the Access to Justice (Northern Ireland) Order 2003 (Commencement No. 1) Order (Northern Ireland) 2003<FootnoteRef Ref="f00002"/> for the entry “Article 46(1) to (3)” there shall be substituted the entry “Article 46(1) and (3)”.</Text>
+               </P1para>
+            </P1>
+         </P1group>
+         <SignedSection>
+            <Signatory>
+               <Para>
+                  <Text>Signed by authority of the Lord Chancellor</Text>
+               </Para>
+               <Signee>
+                  <PersonName>Lord Filkin</PersonName>
+                  <JobTitle>Parliamentary Under Secretary of State</JobTitle>
+                  <Address>
+                     <AddressLine>Department of Constitutional Affairs</AddressLine>
+                  </Address>
+                  <DateSigned>
+                     <DateText>Dated 4th October 2003</DateText>
+                  </DateSigned>
+               </Signee>
+            </Signatory>
+         </SignedSection>
+      </Body>
+      <ExplanatoryNotes>
+         <Comment>
+            <Para>
+               <Text>(This note is not part of the Order.)</Text>
+            </Para>
+         </Comment>
+         <P>
+            <Text>This Order amends the Access to Justice (Northern Ireland) Order 2003 (Commencement No. 1) Order (Northern Ireland) 2003 to amend the entry commencing certain provisions of Article 46 of the Access to Justice (Northern Ireland) Order 2003 on 1st November 2003. The effect of the amendment is that Article 46(2) will not now be commenced on that date.</Text>
+         </P>
+      </ExplanatoryNotes>
+   </Secondary>
+   <Footnotes>
+      <Footnote id="f00001">
+         <FootnoteText>
+            <Para>
+               <Text>
+                  <Acronym Expansion="Statutory Instrument">S.I.</Acronym>
+                  <Citation AlternativeNumber="N.I. 10" Class="NorthernIrelandOrderInCouncil" Number="0435" URI="http://www.legislation.gov.uk/id/nisi/2003/435" Year="2003" id="c00001">2003/435 (N.I. 10)</Citation>
+               </Text>
+            </Para>
+         </FootnoteText>
+      </Footnote>
+      <Footnote id="f00002">
+         <FootnoteText>
+            <Para>
+               <Text>
+                  <Citation AlternativeNumber="C.24" Class="NorthernIrelandStatutoryRule" Number="0344" URI="http://www.legislation.gov.uk/id/nisr/2003/344" Year="2003" id="c00002">S.R. 2003 No. 344 (C. 24)</Citation>
+               </Text>
+            </Para>
+         </FootnoteText>
+      </Footnote>
+   </Footnotes>
+</Legislation>

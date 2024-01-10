@@ -488,11 +488,27 @@ Priority: 5
 	( { Token.string == "/" } |
 	  ( { Token.string ==~ "[Nn]os?" } ( { Token.string == "." } ) ? ) )
 	( { Token.kind == "number" } ) :number
-): cite --> :cite.Citation = {
-	Class = "NorthernIrelandStatutoryRule",
-	Year = :year.Token.string,
-	Number = :number.Token.string
+	( { Token.string == "(" }
+	  { Token.string == "C" }
+	  { Token.string == "." }
+	  ( { Token.kind == "number" } ) :number2
+	  { Token.string == ")" } ) ?
+): cite --> {
+	gate.AnnotationSet set = (gate.AnnotationSet) bindings.get("cite");
+	String type = "NorthernIrelandStatutoryRule";
+	String year = (String) bindings.get("year").iterator().next().getFeatures().get("string");
+	String number = (String) bindings.get("number").iterator().next().getFeatures().get("string");
+	String number2 = bindings.containsKey("number2") ?
+		(String) bindings.get("number2").iterator().next().getFeatures().get("string") : null;
+	gate.FeatureMap features = Factory.newFeatureMap();
+	features.put("Class", type);
+	features.put("Year", year);
+	features.put("Number", number);
+	if (number2 != null)
+		features.put("CommencementNumber", number2);
+	outputAS.add(set.firstNode(), set.lastNode(), "Citation", features);
 }
+
 Rule: NISR2
 Priority: 5
 (
@@ -508,6 +524,7 @@ Priority: 5
 	( { Token.string == "/" } |
 	  ( { Token.string ==~ "Nos?" } { Token.string == "." } ) )
 	( { Token.kind == "number" } ) :number
+	// CommencementNumber ?
 ): cite --> :cite.Citation = {
 	Class = "NorthernIrelandStatutoryRule",
 	Year = :year.Token.string,
@@ -533,6 +550,7 @@ Priority: 5
 	( { Token.string == "/" } |
 	  ( { Token.string ==~ "Nos?" } { Token.string == "." } ) )
 	( { Token.kind == "number" } ) :number
+	// CommencementNumber ?
 ): cite --> :cite.Citation = {
 	Class = "NorthernIrelandStatutoryRuleOrOrder",
 	Year = :year.Token.string,
@@ -553,6 +571,7 @@ Priority: 4
 	{ Token.string == "." }
 	( { Token.kind == "number" } ) :number2
 	{ Token.string == ")" }
+	// CommencementNumber ?
 ): cite --> {
 	gate.AnnotationSet set = (gate.AnnotationSet) bindings.get("cite");
 	int year = Integer.parseInt((String) bindings.get("year").iterator().next().getFeatures().get("string"));
