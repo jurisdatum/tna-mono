@@ -44,7 +44,7 @@ Priority: 1
 	( ( { Token.string == "O" } { Token.string == "." } { Token.string == "J" } { Token.string == "." } ) |
 	  { Token.string == "OJ" } )
 	{ Token.string == "No" }
-	{ Token.string == "." }
+	( { Token.string == "." } ) ?
 	( { Token.string == "L" } | { Token.string == "C" } ) :series
 	( { Token.kind == "number" } ) :issue
 	{ Token.string == "," }
@@ -55,7 +55,7 @@ Priority: 1
 	( { Token.kind == "number" } ) :year
 	( { Token.string == "," } ) ?
 	{ Token.string == "p" }
-	{ Token.string == "." }
+	( { Token.string == "." } ) ?
 	( { Token.kind == "number" } ) :page
 ): cite --> {
 

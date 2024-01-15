@@ -8,6 +8,7 @@ import uk.gov.legislation.cites.AllCiteRemover;
 import uk.gov.legislation.cites.gate.CiteEnricher;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Collection;
 
@@ -27,7 +28,7 @@ public class CitationsTest {
     public static Collection<Object[]> filenames() {
         return Arrays.asList(new Object[][] {
             { "nisr_2011_224" }, { "uksi_1994_935" }, { "uksi_2010_2493" }, { "wsi_2013_664" }, { "uksi_2005_1958" },
-            { "nisr_2003_439" }
+            { "nisr_2003_439" }, { "uksi_2015_1669" }
         });
     }
 
@@ -43,7 +44,10 @@ public class CitationsTest {
         byte[] removed = new AllCiteRemover().remove(original);
         byte[] actual = new CiteEnricher().enrich(removed);
 
-        Assert.assertArrayEquals(expected, actual);
+        String expected1 = new String(expected, StandardCharsets.UTF_8);
+        String actual1 = new String(actual, StandardCharsets.UTF_8);
+
+        Assert.assertEquals(filename, expected1, actual1);
     }
 
 }

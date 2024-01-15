@@ -1,0 +1,371 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Legislation xmlns="http://www.legislation.gov.uk/namespaces/legislation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" NumberOfProvisions="4" RestrictExtent="E+W+S+N.I." RestrictStartDate="2015-10-01" SchemaVersion="1.0" xsi:schemaLocation="http://www.legislation.gov.uk/namespaces/legislation http://www.legislation.gov.uk/schema/legislation.xsd">
+   <ukm:Metadata xmlns:atom="http://www.w3.org/2005/Atom" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dct="http://purl.org/dc/terms/" xmlns:ukm="http://www.legislation.gov.uk/namespaces/metadata">
+      <dc:identifier>http://www.legislation.gov.uk/uksi/2015/1669</dc:identifier>
+      <dc:title>The Organic Products (Amendment) Regulations 2015</dc:title>
+      <dc:type>text</dc:type>
+      <dc:format>text/xml</dc:format>
+      <dc:language>en</dc:language>
+      <dc:publisher>Statute Law Database</dc:publisher>
+      <dc:modified>2021-07-13</dc:modified>
+      <dc:subject scheme="SIheading">AGRICULTURE</dc:subject>
+      <dct:valid>2015-10-01</dct:valid>
+      <dc:description>These Regulations amend the Organic Products Regulations 2009 (S.I. 2009/842) (“the 2009 Regulations”).</dc:description>
+      <atom:link href="http://www.legislation.gov.uk/uksi/2015/1669/data.xml" rel="self" type="application/xml"/>
+      <atom:link href="http://www.legislation.gov.uk/uksi/2015/1669/resources" rel="http://www.legislation.gov.uk/def/navigation/resources" title="More Resources"/>
+      <atom:link href="http://www.legislation.gov.uk/uksi/2015/1669/memorandum" rel="http://www.legislation.gov.uk/def/navigation/memorandum" title="Explanatory Memorandum"/>
+      <atom:link href="http://www.legislation.gov.uk/uksi/2015/1669/memorandum/contents" rel="http://www.legislation.gov.uk/def/navigation/memorandum/toc" title="Explanatory Memorandum Table of Contents"/>
+      <atom:link href="http://www.legislation.gov.uk/uksi/2015/1669" rel="http://www.legislation.gov.uk/def/navigation/act" title="whole act"/>
+      <atom:link href="http://www.legislation.gov.uk/uksi/2015/1669/introduction" rel="http://www.legislation.gov.uk/def/navigation/introduction" title="introduction"/>
+      <atom:link href="http://www.legislation.gov.uk/uksi/2015/1669/signature" rel="http://www.legislation.gov.uk/def/navigation/signature" title="signature"/>
+      <atom:link href="http://www.legislation.gov.uk/uksi/2015/1669/note" rel="http://www.legislation.gov.uk/def/navigation/note" title="note"/>
+      <atom:link href="http://www.legislation.gov.uk/uksi/2015/1669/body" rel="http://www.legislation.gov.uk/def/navigation/body" title="body"/>
+      <atom:link href="http://www.legislation.gov.uk/uksi/2015/1669/data.rdf" rel="alternate" title="RDF/XML" type="application/rdf+xml"/>
+      <atom:link href="http://www.legislation.gov.uk/uksi/2015/1669/data.akn" rel="alternate" title="AKN" type="application/akn+xml"/>
+      <atom:link href="http://www.legislation.gov.uk/uksi/2015/1669/data.xht" rel="alternate" title="HTML snippet" type="application/xhtml+xml"/>
+      <atom:link href="http://www.legislation.gov.uk/uksi/2015/1669/data.htm" rel="alternate" title="Website (XHTML) Default View" type="text/html"/>
+      <atom:link href="http://www.legislation.gov.uk/uksi/2015/1669/data.pdf" rel="alternate" title="PDF" type="application/pdf"/>
+      <atom:link href="http://www.legislation.gov.uk/uksi/2015/1669/data.html" rel="alternate" title="HTML5 snippet" type="application/akn+xhtml"/>
+      <atom:link href="http://www.legislation.gov.uk/uksi/2015/1669/pdfs/uksi_20151669_en.pdf" rel="alternate" title="Original PDF" type="application/pdf"/>
+      <atom:link href="http://www.legislation.gov.uk/uksi/2015/1669/contents" hreflang="en" rel="http://purl.org/dc/terms/tableOfContents" title="Table of Contents"/>
+      <atom:link href="http://www.legislation.gov.uk/uksi/2015/1669/made" rel="http://purl.org/dc/terms/hasVersion" title="made"/>
+      <atom:link href="http://www.legislation.gov.uk/uksi/2015/1669/2015-10-01" rel="http://purl.org/dc/terms/hasVersion" title="2015-10-01"/>
+      <ukm:SecondaryMetadata>
+         <ukm:DocumentClassification>
+            <ukm:DocumentCategory Value="secondary"/>
+            <ukm:DocumentMainType Value="UnitedKingdomStatutoryInstrument"/>
+            <ukm:DocumentStatus Value="revised"/>
+            <ukm:DocumentMinorType Value="regulation"/>
+         </ukm:DocumentClassification>
+         <ukm:Year Value="2015"/>
+         <ukm:Number Value="1669"/>
+         <ukm:Made Date="2015-09-08"/>
+         <ukm:Laid Class="UnitedKingdomParliament" Date="2015-09-10"/>
+         <ukm:ComingIntoForce>
+            <ukm:DateTime Date="2015-10-01"/>
+         </ukm:ComingIntoForce>
+         <ukm:ISBN Value="9780111139165"/>
+      </ukm:SecondaryMetadata>
+      <ukm:Notes>
+         <ukm:Note/>
+         <ukm:Alternatives>
+            <ukm:Alternative Date="2015-09-11" Size="34850" Title="UK Explanatory Memorandum" URI="http://www.legislation.gov.uk/uksi/2015/1669/pdfs/uksiem_20151669_en.pdf"/>
+         </ukm:Alternatives>
+      </ukm:Notes>
+      <ukm:Alternatives>
+         <ukm:Alternative Date="2015-09-11" Size="39606" URI="http://www.legislation.gov.uk/uksi/2015/1669/pdfs/uksi_20151669_en.pdf"/>
+      </ukm:Alternatives>
+      <ukm:Statistics>
+         <ukm:TotalParagraphs Value="4"/>
+         <ukm:BodyParagraphs Value="4"/>
+         <ukm:ScheduleParagraphs Value="0"/>
+         <ukm:AttachmentParagraphs Value="0"/>
+         <ukm:TotalImages Value="0"/>
+      </ukm:Statistics>
+   </ukm:Metadata>
+   <Secondary>
+      <SecondaryPrelims RestrictStartDate="2015-10-01">
+         <Number>2015 No. 1669</Number>
+         <SubjectInformation>
+            <Subject>
+               <Title>Agriculture</Title>
+            </Subject>
+         </SubjectInformation>
+         <Title>The Organic Products (Amendment) Regulations 2015</Title>
+         <MadeDate>
+            <Text>Made</Text>
+            <DateText>8th September 2015</DateText>
+         </MadeDate>
+         <LaidDate>
+            <Text>Laid before Parliament</Text>
+            <DateText>10th September 2015</DateText>
+         </LaidDate>
+         <ComingIntoForce>
+            <Text>Coming into force</Text>
+            <DateText>1st October 2015</DateText>
+         </ComingIntoForce>
+         <SecondaryPreamble>
+            <EnactingText>
+               <Para>
+                  <BlockText>
+                     <Para>
+                        <Text>The Secretary of State makes these Regulations—</Text>
+                     </Para>
+                     <OrderedList Decoration="parens" Type="alpha">
+                        <ListItem NumberOverride="a">
+                           <Para>
+                              <Text>in exercise of the powers conferred by section 2(2) of the European Communities Act 1972 <CommentaryRef Ref="c22673391"/>, other than in relation to fees charged by the Secretary of State, and</Text>
+                           </Para>
+                        </ListItem>
+                        <ListItem NumberOverride="b">
+                           <Para>
+                              <Text>in exercise of the powers conferred by section 56(1) of the Finance Act 1973 <CommentaryRef Ref="c22673401"/> in relation to fees charged by the Secretary of State.</Text>
+                           </Para>
+                        </ListItem>
+                     </OrderedList>
+                  </BlockText>
+               </Para>
+               <Para>
+                  <Text>The Secretary of State is a Minister designated for the purposes of section 2(2) of the European Communities Act 1972 in relation to the common agricultural policy of the European Union <CommentaryRef Ref="c22673411"/>.</Text>
+               </Para>
+               <Para>
+                  <Text>In accordance with section 56(1) of the Finance Act 1973, the Treasury consent to the making of these Regulations.</Text>
+               </Para>
+            </EnactingText>
+         </SecondaryPreamble>
+      </SecondaryPrelims>
+      <Body NumberOfProvisions="4" RestrictStartDate="2015-10-01">
+         <P1group RestrictStartDate="2015-10-01">
+            <Title>Citation and commencement</Title>
+            <P1 id="regulation-1">
+               <Pnumber>1</Pnumber>
+               <P1para>
+                  <Text>These Regulations may be cited as the Organic Products (Amendment) Regulations 2015 and come into force on 1st October 2015.</Text>
+               </P1para>
+            </P1>
+         </P1group>
+         <P1group RestrictStartDate="2015-10-01">
+            <Title>Amendment of the Organic Products Regulations 2009</Title>
+            <P1 id="regulation-2">
+               <Pnumber>2</Pnumber>
+               <P1para>
+                  <P2 id="regulation-2-1">
+                     <Pnumber>1</Pnumber>
+                     <P2para>
+                        <Text>The Organic Products Regulations 2009 <CommentaryRef Ref="c22673421"/> are amended as follows.</Text>
+                     </P2para>
+                  </P2>
+                  <P2 id="regulation-2-2">
+                     <Pnumber>2</Pnumber>
+                     <P2para>
+                        <Text>For regulation 5 (permitted exceptions to the organic production rules), substitute—</Text>
+                        <BlockAmendment Context="main" Format="default" TargetClass="secondary" TargetSubClass="regulation">
+                           <P1group Layout="below">
+                              <Title/>
+                              <P1>
+                                 <Pnumber>5</Pnumber>
+                                 <P1para>
+                                    <Text>A control body may permit the use of non-organic seed and seed potatoes for the purposes of Article 45(1)(b) and in accordance with Article 45 of <Citation Class="EuropeanUnionRegulation" Number="889" URI="http://www.legislation.gov.uk/id/eur/2008/889" Year="2008" id="c00001">Commission Regulation 889/2008</Citation>
+                                       <CommentaryRef Ref="c22673431"/>.</Text>
+                                 </P1para>
+                              </P1>
+                           </P1group>
+                        </BlockAmendment>
+                        <AppendText>.</AppendText>
+                     </P2para>
+                  </P2>
+                  <P2 id="regulation-2-3">
+                     <Pnumber>3</Pnumber>
+                     <P2para>
+                        <Text>Omit regulation 12 (fees for import authorisations).</Text>
+                     </P2para>
+                  </P2>
+                  <P2 id="regulation-2-4">
+                     <Pnumber>4</Pnumber>
+                     <P2para>
+                        <Text>In paragraph (1) of regulation 13 (fees for approvals of control bodies and post-approval inspections), for “£192.50” substitute <InlineAmendment>“ £203.00 ”</InlineAmendment> .</Text>
+                     </P2para>
+                  </P2>
+                  <P2 id="regulation-2-5">
+                     <Pnumber>5</Pnumber>
+                     <P2para>
+                        <Text>After regulation 32 insert—</Text>
+                        <BlockAmendment Context="main" Format="default" TargetClass="secondary" TargetSubClass="regulation">
+                           <P1group>
+                              <Title>Review</Title>
+                              <P1>
+                                 <Pnumber>32A</Pnumber>
+                                 <P1para>
+                                    <P2>
+                                       <Pnumber>1</Pnumber>
+                                       <P2para>
+                                          <Text>The Secretary of State, in relation to England, must from time to time—</Text>
+                                          <P3>
+                                             <Pnumber>a</Pnumber>
+                                             <P3para>
+                                                <Text>carry out a review of these Regulations;</Text>
+                                             </P3para>
+                                          </P3>
+                                          <P3>
+                                             <Pnumber>b</Pnumber>
+                                             <P3para>
+                                                <Text>set out the conclusion of the review in a report; and</Text>
+                                             </P3para>
+                                          </P3>
+                                          <P3>
+                                             <Pnumber>c</Pnumber>
+                                             <P3para>
+                                                <Text>publish the report.</Text>
+                                             </P3para>
+                                          </P3>
+                                       </P2para>
+                                    </P2>
+                                    <P2>
+                                       <Pnumber>2</Pnumber>
+                                       <P2para>
+                                          <Text>In carrying out a review mentioned in paragraph (1) the Secretary of State must, so far as is reasonable, have regard to the powers and mechanisms available in other member States to enable the provisions of the Council Regulation <CommentaryRef Ref="c22673441"/>, <Citation Class="EuropeanUnionRegulation" Number="889" URI="http://www.legislation.gov.uk/id/eur/2008/889" Year="2008" id="c00002">Commission Regulation 889/2008</Citation> and <Citation Class="EuropeanUnionRegulation" Number="1235" URI="http://www.legislation.gov.uk/id/eur/2008/1235" Year="2008" id="c00003">Commission Regulation 1235/2008</Citation>
+                                             <CommentaryRef Ref="c22673451"/> to be enforced.</Text>
+                                       </P2para>
+                                    </P2>
+                                    <P2>
+                                       <Pnumber>3</Pnumber>
+                                       <P2para>
+                                          <Text>The report must in particular—</Text>
+                                          <P3>
+                                             <Pnumber>a</Pnumber>
+                                             <P3para>
+                                                <Text>set out the objectives intended to be achieved by the regulatory system established by these Regulations;</Text>
+                                             </P3para>
+                                          </P3>
+                                          <P3>
+                                             <Pnumber>b</Pnumber>
+                                             <P3para>
+                                                <Text>assess the extent to which those objectives are achieved; and</Text>
+                                             </P3para>
+                                          </P3>
+                                          <P3>
+                                             <Pnumber>c</Pnumber>
+                                             <P3para>
+                                                <Text>assess whether those objectives remain appropriate and, if so, the extent to which they could be achieved with a system that imposes less regulation.</Text>
+                                             </P3para>
+                                          </P3>
+                                       </P2para>
+                                    </P2>
+                                    <P2>
+                                       <Pnumber>4</Pnumber>
+                                       <P2para>
+                                          <Text>The first report under this regulation must be published before the end of the period of five years beginning with the day on which this regulation comes into force.</Text>
+                                       </P2para>
+                                    </P2>
+                                    <P2>
+                                       <Pnumber>5</Pnumber>
+                                       <P2para>
+                                          <Text>Reports under this regulation are afterwards to be published at intervals not exceeding five years.</Text>
+                                       </P2para>
+                                    </P2>
+                                 </P1para>
+                              </P1>
+                           </P1group>
+                        </BlockAmendment>
+                        <AppendText>.</AppendText>
+                     </P2para>
+                  </P2>
+               </P1para>
+            </P1>
+         </P1group>
+         <SignedSection RestrictStartDate="2015-10-01">
+            <Signatory>
+               <Signee>
+                  <PersonName>George Eustice</PersonName>
+                  <JobTitle> Minister of State</JobTitle>
+                  <Address>
+                     <AddressLine> Department for Environment, Food and Rural Affairs</AddressLine>
+                  </Address>
+                  <DateSigned Date="2015-09-08">
+                     <DateText>8th September 2015</DateText>
+                  </DateSigned>
+               </Signee>
+            </Signatory>
+            <Signatory>
+               <Para>
+                  <Text>We consent</Text>
+               </Para>
+               <Signee>
+                  <PersonName>David Evennett</PersonName>
+                  <PersonName>George Hollingbery</PersonName>
+                  <JobTitle> Two of the Lords Commissioners of Her Majesty's Treasury</JobTitle>
+                  <DateSigned Date="2015-09-07">
+                     <DateText>7th September 2015</DateText>
+                  </DateSigned>
+               </Signee>
+            </Signatory>
+         </SignedSection>
+      </Body>
+      <ExplanatoryNotes>
+         <P>
+            <Text>
+               <Emphasis>(This note is not part of the Regulations)</Emphasis>
+            </Text>
+         </P>
+         <P>
+            <BlockText>
+               <Para>
+                  <Text>These Regulations amend the Organic Products Regulations 2009 (<Citation Class="UnitedKingdomStatutoryInstrument" Number="842" URI="http://www.legislation.gov.uk/id/uksi/2009/842" Year="2009" id="c00004">S.I. 2009/842</Citation>) (“ <Term>the 2009 Regulations</Term> ”).</Text>
+               </Para>
+            </BlockText>
+         </P>
+         <P>
+            <BlockText>
+               <Para>
+                  <Text>Paragraph 2 of regulation 2 substitutes regulation 5 of the 2009 Regulations to remove certain delegations to control bodies. It continues to allow (with a corrected reference) control bodies to permit the use of non-organic seed and seed potatoes in accordance with Article 45 of <Citation Class="EuropeanUnionRegulation" Number="889" URI="http://www.legislation.gov.uk/id/eur/2008/889" Year="2008" id="c00005">Commission Regulation (EC) No 889/2008</Citation> laying down detailed rules for the implementation of <Citation Class="EuropeanUnionRegulation" Number="834" URI="http://www.legislation.gov.uk/id/eur/2007/834" Year="2007" id="c00006">Council Regulation (EC) No 834/2007</Citation> on organic production and labelling of organic products with regard to organic production, labelling and control (<Citation Class="EuropeanUnionOfficialJournal" Date="2008-09-18" Number="250" Series="L" StartPage="1" Year="2008" id="c00007">OJ No L 250, 18.9.2008, p 1</Citation>).</Text>
+               </Para>
+            </BlockText>
+         </P>
+         <P>
+            <BlockText>
+               <Para>
+                  <Text>Paragraph 3 revokes the power of the Secretary of State to charge fees for import authorisations.</Text>
+               </Para>
+            </BlockText>
+         </P>
+         <P>
+            <BlockText>
+               <Para>
+                  <Text>Paragraph 4 raises the fee which the Secretary of State may charge a person who has applied for approval as a control body.</Text>
+               </Para>
+            </BlockText>
+         </P>
+         <P>
+            <BlockText>
+               <Para>
+                  <Text>An impact assessment has not been produced for this instrument as no, or no significant, impact on the private, voluntary or public sectors is foreseen.</Text>
+               </Para>
+            </BlockText>
+         </P>
+      </ExplanatoryNotes>
+   </Secondary>
+   <Commentaries>
+      <Commentary Type="M" id="c22673391">
+         <Para>
+            <Text>
+               <Citation Class="UnitedKingdomPublicGeneralAct" Number="68" URI="http://www.legislation.gov.uk/id/ukpga/1972/68" Year="1972" id="c00008">1972 c.68</Citation>; <CitationSubRef CitationRef="c00008" SectionRef="section-2-2" URI="http://www.legislation.gov.uk/id/ukpga/1972/68/section/2/2">section 2(2)</CitationSubRef> was amended by section 27(1)(a) of the Legislative and Regulatory Reform Act <Citation Class="UnitedKingdomPublicGeneralAct" Number="51" URI="http://www.legislation.gov.uk/id/ukpga/2006/51" Year="2006" id="c00009">2006 (c.51)</Citation> and Part 1 of the Schedule to the European Union (Amendment) Act <Citation Class="UnitedKingdomPublicGeneralAct" Number="7" URI="http://www.legislation.gov.uk/id/ukpga/2008/7" Year="2008" id="c00010">2008 (c.7)</Citation>.</Text>
+         </Para>
+      </Commentary>
+      <Commentary Type="M" id="c22673401">
+         <Para>
+            <Text>
+               <Citation Class="UnitedKingdomPublicGeneralAct" Number="51" URI="http://www.legislation.gov.uk/id/ukpga/1973/51" Year="1973" id="c00011">1973 c.51</Citation>; <CitationSubRef CitationRef="c00011" SectionRef="section-56-1" URI="http://www.legislation.gov.uk/id/ukpga/1973/51/section/56/1">section 56(1)</CitationSubRef> was amended by <Citation Class="UnitedKingdomStatutoryInstrument" Number="1043" URI="http://www.legislation.gov.uk/id/uksi/2011/1043" Year="2011" id="c00012">S.I. 2011/1043</Citation>.</Text>
+         </Para>
+      </Commentary>
+      <Commentary Type="M" id="c22673411">
+         <Para>
+            <Text>
+               <Citation Class="UnitedKingdomStatutoryInstrument" Number="1811" URI="http://www.legislation.gov.uk/id/uksi/1972/1811" Year="1972" id="c00013">S.I. 1972/1811</Citation>, to which there are amendments not relevant to these Regulations. The functions of the Minister of Agriculture, Fisheries and Food were transferred to the Secretary of State for Environment, Food and Rural Affairs by article 2 of the Ministry of Agriculture, Fisheries and Food (Dissolution) Order 2002 (<Citation Class="UnitedKingdomStatutoryInstrument" Number="794" URI="http://www.legislation.gov.uk/id/uksi/2002/794" Year="2002" id="c00014">S.I. 2002/794</Citation>). Despite the transfer to the Scottish Ministers of functions in relation to observing and implementing obligations under EU law, so far as exercisable within devolved competence, the Secretary of State retains power to exercise functions for the purposes specified in section 2(2) of the European Communities Act 1972 as regards Scotland by virtue of section 57(1) of the Scotland Act <Citation Class="UnitedKingdomPublicGeneralAct" Number="46" URI="http://www.legislation.gov.uk/id/ukpga/1998/46" Year="1998" id="c00015">1998 (c.46)</Citation>. Despite the transfer to the Welsh Ministers of functions in relation to implementing obligations under EU law in relation to devolved matters, the Secretary of State retains power to exercise such functions as regards Wales by virtue of paragraph 5 of Schedule 3 to the Government of Wales Act <Citation Class="UnitedKingdomPublicGeneralAct" Number="32" URI="http://www.legislation.gov.uk/id/ukpga/2006/32" Year="2006" id="c00016">2006 (c.32)</Citation>. The Secretary of State has power to make regulations which extend to Northern Ireland under section 2(2) in relation to the common agricultural policy of the European Community by virtue of article 3(2) of the European Communities (Designation) (No. 3) Order 2000 (<Citation Class="UnitedKingdomStatutoryInstrument" Number="2812" URI="http://www.legislation.gov.uk/id/uksi/2000/2812" Year="2000" id="c00017">S.I. 2000/2812</Citation>).</Text>
+         </Para>
+      </Commentary>
+      <Commentary Type="M" id="c22673421">
+         <Para>
+            <Text>
+               <Citation Class="UnitedKingdomStatutoryInstrument" Number="842" URI="http://www.legislation.gov.uk/id/uksi/2009/842" Year="2009" id="c00018">S.I. 2009/842</Citation>, to which there are amendments not relevant to these Regulations.</Text>
+         </Para>
+      </Commentary>
+      <Commentary Type="M" id="c22673431">
+         <Para>
+            <Text>
+               <Citation Class="EuropeanUnionOfficialJournal" Date="2008-09-18" Number="250" Series="L" StartPage="1" Year="2008" id="c00019">OJ No L 250, 18.9.2008, p 1</Citation>, as last amended by <Citation Class="EuropeanUnionRegulation" Number="1358" URI="http://www.legislation.gov.uk/id/eur/2014/1358" Year="2014" id="c00020">Commission Implementing Regulation (EU) No 1358/2014</Citation> (<Citation Class="EuropeanUnionOfficialJournal" Date="2014-12-19" Number="365" Series="L" StartPage="97" Year="2014" id="c00021">OJ No L 365, 19.12.2014, p 97</Citation>).</Text>
+         </Para>
+      </Commentary>
+      <Commentary Type="M" id="c22673441">
+         <Para>
+            <Text>
+               <Citation Class="EuropeanUnionOfficialJournal" Date="2007-07-20" Number="189" Series="L" StartPage="1" Year="2007" id="c00022">OJ No L 189, 20.7.2007, p 1</Citation>, as last amended by <Citation Class="EuropeanUnionRegulation" Number="517" URI="http://www.legislation.gov.uk/id/eur/2013/517" Year="2013" id="c00023">Council Regulation (EU) No 517/2013</Citation> (<Citation Class="EuropeanUnionOfficialJournal" Date="2013-06-10" Number="158" Series="L" StartPage="1" Year="2013" id="c00024">OJ No L 158, 10.6.2013, p 1</Citation>).</Text>
+         </Para>
+      </Commentary>
+      <Commentary Type="M" id="c22673451">
+         <Para>
+            <Text>
+               <Citation Class="EuropeanUnionOfficialJournal" Date="2008-12-12" Number="334" Series="L" StartPage="25" Year="2008" id="c00025">OJ No L 334, 12.12.2008, p 25</Citation>, as last amended by <Citation Class="EuropeanUnionRegulation" Number="931" URI="http://www.legislation.gov.uk/id/eur/2015/931" Year="2015" id="c00026">Commission Implementing Regulation (EU) 2015/931</Citation> (<Citation Class="EuropeanUnionOfficialJournal" Date="2015-06-18" Number="151" Series="L" StartPage="1" Year="2015" id="c00027">OJ No L 151, 18.6.2015, p 1</Citation>).</Text>
+         </Para>
+      </Commentary>
+   </Commentaries>
+</Legislation>

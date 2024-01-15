@@ -4,6 +4,7 @@ Options: control = appelt
 
 Macro: S
 ( { Token.string == "s" } |
+  { Token.string == "section" } |
   { Token.string == "ss" } |
   { Token.string == "art" } |
   { Token.string == "arts" } |
@@ -19,7 +20,7 @@ Macro: NumberOrLetter
 
 Macro: Subref
 ( ( S ) :x
-  { Token.string == "." }
+  ( { Token.string == "." } ) ?
   ( { Token.kind == "number" } ) :num
   ( { Token.string == "(" } ( { Token.kind == "number" } ) :num2 { Token.string == ")" }
     ( { Token.string == "(" } ( NumberOrLetter ) :num3 { Token.string == ")" } ) ? ) ?
@@ -30,7 +31,7 @@ Priority: 1
 (
 	( { Citation } ) :cite
 	( { Token.string == ")" } ) ?
-	{ Token.string == "," }
+	( { Token.string == "," } | { Token.string == ";" } )
 	( Subref ) :subref
 ) --> {
 	gate.Annotation cite = (gate.Annotation) bindings.get("cite").iterator().next();
@@ -39,7 +40,7 @@ Priority: 1
 	String num = (String) bindings.get("num").iterator().next().getFeatures().get("string");
 	gate.AnnotationSet subref = (gate.AnnotationSet) bindings.get("subref");
 	String sectRef;
-	if ("s".equals(x) || "ss".equals(x))
+	if ("s".equals(x) || "section".equals(x) || "ss".equals(x))
 		sectRef = "section-" + num;
 	else if ("art".equals(x) || "arts".equals(x))
 		sectRef = "article-" + num;
@@ -73,11 +74,9 @@ Priority: 2
 ( { Token.string == ")" } ) ?
 { Token.string == "," }
 (
-	{ Token.string == "Sch" }
-	{ Token.string == "." }
+	( ( { Token.string == "Sch" } { Token.string == "." } ) | { Token.string == "Schedule" } )
 	( { Token.kind == "number" } ) ? :num
-	{ Token.string == "para" }
-	{ Token.string == "." }
+	( ( { Token.string == "para" } { Token.string == "." } ) | ( { Token.string == "," } { Token.string == "paragraph" } ) )
 	( { Token.kind == "number" } ) :num1
 	( { Token.string == "(" } ( NumberOrLetter ) :num2 { Token.string == ")" } ) ?
 ) :subref
