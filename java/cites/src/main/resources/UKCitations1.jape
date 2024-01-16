@@ -463,6 +463,7 @@ Priority: 5
 	( { Token.string == "/" } |
 	  ( { Token.string ==~ "Nos?" } { Token.string == "." } ) )
 	( { Token.kind == "number" } ) :number
+	( { Token.string == ")" } ) ? // uksi/1998/768
 	{ Token.string == "(" }
 	{ Token.string == "N" }
 	{ Token.string == "." }

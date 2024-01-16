@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Legislation xmlns="http://www.legislation.gov.uk/namespaces/legislation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" NumberOfProvisions="3" SchemaVersion="1.0" xsi:schemaLocation="http://www.legislation.gov.uk/namespaces/legislation http://www.legislation.gov.uk/schema/legislation.xsd">
+   <ukm:Metadata xmlns:atom="http://www.w3.org/2005/Atom" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dct="http://purl.org/dc/terms/" xmlns:ukm="http://www.legislation.gov.uk/namespaces/metadata">
+      <dc:identifier>http://www.legislation.gov.uk/uksi/1998/768/made</dc:identifier>
+      <dc:title>The Prevention of Terrorism (Temporary Provisions) Act 1989 (Partial Continuance) Order 1998</dc:title>
+      <dc:subject>Local Government</dc:subject>
+      <dc:publisher>King's Printer of Acts of Parliament</dc:publisher>
+      <dc:modified>2017-05-15</dc:modified>
+      <dc:subject scheme="SIheading">PREVENTION AND SUPPRESSION OF TERRORISM</dc:subject>
+      <dc:description>This Order continues in force, with exceptions, the provisions of Parts I, III, IV and V and section 27(6)(c) of the Prevention of Terrorism (Temporary Provisions) Act 1989 (“the 1989 Act”) for a period of 12 months from 22nd March 1998. The exceptions are the provisions of Part III and V of the 1989 Act so far as they have effect in Northern Ireland and relate to proscribed organisations for the purposes of section 30 of the Northern Ireland (Emergency Provisions) Act 1996 (“the 1996 Act”) or offences or orders under that section. Separate provision is made for the continuance in force of those provisions under section 62(3) of the 1991 Act by virtue of section 27(11) of the 1989 Act.</dc:description>
+      <atom:link href="http://www.legislation.gov.uk/uksi/1998/768/made/data.xml" rel="self" type="application/xml"/>
+      <atom:link href="http://www.legislation.gov.uk/uksi/1998/768/resources" rel="http://www.legislation.gov.uk/def/navigation/resources" title="More Resources"/>
+      <atom:link href="http://www.legislation.gov.uk/uksi/1998/768/made" rel="http://www.legislation.gov.uk/def/navigation/act" title="whole act"/>
+      <atom:link href="http://www.legislation.gov.uk/uksi/1998/768/introduction/made" rel="http://www.legislation.gov.uk/def/navigation/introduction" title="introduction"/>
+      <atom:link href="http://www.legislation.gov.uk/uksi/1998/768/signature/made" rel="http://www.legislation.gov.uk/def/navigation/signature" title="signature"/>
+      <atom:link href="http://www.legislation.gov.uk/uksi/1998/768/note/made" rel="http://www.legislation.gov.uk/def/navigation/note" title="note"/>
+      <atom:link href="http://www.legislation.gov.uk/uksi/1998/768/body/made" rel="http://www.legislation.gov.uk/def/navigation/body" title="body"/>
+      <atom:link href="http://www.legislation.gov.uk/uksi/1998/768/made/data.rdf" rel="alternate" title="RDF/XML" type="application/rdf+xml"/>
+      <atom:link href="http://www.legislation.gov.uk/uksi/1998/768/made/data.akn" rel="alternate" title="AKN" type="application/akn+xml"/>
+      <atom:link href="http://www.legislation.gov.uk/uksi/1998/768/made/data.xht" rel="alternate" title="HTML snippet" type="application/xhtml+xml"/>
+      <atom:link href="http://www.legislation.gov.uk/uksi/1998/768/made/data.htm" rel="alternate" title="Website (XHTML) Default View" type="text/html"/>
+      <atom:link href="http://www.legislation.gov.uk/uksi/1998/768/made/data.pdf" rel="alternate" title="PDF" type="application/pdf"/>
+      <atom:link href="http://www.legislation.gov.uk/uksi/1998/768/made/data.html" rel="alternate" title="HTML5 snippet" type="application/akn+xhtml"/>
+      <atom:link href="http://www.legislation.gov.uk/uksi/1998/768/contents/made" hreflang="en" rel="http://purl.org/dc/terms/tableOfContents" title="Table of Contents"/>
+      <atom:link href="http://www.legislation.gov.uk/id/ukdsi/1998/0110655613" rel="http://www.legislation.gov.uk/def/navigation/supersedes" title="Prevention of Terrorism (Temporary Provisions) Act 1989 (Partial Continuance) Order 1998"/>
+      <ukm:SecondaryMetadata>
+         <ukm:DocumentClassification>
+            <ukm:DocumentCategory Value="secondary"/>
+            <ukm:DocumentMainType Value="UnitedKingdomStatutoryInstrument"/>
+            <ukm:DocumentStatus Value="final"/>
+            <ukm:DocumentMinorType Value="order"/>
+         </ukm:DocumentClassification>
+         <ukm:Year Value="1998"/>
+         <ukm:Number Value="768"/>
+         <ukm:Made Date="1998-03-15"/>
+         <ukm:ComingIntoForce>
+            <ukm:DateTime Date="1998-03-22"/>
+         </ukm:ComingIntoForce>
+         <ukm:ISBN Value="0110657578"/>
+      </ukm:SecondaryMetadata>
+      <ukm:Supersedes URI="http://www.legislation.gov.uk/id/ukdsi/1998/0110655613">
+         <dc:title>Prevention of Terrorism (Temporary Provisions) Act 1989 (Partial Continuance) Order 1998</dc:title>
+         <ukm:DocumentMainType Value="UnitedKingdomDraftStatutoryInstrument"/>
+         <ukm:Year Value="1998"/>
+         <ukm:ISBN Value="0110655613"/>
+      </ukm:Supersedes>
+      <ukm:Statistics>
+         <ukm:TotalParagraphs Value="3"/>
+         <ukm:BodyParagraphs Value="3"/>
+         <ukm:ScheduleParagraphs Value="0"/>
+         <ukm:AttachmentParagraphs Value="0"/>
+         <ukm:TotalImages Value="0"/>
+      </ukm:Statistics>
+   </ukm:Metadata>
+   <Secondary>
+      <SecondaryPrelims>
+         <Number>1998 No. 768</Number>
+         <SubjectInformation>
+            <Subject>
+               <Title>PREVENTION AND SUPPRESSION OF TERRORISM</Title>
+            </Subject>
+         </SubjectInformation>
+         <Title>The Prevention of Terrorism (Temporary Provisions) Act 1989 (Partial Continuance) Order 1998</Title>
+         <MadeDate>
+            <Text>Made</Text>
+            <DateText>15th March 1998</DateText>
+         </MadeDate>
+         <ComingIntoForce>
+            <Text>Coming into force</Text>
+            <DateText>22nd March 1998</DateText>
+         </ComingIntoForce>
+         <SecondaryPreamble>
+            <IntroductoryText>
+               <P>
+                  <Text>Whereas a draft of this Order has been approved by resolution of each House of Parliament:</Text>
+               </P>
+            </IntroductoryText>
+            <EnactingText>
+               <Para>
+                  <Text>Now, therefore, in exercise of the powers conferred upon me by section 27(6)(a) and (b) of the Prevention of Terrorism (Temporary Provisions) Act 1989<FootnoteRef Ref="f00001"/>, I hereby make the following Order:</Text>
+               </Para>
+            </EnactingText>
+         </SecondaryPreamble>
+      </SecondaryPrelims>
+      <Body NumberFormat="default" NumberOfProvisions="3">
+         <P1 id="article-1">
+            <Pnumber>1</Pnumber>
+            <P1para>
+               <P2 id="article-1-1">
+                  <Pnumber>1</Pnumber>
+                  <P2para>
+                     <Text>This Order may be cited as the Prevention of Terrorism (Temporary Provisions) Act 1989 (Partial Continuance) Order 1998 and shall come into force on 22nd March 1998.</Text>
+                  </P2para>
+               </P2>
+               <P2 id="article-1-2">
+                  <Pnumber>2</Pnumber>
+                  <P2para>
+                     <Text>In this Order “the <Abbreviation Expansion="Prevention of Terrorism (Temporary Provisions) Act 1989 c. 4">1989 Act</Abbreviation>” means the Prevention of Terrorism (Temporary Provisions) Act 1989.</Text>
+                  </P2para>
+               </P2>
+            </P1para>
+         </P1>
+         <P1 id="article-2">
+            <Pnumber>2</Pnumber>
+            <P1para>
+               <Text>The provisions of Parts I, <Acronym Expansion="3">III</Acronym>, <Acronym Expansion="4">IV</Acronym> and V and section 27(6)(c) of the 1989 Act, except the provisions of Parts III and V so far as they have effect in Northern Ireland and relate to proscribed organisations for the purposes of section 30 of the Northern Ireland (Emergency Provisions) Act 1996<FootnoteRef Ref="f00002"/> or offences or orders under that section, shall continue in force for a period of twelve months beginning with 22nd March 1998.</Text>
+            </P1para>
+         </P1>
+         <P1 id="article-3">
+            <Pnumber>3</Pnumber>
+            <P1para>
+               <Text>The provisions of Part II of the 1989 Act shall cease to be in force on 22nd March 1998.</Text>
+            </P1para>
+         </P1>
+         <SignedSection>
+            <Signatory>
+               <Signee>
+                  <PersonName>Jack Straw</PersonName>
+                  <JobTitle>One of Her Majesty’s Principal Secretaries of State</JobTitle>
+                  <Address>
+                     <AddressLine>Home Office.</AddressLine>
+                  </Address>
+                  <DateSigned Date="1998-03-15">
+                     <DateText>15th March 1998</DateText>
+                  </DateSigned>
+               </Signee>
+            </Signatory>
+         </SignedSection>
+      </Body>
+      <ExplanatoryNotes>
+         <Comment>
+            <Para>
+               <Text>(This note is not part of the Order)</Text>
+            </Para>
+         </Comment>
+         <P>
+            <Text>This Order continues in force, with exceptions, the provisions of Parts I, III, IV and V and section 27(6)(c) of the Prevention of Terrorism (Temporary Provisions) Act 1989 (“the 1989 Act”) for a period of 12 months from 22nd March 1998. The exceptions are the provisions of Part III and V of the 1989 Act so far as they have effect in Northern Ireland and relate to proscribed organisations for the purposes of section 30 of the Northern Ireland (Emergency Provisions) Act 1996 (“the <Abbreviation Expansion="Northern Ireland (Emergency Provisions) Act 1996 c. 22">1996 Act</Abbreviation>”) or offences or orders under that section. Separate provision is made for the continuance in force of those provisions under section 62(3) of the 1991 Act by virtue of section 27(11) of the 1989 Act.</Text>
+         </P>
+         <P>
+            <Text>The Order also provides that Part II of the 1989 Act shall cease to be in force on 22nd March 1998.</Text>
+         </P>
+      </ExplanatoryNotes>
+   </Secondary>
+   <Footnotes>
+      <Footnote id="f00001">
+         <FootnoteText>
+            <Para>
+               <Text>
+                  <Citation Class="UnitedKingdomPublicGeneralAct" Number="0004" URI="http://www.legislation.gov.uk/id/ukpga/1989/4" Year="1989" id="c00001">1989 c. 4</Citation>. The 1989 Act was amended by paragraph 18 of Schedule 6 to the Police and Criminal Evidence (Northern Ireland) Order 1989 (<Citation AlternativeNumber="N.I. 12" Class="NorthernIrelandOrderInCouncil" Number="1341" URI="http://www.legislation.gov.uk/id/nisi/1989/1341" Year="1989" id="c00002">S.I. 1989/1341) (N.I. 12)</Citation>; paragraph 62 of Schedule 9 to the Insolvency (Northern Ireland) Order 1989 (<Citation AlternativeNumber="N.I. 19" Class="NorthernIrelandOrderInCouncil" Number="2405" URI="http://www.legislation.gov.uk/id/nisi/1989/2405" Year="1989" id="c00003">S.I. 1989/2405) (N.I. 19)</Citation>; paragraph 5 of Schedule 7 to the Northern Ireland (Emergency Provisions) Act <Citation Class="UnitedKingdomPublicGeneralAct" Number="0024" URI="http://www.legislation.gov.uk/id/ukpga/1991/24" Year="1991" id="c00004">1991 (c. 24)</Citation>; sections 49 to 51 of, and paragraph 4 of Schedule 4 and paragraph 15 of Schedule 5 to, the Criminal Justice Act <Citation Class="UnitedKingdomPublicGeneralAct" Number="0036" URI="http://www.legislation.gov.uk/id/ukpga/1993/36" Year="1993" id="c00005">1993 (c. 36)</Citation>; paragraph 3 of Schedule 5 to the Channel Tunnel (International Arrangements) Order 1993 (<Citation Class="UnitedKingdomStatutoryInstrument" Number="1813" URI="http://www.legislation.gov.uk/id/uksi/1993/1813" Year="1993" id="c00006">S.I. 1993/1813</Citation>); sections 81 to 83 of, and paragraphs 62 and 63 of Schedule 10 to, the Criminal Justice and Public Order Act <Citation Class="UnitedKingdomPublicGeneralAct" Number="0033" URI="http://www.legislation.gov.uk/id/ukpga/1994/33" Year="1994" id="c00007">1994 (c. 33)</Citation>; section 14(1) and (2) of the Proceeds of Crime Act <Citation Class="UnitedKingdomPublicGeneralAct" Number="0011" URI="http://www.legislation.gov.uk/id/ukpga/1995/11" Year="1995" id="c00008">1995 (c. 11)</Citation>; paragraph 72 of Schedule 4 to the Criminal Procedure (Consequential Provisions) (Scotland) Act <Citation Class="UnitedKingdomPublicGeneralAct" Number="0040" URI="http://www.legislation.gov.uk/id/ukpga/1995/40" Year="1995" id="c00009">1995 (c. 40)</Citation>; the Prevention of Terrorism (Exclusion Orders) Regulations 1996 (<Citation Class="UnitedKingdomStatutoryInstrument" Number="0892" URI="http://www.legislation.gov.uk/id/uksi/1996/892" Year="1996" id="c00010">S.I. 1996/892</Citation>); the Prevention of Terrorism (Additional Powers) Act <Citation Class="UnitedKingdomPublicGeneralAct" Number="0007" URI="http://www.legislation.gov.uk/id/ukpga/1996/7" Year="1996" id="c00011">1996 (c. 7)</Citation>; and paragraphs 4 to 10 of Schedule 6 to the Northern Ireland (Emergency Provisions) Act <Citation Class="UnitedKingdomPublicGeneralAct" Number="0022" URI="http://www.legislation.gov.uk/id/ukpga/1996/22" Year="1996" id="c00012">1996 (c. 22)</Citation>.</Text>
+            </Para>
+         </FootnoteText>
+      </Footnote>
+      <Footnote id="f00002">
+         <FootnoteText>
+            <Para>
+               <Text>
+                  <Citation Class="UnitedKingdomPublicGeneralAct" Number="0022" URI="http://www.legislation.gov.uk/id/ukpga/1996/22" Year="1996" id="c00013">1996 c. 22</Citation>.</Text>
+            </Para>
+         </FootnoteText>
+      </Footnote>
+   </Footnotes>
+</Legislation>
