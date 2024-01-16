@@ -26,7 +26,7 @@ class Steps {
     }
 
     private static void addLoneNumberStep(SerialAnalyserController sac) throws ResourceInstantiationException {
-        copyAnnotations(sac, CiteEnricher.NewMarkups, null);
+        copyAnnotations(sac, CiteEnricher.NewMarkups, null); // null for default annotation set
         addTransducer(sac,"/UKCitations3.jape");
     }
 

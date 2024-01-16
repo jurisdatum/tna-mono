@@ -28,7 +28,7 @@ public class CitationsTest {
     public static Collection<Object[]> filenames() {
         return Arrays.asList(new Object[][] {
             { "nisr_2011_224" }, { "uksi_1994_935" }, { "uksi_2010_2493" }, { "wsi_2013_664" }, { "uksi_2005_1958" },
-            { "nisr_2003_439" }, { "uksi_2015_1669" }
+            { "nisr_2003_439" }, { "uksi_2015_1669" }, { "ssi_2009_189" }
         });
     }
 

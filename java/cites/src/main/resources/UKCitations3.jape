@@ -8,12 +8,11 @@ Priority: 1
 	( { Token.string == "," } { Token.kind == "number" } ) *
 	( { Token.string == "and" } | { Token.string == "," } )
 	( { Token.kind == "number" } ) :number
-//	{ Token.string != "/" }
+	{ Token.string != "/" }  // see test ssi_2009_189
 ) --> {
 	gate.Annotation prev = (gate.Annotation) bindings.get("prev").iterator().next();
 	String cls = (String) prev.getFeatures().get("Class");
 	Object year = prev.getFeatures().get("Year");  // can be an Integer
-	String altNum = (String) prev.getFeatures().get("AlternativeNumber");
 
 	gate.AnnotationSet numSet = (gate.AnnotationSet) bindings.get("number");
 	java.util.function.Predicate<gate.AnnotationSet> isWithinCitation =
@@ -28,7 +27,6 @@ Priority: 1
 	features.put("Class", cls);
 	features.put("Year", year);
 	features.put("Number", number);
-	features.put("AlternativeNumber", altNum);
 	outputAS.add(numAnn.getStartNode(), numAnn.getEndNode(), "Citation", features);
 }
 
