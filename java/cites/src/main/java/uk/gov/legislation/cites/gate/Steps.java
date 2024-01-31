@@ -7,6 +7,8 @@ import gate.ProcessingResource;
 import gate.creole.ResourceInstantiationException;
 import gate.creole.SerialAnalyserController;
 
+import uk.gov.legislation.cites.gate.plugin.OverlappingCiteRemover;
+
 class Steps {
 
     static void addAll(SerialAnalyserController sac) throws ResourceInstantiationException {
@@ -14,6 +16,7 @@ class Steps {
         addRemove(sac);
         sac.add((LanguageAnalyser) Factory.createResource(EUNumberCorrector.class.getName()));
         sac.add((LanguageAnalyser) Factory.createResource(UKTypeCorrector.class.getName()));
+        sac.add((LanguageAnalyser) Factory.createResource(OverlappingCiteRemover.class.getName()));
         addCiteIds(sac);
         subRefs(sac);
         addLoneNumberStep(sac);
@@ -28,21 +31,6 @@ class Steps {
     private static void addLoneNumberStep(SerialAnalyserController sac) throws ResourceInstantiationException {
         copyAnnotations(sac, CiteEnricher.NewMarkups, null); // null for default annotation set
         addTransducer(sac,"/UKCitations3.jape");
-    }
-
-    private static void mysteryStep(SerialAnalyserController sac) throws ResourceInstantiationException {
-        FeatureMap transferFeatures2 = Factory.newFeatureMap();
-        transferFeatures2.put ("inputASName", "Original markups");
-        transferFeatures2.put ("outputASName", null); // for default annotation set
-        transferFeatures2.put ("copyAnnotations", true);
-        ProcessingResource transfer2 = (ProcessingResource) Factory.createResource("gate.creole.annotransfer.AnnotationSetTransfer", transferFeatures2);
-        sac.add(transfer2);
-        FeatureMap transferFeatures3 = Factory.newFeatureMap();
-        transferFeatures3.put ("inputASName", CiteEnricher.NewMarkups);
-        transferFeatures3.put ("outputASName", null); // for default annotation set
-        transferFeatures3.put ("copyAnnotations", true);
-        ProcessingResource transfer3 = (ProcessingResource) Factory.createResource("gate.creole.annotransfer.AnnotationSetTransfer", transferFeatures3);
-        sac.add(transfer3);
     }
 
     private static void addRemove(SerialAnalyserController sac) throws ResourceInstantiationException {

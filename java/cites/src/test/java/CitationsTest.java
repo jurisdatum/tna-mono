@@ -15,12 +15,12 @@ import java.util.Collection;
 @RunWith(Parameterized.class)
 public class CitationsTest {
 
-    private static AllCiteRemover remover;
+//    private static AllCiteRemover remover;
     private static CiteEnricher enricher;
 
     @BeforeClass
     public static void init() throws GateException {
-        remover = new AllCiteRemover();
+//        remover = new AllCiteRemover();
         enricher = new CiteEnricher();
     }
 
@@ -41,8 +41,8 @@ public class CitationsTest {
         byte[] original = CitationsTest.class.getResourceAsStream("/" + filename + ".original.xml").readAllBytes();
         byte[] expected = CitationsTest.class.getResourceAsStream("/" + filename + ".enriched.xml").readAllBytes();
 
-        byte[] removed = new AllCiteRemover().remove(original);
-        byte[] actual = new CiteEnricher().enrich(removed);
+//        byte[] removed = new AllCiteRemover().remove(original);
+        byte[] actual = enricher.enrich(original);
 
         String expected1 = new String(expected, StandardCharsets.UTF_8);
         String actual1 = new String(actual, StandardCharsets.UTF_8);

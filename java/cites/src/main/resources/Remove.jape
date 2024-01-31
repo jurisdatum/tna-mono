@@ -12,29 +12,9 @@ Rule: Metadata
 	newMarkups.removeAll(newCite);
 }
 
-Rule: MultilineTitle
-(
-	( { Citation within MultilineTitle } ) :cite
-) --> {
-	gate.AnnotationSet cite = (gate.AnnotationSet) bindings.get("cite");
-	gate.AnnotationSet newMarkups = doc.getAnnotations("New markups");
-	gate.AnnotationSet newCite = newMarkups.get("Citation", cite.firstNode().getOffset(), cite.lastNode().getOffset());
-	newMarkups.removeAll(newCite);
-}
-
 Rule: Number
 (
 	( { Citation within Number } ) :cite
-) --> {
-	gate.AnnotationSet cite = (gate.AnnotationSet) bindings.get("cite");
-	gate.AnnotationSet newMarkups = doc.getAnnotations("New markups");
-	gate.AnnotationSet newCite = newMarkups.get("Citation", cite.firstNode().getOffset(), cite.lastNode().getOffset());
-	newMarkups.removeAll(newCite);
-}
-
-Rule: Title
-(
-	( { Citation within Title } ) :cite
 ) --> {
 	gate.AnnotationSet cite = (gate.AnnotationSet) bindings.get("cite");
 	gate.AnnotationSet newMarkups = doc.getAnnotations("New markups");

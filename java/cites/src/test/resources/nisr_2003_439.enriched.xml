@@ -128,8 +128,8 @@
          <FootnoteText>
             <Para>
                <Text>
-                  <Citation Class="NorthernIrelandOrderInCouncil" NorthernIrishNumber="10" Number="435" URI="http://www.legislation.gov.uk/id/nisi/2003/435" Year="2003" id="c00001">
-                     <Acronym Expansion="Statutory Instrument">S.I.</Acronym> 2003/435 (N.I. 10)</Citation>
+                  <Acronym Expansion="Statutory Instrument">S.I.</Acronym>
+                  <Citation AlternativeNumber="N.I. 10" Class="NorthernIrelandOrderInCouncil" Number="0435" URI="http://www.legislation.gov.uk/id/nisi/2003/435" Year="2003" id="c00001">2003/435 (N.I. 10)</Citation>
                </Text>
             </Para>
          </FootnoteText>
@@ -138,7 +138,7 @@
          <FootnoteText>
             <Para>
                <Text>
-                  <Citation Class="NorthernIrelandStatutoryRule" CommencementNumber="24" Number="344" URI="http://www.legislation.gov.uk/id/nisr/2003/344" Year="2003" id="c00002">S.R. 2003 No. 344 (C. 24)</Citation>
+                  <Citation AlternativeNumber="C.24" Class="NorthernIrelandStatutoryRule" Number="0344" URI="http://www.legislation.gov.uk/id/nisr/2003/344" Year="2003" id="c00002">S.R. 2003 No. 344 (C. 24)</Citation>
                </Text>
             </Para>
          </FootnoteText>

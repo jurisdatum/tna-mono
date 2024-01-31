@@ -6,8 +6,9 @@ Rule: Citation
 Priority: 1
 ( { Citation } ) :cite --> {
 	gate.Annotation cite = (gate.Annotation) bindings.get("cite").iterator().next();
-	gate.AnnotationSet prev = inputAS.get("Citation", inputAS.firstNode().getOffset(), cite.getStartNode().getOffset());
-	long count = prev.stream().count();
-	String id = "c" + String.format("%05d", count + 1);
+	int orig = doc.getAnnotations(gate.GateConstants.ORIGINAL_MARKUPS_ANNOT_SET_NAME).size();
+    int prev = inputAS.get("Citation", 0L, cite.getStartNode().getOffset()).size();
+    int n = orig + prev + 1;
+	String id = "c" + String.format("%05d", n);
 	cite.getFeatures().put("id", id);
 }

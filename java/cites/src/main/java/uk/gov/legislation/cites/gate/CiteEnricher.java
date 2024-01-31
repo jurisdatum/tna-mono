@@ -10,12 +10,11 @@ import uk.gov.legislation.ClmlBeautifier;
 import uk.gov.legislation.cites.gate.inject.Functions;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
+import java.nio.charset.StandardCharsets;
 
 public class CiteEnricher {
 
-    public static final String OriginalMarkups = "Original markups";
+    public static final String OriginalMarkups = GateConstants.ORIGINAL_MARKUPS_ANNOT_SET_NAME;
     public static final String NewMarkups = "New markups";
 
     private final SerialAnalyserController sac;
@@ -26,13 +25,14 @@ public class CiteEnricher {
     public CiteEnricher() throws GateException {
         if (!Gate.isInitialised()) {
             Gate.init();
+            // this prevents the adding of spaces in the XML
+            Gate.getUserConfig().put(GateConstants.DOCUMENT_ADD_SPACE_ON_UNPACK_FEATURE_NAME, Boolean.FALSE);
             // add ANNIE
             Gate.getCreoleRegister().registerPlugin(new Plugin.Directory(getClass().getResource("/annie/")));
             // add custom plugin
             // can't use Gate.getCreoleRegister().registerComponent() -- or Plugin.Component() -- they allow only one resource class
             Gate.getCreoleRegister().registerPlugin( new CustomPlugin());
         }
-
 
         sac = (SerialAnalyserController) Factory.createResource("gate.creole.SerialAnalyserController");
 
@@ -51,14 +51,24 @@ public class CiteEnricher {
     public byte[] enrich(byte[] clml) throws IOException, ResourceInstantiationException, ExecutionException {
         clml = beautifier.transform(clml);
         clml = preparer.prepare(clml);
-        Path temp = Files.createTempFile("clml", ".xml");
-        Files.write(temp, clml);
-        Document doc = Factory.newDocument(temp.toUri().toURL());
+        Document doc = loadXml(clml);
         String enriched1 = enrich(doc);
         byte[] withGateArtifactsRemoved = artifactRemover.remove(enriched1);
-        byte[] enriched = beautifier.transform(withGateArtifactsRemoved);
-        Files.delete(temp);
-        return enriched;
+        return withGateArtifactsRemoved;
+    }
+
+    static Document loadXml(byte[] xml) throws ResourceInstantiationException {
+        String string = new String(xml, StandardCharsets.UTF_8);
+        return loadXml(string);
+    }
+    static Document loadXml(String xml) throws ResourceInstantiationException {
+        FeatureMap params = Factory.newFeatureMap();
+        params.put(Document.DOCUMENT_MIME_TYPE_PARAMETER_NAME, "application/xml");
+        params.put(Document.DOCUMENT_STRING_CONTENT_PARAMETER_NAME, xml);
+        params.put(Document.DOCUMENT_ENCODING_PARAMETER_NAME, StandardCharsets.UTF_8.name());
+//        params.put(Document.DOCUMENT_PRESERVE_CONTENT_PARAMETER_NAME, Boolean.TRUE);
+//        params.put(Document.DOCUMENT_REPOSITIONING_PARAMETER_NAME, Boolean.TRUE);
+        return (Document) Factory.createResource("gate.corpora.DocumentImpl", params);
     }
 
     private String enrich(Document doc) throws ExecutionException {
