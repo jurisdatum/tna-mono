@@ -56,7 +56,12 @@ public class EUNumberCorrector extends gate.creole.AbstractLanguageAnalyser impl
         // should also check that there are no annotations in between?
         if (next != null && "EuropeanUnionOfficialJournal".equals(next.getFeatures().get("Class"))) {
 //            logger.info("using year from following OJ cite: " + gate.Utils.stringFor(doc, next) + " " + next.getFeatures().toString());
-            return (Integer) next.getFeatures().get("Year");
+            Object year = next.getFeatures().get("Year");
+            if (year instanceof Integer)
+                return (Integer) year;
+            if (year instanceof String)
+                return Integer.parseInt((String) year);
+            throw new IllegalStateException(year.getClass().getCanonicalName());
         }
         return getYearFromOJCiteInFollowingFootnote(cite);
     }
