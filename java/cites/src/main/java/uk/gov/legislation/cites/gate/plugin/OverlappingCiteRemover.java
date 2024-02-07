@@ -48,6 +48,11 @@ public class OverlappingCiteRemover extends gate.creole.AbstractLanguageAnalyser
             logger.warning("new year: " + newYear + " -- old year: " + oldYear);
 
         String newNumber = (String) newCite.getFeatures().get("Number").toString().replaceFirst("^0+(?!$)", "");
+        Object oldNumberObject = (String) oldCite.getFeatures().get("Number");
+        if (oldNumberObject == null) {
+            logger.warning("new number: " + newNumber + " -- old number: null");
+            return;
+        }
         String oldNumber = (String) oldCite.getFeatures().get("Number").toString().replaceFirst("^0+(?!$)", "");
         if (!newNumber.equals(oldNumber))
             logger.warning("new number: " + newNumber + " -- old number: " + oldNumber);
