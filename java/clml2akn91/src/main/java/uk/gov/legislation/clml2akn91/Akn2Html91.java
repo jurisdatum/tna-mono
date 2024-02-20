@@ -2,9 +2,11 @@ package uk.gov.legislation.clml2akn91;
 
 import net.sf.saxon.s9api.*;
 
+import javax.xml.transform.Result;
 import javax.xml.transform.Source;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.URIResolver;
+import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 import java.io.*;
 import java.util.Map;
@@ -22,8 +24,8 @@ public class Akn2Html91 {
 
     private final XsltExecutable executable;
 
-    public Akn2Html91(Processor processor) {
-        XsltCompiler compiler = processor.newXsltCompiler();
+    public Akn2Html91() {
+        XsltCompiler compiler = Helper.processor.newXsltCompiler();
         compiler.setURIResolver(new Importer());
         InputStream stream = this.getClass().getResourceAsStream(stylesheet);
         Source source = new StreamSource(stream, "akn2html.xsl");
@@ -35,9 +37,6 @@ public class Akn2Html91 {
             try { stream.close(); } catch (IOException e) { }
         }
     }
-    public Akn2Html91() {
-        this(Saxon.processor);
-    }
 
 //    public Destination load(Destination html) {
 //        XsltTransformer transform = executable.load();
@@ -48,7 +47,7 @@ public class Akn2Html91 {
     private void transform(Source akn, Destination html, String cssPath) {
         XsltTransformer transform = executable.load();
         if (cssPath != null)
-            transform.setParameter(new QName("css-path"), XdmValue.makeValue(cssPath));
+            transform.setParameter(new QName("css-path"), new XdmAtomicValue(cssPath));
         try {
             transform.setSource(akn);
             transform.setDestination(html);
@@ -60,10 +59,9 @@ public class Akn2Html91 {
 
     public String transform(XdmNode akn, String cssPath) throws IOException {
         StringWriter html = new StringWriter();
-        Serializer serializer = executable.getProcessor().newSerializer(html);
-        serializer.setOutputProperty(Serializer.Property.METHOD, "html");
-        serializer.setOutputProperty(Serializer.Property.HTML_VERSION, "5");
-        transform(akn.asSource(), serializer, cssPath);
+        Result result = new StreamResult(html);
+        Destination destination = Helper.makeDestination(result, Helper.html5properties);
+        transform(akn.asSource(), destination, cssPath);
         html.close();
         return html.toString();
     }
@@ -77,10 +75,9 @@ public class Akn2Html91 {
 
     public void transform(InputStream akn, OutputStream html, String cssPath) {
         Source source = new StreamSource(akn);
-        Serializer serializer = executable.getProcessor().newSerializer(html);
-        serializer.setOutputProperty(Serializer.Property.METHOD, "html");
-        serializer.setOutputProperty(Serializer.Property.HTML_VERSION, "5");
-        transform(source, serializer, cssPath);
+        Result result = new StreamResult(html);
+        Destination destination = Helper.makeDestination(result, Helper.html5properties);
+        transform(source, destination, cssPath);
     }
 
 }

@@ -2,9 +2,11 @@ package uk.gov.legislation.clml2akn91;
 
 import java.io.*;
 
+import javax.xml.transform.Result;
 import javax.xml.transform.Source;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.URIResolver;
+import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
 import net.sf.saxon.s9api.*;
@@ -22,10 +24,10 @@ public class Clml2Akn91 {
 
 	private final XsltExecutable executable;
 
-	public Processor getProcessor() { return executable.getProcessor(); }
+//	public Processor getProcessor() { return executable.getProcessor(); }
 
 	public Clml2Akn91() {
-		XsltCompiler compiler = Saxon.processor.newXsltCompiler();
+		XsltCompiler compiler = Helper.processor.newXsltCompiler();
 		compiler.setURIResolver(new Importer());
 		InputStream stream = this.getClass().getResourceAsStream(stylesheet);
 		Source source = new StreamSource(stream, "clml2akn.xsl");
@@ -62,17 +64,15 @@ public class Clml2Akn91 {
 
 	public void transform(InputStream clml, OutputStream akn) {
 		Source source = new StreamSource(clml);
-		Serializer serializer = executable.getProcessor().newSerializer(akn);
-		serializer.setOutputProperty(Serializer.Property.INDENT, "yes");
-		serializer.setOutputProperty(Serializer.Property.SAXON_SUPPRESS_INDENTATION, "{http://docs.oasis-open.org/legaldocml/ns/akn/3.0}p");
-		transform(source, serializer);
+		Result result = new StreamResult(akn);
+		Destination destination = Helper.makeDestination(result, Helper.aknProperties);
+		transform(source, destination);
 	}
 
 	public static void serialize(XdmNode akn, OutputStream out) throws SaxonApiException {
-		Serializer serializer = akn.getProcessor().newSerializer(out);
-		serializer.setOutputProperty(Serializer.Property.INDENT, "yes");
-		serializer.setOutputProperty(Serializer.Property.SAXON_SUPPRESS_INDENTATION, "{http://docs.oasis-open.org/legaldocml/ns/akn/3.0}p");
-		serializer.serializeNode(akn);
+		Result result = new StreamResult(out);
+		Destination destination = Helper.makeDestination(result, Helper.aknProperties);
+		Helper.processor.writeXdmValue(akn, destination);
 	}
 
 }
