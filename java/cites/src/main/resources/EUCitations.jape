@@ -72,7 +72,14 @@ Priority: 1
 
 	java.util.function.Function<Integer, Integer> normalizeYear =
 		(java.util.function.Function<Integer, Integer>) this.ctx.getController().getFeatures().get("normalizeYear");
-	year = normalizeYear.apply(year);
+	try {
+		year = normalizeYear.apply(year);
+	} catch (IllegalArgumentException e) {
+		System.err.print("WARNING: bad year in OJ cite: ");
+		System.err.print(gate.Utils.stringFor(cite.getDocument(), cite));
+		System.err.println();
+		return;
+	}
 
 	String date = year + "-" + String.format("%02d", month) + "-" + String.format("%02d", day);
 

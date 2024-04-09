@@ -25,7 +25,13 @@ public class UKTypeCorrector extends gate.creole.AbstractLanguageAnalyser implem
             if (footnote == null) {
                 continue;
             }
-            String fnTextBeforeCite = gate.Utils.stringFor(document, footnote.getStartNode().getOffset(), cite.getStartNode().getOffset());
+            String fnTextBeforeCite;
+            try {
+                fnTextBeforeCite = gate.Utils.stringFor(document, footnote.getStartNode().getOffset(), cite.getStartNode().getOffset());
+            } catch (gate.util.GateRuntimeException e) {
+                e.printStackTrace();
+                continue;
+            }
             if (!fnTextBeforeCite.trim().isEmpty()) {
                 continue;
             }
