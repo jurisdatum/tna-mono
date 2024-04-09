@@ -4,7 +4,9 @@ import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.sqs.SqsClient;
 import software.amazon.awssdk.services.sqs.model.*;
 
+import java.util.List;
 import java.util.Map;
+import java.util.function.Consumer;
 
 public class Queue {
 
@@ -33,6 +35,28 @@ public class Queue {
         SendMessageBatchRequest request = SendMessageBatchRequest.builder().queueUrl(url).entries(entries).build();
         SendMessageBatchResponse response = client.sendMessageBatch(request);
         return !response.hasFailed();
+    }
+
+    public static boolean leaseMessage(String url, Integer seconds, Consumer<String> consumer) {
+        SqsClient client = SqsClient.builder().region(DefaultRegion).build();
+        ReceiveMessageRequest request = ReceiveMessageRequest.builder().queueUrl(url).visibilityTimeout(seconds).maxNumberOfMessages(1).build();
+        ReceiveMessageResponse response = client.receiveMessage(request);
+        List<Message> messages = response.messages();
+        if (messages.isEmpty())
+            return false;
+        Message message = messages.get(0);
+        String content = message.body();
+        String receiptHandle = message.receiptHandle();
+        try {
+            consumer.accept(content);
+        } catch (Exception e) {
+            client.close();
+            throw new RuntimeException(e);
+        }
+        DeleteMessageRequest request2 = DeleteMessageRequest.builder().queueUrl(url).receiptHandle(receiptHandle).build();
+        client.deleteMessage(request2);
+        client.close();
+        return true;
     }
 
 }

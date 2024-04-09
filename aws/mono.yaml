@@ -37,6 +37,13 @@ Resources:
                 - !GetAtt EnrichmentQueue.Arn
                 - !GetAtt CheckQueue.Arn
                 - !GetAtt TransformQueue.Arn
+            - Effect: Allow
+              Action:
+                - sqs:GetQueueUrl
+                - sqs:ReceiveMessage
+                - sqs:DeleteMessage
+              Resource:
+                - !GetAtt EnrichmentDeadLetterQueue.Arn
       UserName: Mono
 
   Lambda1:
@@ -182,7 +189,7 @@ Resources:
       Handler: 'uk.gov.legislation.db2.lambda.Enrich1::handleRequest'
       MemorySize: 6144
       Role: !GetAtt RoleForLambda3.Arn
-      Timeout: 600
+      Timeout: 900
       VpcConfig:
         SecurityGroupIds:
           - sg-0c3756eca9fa12c12
