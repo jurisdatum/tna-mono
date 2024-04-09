@@ -6,7 +6,6 @@ import com.amazonaws.services.lambda.runtime.events.SQSEvent;
 import gate.util.GateException;
 import org.xml.sax.SAXException;
 
-import uk.gov.legislation.cites.AllCiteRemover;
 import uk.gov.legislation.cites.EmbeddedCite;
 import uk.gov.legislation.cites.Extractor;
 import uk.gov.legislation.cites.gate.CiteEnricher;
@@ -22,13 +21,8 @@ import java.util.List;
 
 public class Enrich1 extends SQSEventHandler {
 
-    private AllCiteRemover _remover;
     private CiteEnricher _enricher;
-    private AllCiteRemover getRemover() {
-        if (_remover == null)
-            _remover = new AllCiteRemover();
-        return _remover;
-    }
+
     private CiteEnricher getEnricher() throws GateException {
         if (_enricher == null)
             _enricher = new CiteEnricher();
@@ -44,10 +38,29 @@ public class Enrich1 extends SQSEventHandler {
         if (leg == null)
             throw new RuntimeException(id + " does not exist");
         byte[] clml = LGUCache.getClml(id);
-        logger.log("removing original EU citations");
-        clml = getRemover().remove(clml);
         logger.log("enriching XML");
         byte[] enriched = getEnricher().enrich(clml);
+        logger.log("saving enriched XML");
+        EnrichedBucket.saveClml(id, enriched);
+        logger.log("extracting citations");
+        List<EmbeddedCite> cites = Extractor.extract(enriched);
+        logger.log("saving citations to MySQL");
+        Citations.save(id, cites);
+
+        logger.log("enqueuing for transform");
+        TransformQueue.enqueue(id);
+
+        logger.log("done");
+    }
+
+    public static void test(CiteEnricher enricher, String id, LambdaLogger logger) throws SQLException, IOException, GateException, SAXException {
+        logger.log("received " + id);
+        Document leg = Document.get(id);
+        if (leg == null)
+            throw new RuntimeException(id + " does not exist");
+        byte[] clml = LGUCache.getClml(id);
+        logger.log("enriching XML");
+        byte[] enriched = enricher.enrich(clml);
         logger.log("saving enriched XML");
         EnrichedBucket.saveClml(id, enriched);
         logger.log("extracting citations");
