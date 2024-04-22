@@ -20,20 +20,20 @@ Priority: 3
 
 	java.util.function.Predicate<gate.AnnotationSet> isWithinCitation =
 		(java.util.function.Predicate<gate.AnnotationSet>) this.ctx.getController().getFeatures().get("isWithinCitation");
-	java.util.function.Function<gate.AnnotationSet, gate.Annotation> getPrecedingCite =
-		(java.util.function.Function<gate.AnnotationSet, gate.Annotation>) this.ctx.getController().getFeatures().get("getPrecedingCite");
+	java.util.function.Function<gate.AnnotationSet, gate.Annotation> getPrecedingCiteEU =
+		(java.util.function.Function<gate.AnnotationSet, gate.Annotation>) this.ctx.getController().getFeatures().get("getPrecedingCiteEU");
 
 	gate.AnnotationSet cite = (gate.AnnotationSet) bindings.get("cite");
 
 	if (isWithinCitation.test(cite))
 		return;
-	gate.Annotation full = getPrecedingCite.apply(cite);
+	gate.Annotation full = getPrecedingCiteEU.apply(cite);
 	if (full == null)
 		return;
 
 	String fullClass = (String) full.getFeatures().get("Class");
-	if (!fullClass.startsWith("EuropeanUnion"))
-		return;
+//	if (!fullClass.startsWith("EuropeanUnion"))
+//		return;
 	String year = (String) bindings.get("year").iterator().next().getFeatures().get("string");
 	String number = (String) bindings.get("number").iterator().next().getFeatures().get("string");
 
@@ -61,20 +61,20 @@ Priority: 3
 
 	java.util.function.Predicate<gate.AnnotationSet> isWithinCitation =
 		(java.util.function.Predicate<gate.AnnotationSet>) this.ctx.getController().getFeatures().get("isWithinCitation");
-	java.util.function.Function<gate.AnnotationSet, gate.Annotation> getPrecedingCite =
-		(java.util.function.Function<gate.AnnotationSet, gate.Annotation>) this.ctx.getController().getFeatures().get("getPrecedingCite");
+	java.util.function.Function<gate.AnnotationSet, gate.Annotation> getPrecedingCiteEU =
+		(java.util.function.Function<gate.AnnotationSet, gate.Annotation>) this.ctx.getController().getFeatures().get("getPrecedingCiteEU");
 
 	gate.AnnotationSet cite = (gate.AnnotationSet) bindings.get("cite");
 
 	if (isWithinCitation.test(cite))
 		return;
-	gate.Annotation full = getPrecedingCite.apply(cite);
+	gate.Annotation full = getPrecedingCiteEU.apply(cite);
 	if (full == null)
 		return;
 
 	String fullClass = (String) full.getFeatures().get("Class");
-	if (!fullClass.startsWith("EuropeanUnion"))
-		return;
+//	if (!fullClass.startsWith("EuropeanUnion"))
+//		return;
 	String year = (String) bindings.get("year").iterator().next().getFeatures().get("string");
 	String number = (String) bindings.get("number").iterator().next().getFeatures().get("string");
 
