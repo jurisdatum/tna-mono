@@ -7,7 +7,7 @@ Priority: 1
 (
 	( { Token.string == "Commission" } | { Token.string == "Council" } ) ?
 	( { Token.string == "Implementing" } | { Token.string == "Delegated" } ) ?
-	( { Token.string ==~ "Regulations?" } | { Token.string ==~ "Decisions?" } | { Token.string ==~ "Directives?" } ) :type
+	( { Token.string ==~ "[Rr]egulations?" } | { Token.string ==~ "[Dd]ecisions?" } | { Token.string ==~ "[Dd]irectives?" } ) :type
 	( { Token.string == "(" }
 	  ( { Token.string == "EU" } | { Token.string == "EC" } | { Token.string == "EEC" } )
 	  ( { Token.string == "," } { Token.string == "Euratom" } ) ?
@@ -27,6 +27,7 @@ Priority: 1
 	String year = (String) bindings.get("year").iterator().next().getFeatures().get("string");
 	String number = (String) bindings.get("number").iterator().next().getFeatures().get("string");
 
+	tpe = tpe.substring(0, 1).toUpperCase() + tpe.substring(1);
 	tpe = "EuropeanUnion" + tpe;
 	if (tpe.endsWith("s"))
 		tpe = tpe.substring(0, tpe.length() - 1);
