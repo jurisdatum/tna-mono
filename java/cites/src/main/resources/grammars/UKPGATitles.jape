@@ -1,0 +1,194 @@
+Phase: UKPGATitles
+Input: Token Lookup
+Options: control = appelt
+
+Macro: SECTION_NUMBER
+( { Token.kind == "number" }
+  ( { Token.string ==~ "[A-Z]{1,2}" } ) ?
+  ( { Token.string == "(" } { Token.kind == "number" } { Token.string == ")" }
+    ( { Token.string == "(" } { Token.string ==~ "[a-z]{1,2}" } { Token.string == ")" } ) ? ) ?
+)
+
+Macro: PARENTHETICAL
+( { Token.string == "(" }
+  ( { Token.kind == "word" } | { Token.string == "-" } ) +
+  { Token.string == ")" }
+)
+
+Rule: Part
+Priority: 1
+( ( { Token.string ==~ "[Pp]art" }
+  ( { Token.kind == "number" } ) :number ) :link
+  { Token.string == "of" }
+  ( { Token.string == "the" } ) ?
+  ( { Lookup.majorType == "title", Lookup.minorType == "ukpga" } ) :title
+) --> {
+
+	gate.AnnotationSet link = (gate.AnnotationSet) bindings.get("link");
+
+	String sectionNum = gate.Utils.stringFor(doc, bindings.get("number"));
+	String sectionRef = "part-" + sectionNum;
+
+	gate.Annotation title = (gate.Annotation) bindings.get("title").iterator().next();
+	String docType = "UnitedKingdomPublicGeneralAct";
+	String docYear = (String) title.getFeatures().get("year");
+	String docNum = (String) title.getFeatures().get("number");
+//	String docId = (String) title.getFeatures().get("id");
+
+	gate.FeatureMap features = Factory.newFeatureMap();
+	features.put("Class", docType);
+	features.put("Year", docYear);
+	features.put("Number", docNum);
+	features.put("SectionRef", sectionRef);
+	features.put("Title", gate.Utils.stringFor(doc, title));
+	outputAS.add(link.firstNode(), link.lastNode(), "Citation", features);
+
+}
+
+Rule: Parts
+Priority: 1
+( ( { Token.string ==~ "[Pp]arts?" }
+    ( { Token.kind == "number" } ) :number ) :link
+  ( { Token.string == "and" } | { Token.string == "or" } )
+  ( ( { Token.kind == "number" } ) :number2 ) :link2
+  ( PARENTHETICAL ) ?
+  { Token.string == "of" }
+  ( { Token.string == "the" } ) ?
+  ( { Lookup.majorType == "title", Lookup.minorType == "ukpga" } ) :title
+) --> {
+
+	gate.AnnotationSet link = (gate.AnnotationSet) bindings.get("link");
+
+	String sectionNum = gate.Utils.stringFor(doc, bindings.get("number"));
+	String sectionRef = "part-" + sectionNum;
+
+	gate.Annotation title = (gate.Annotation) bindings.get("title").iterator().next();
+	String docType = "UnitedKingdomPublicGeneralAct";
+	String docYear = (String) title.getFeatures().get("year");
+	String docNum = (String) title.getFeatures().get("number");
+//	String docId = (String) title.getFeatures().get("id");
+
+	gate.FeatureMap features = Factory.newFeatureMap();
+	features.put("Class", docType);
+	features.put("Year", docYear);
+	features.put("Number", docNum);
+	features.put("SectionRef", sectionRef);
+	features.put("Title", gate.Utils.stringFor(doc, title));
+	outputAS.add(link.firstNode(), link.lastNode(), "Citation", features);
+
+	gate.AnnotationSet link2 = (gate.AnnotationSet) bindings.get("link2");
+	String sectionNum2 = gate.Utils.stringFor(doc, bindings.get("number2"));
+	String sectionRef2 = "part-" + sectionNum2;
+	gate.FeatureMap features2 = Factory.newFeatureMap();
+	features2.put("Class", docType);
+	features2.put("Year", docYear);
+	features2.put("Number", docNum);
+	features2.put("SectionRef", sectionRef2);
+	features2.put("Title", gate.Utils.stringFor(doc, title));
+	outputAS.add(link2.firstNode(), link2.lastNode(), "Citation", features2);
+
+}
+
+Rule: Section
+Priority: 1
+( ( { Token.string ==~ "[Ss]ection" }
+    ( SECTION_NUMBER ) :number ) :link
+  ( PARENTHETICAL ) ?
+  { Token.string == "of" }
+  ( { Token.string == "the" } ) ?
+  ( { Lookup.majorType == "title", Lookup.minorType == "ukpga" } ) :title
+) --> {
+
+	gate.AnnotationSet link = (gate.AnnotationSet) bindings.get("link");
+
+	String sectionNum = gate.Utils.stringFor(doc, bindings.get("number"));
+	String sectionRef = "section-" + sectionNum.replace("(", "-").replace(")", "");
+
+	gate.Annotation title = (gate.Annotation) bindings.get("title").iterator().next();
+	String docType = "UnitedKingdomPublicGeneralAct";
+	String docYear = (String) title.getFeatures().get("year");
+	String docNum = (String) title.getFeatures().get("number");
+//	String docId = (String) title.getFeatures().get("id");
+
+	gate.FeatureMap features = Factory.newFeatureMap();
+	features.put("Class", docType);
+	features.put("Year", docYear);
+	features.put("Number", docNum);
+	features.put("SectionRef", sectionRef);
+	features.put("Title", gate.Utils.stringFor(doc, title));
+	outputAS.add(link.firstNode(), link.lastNode(), "Citation", features);
+
+}
+
+Rule: Sections
+Priority: 1
+( ( { Token.string ==~ "[Ss]ections?" }
+    ( SECTION_NUMBER ) :number ) :link
+  ( { Token.string == "and" } | { Token.string == "or" } )
+  ( ( SECTION_NUMBER ) :number2 ) :link2
+  { Token.string == "of" }
+  ( { Token.string == "the" } ) ?
+  ( { Lookup.majorType == "title", Lookup.minorType == "ukpga" } ) :title
+) --> {
+
+	gate.AnnotationSet link = (gate.AnnotationSet) bindings.get("link");
+
+	String sectionNum = gate.Utils.stringFor(doc, bindings.get("number"));
+	String sectionRef = "section-" + sectionNum.replace("(", "-").replace(")", "");
+
+	gate.Annotation title = (gate.Annotation) bindings.get("title").iterator().next();
+	String docType = "UnitedKingdomPublicGeneralAct";
+	String docYear = (String) title.getFeatures().get("year");
+	String docNum = (String) title.getFeatures().get("number");
+//	String docId = (String) title.getFeatures().get("id");
+
+	gate.FeatureMap features = Factory.newFeatureMap();
+	features.put("Class", docType);
+	features.put("Year", docYear);
+	features.put("Number", docNum);
+	features.put("SectionRef", sectionRef);
+	features.put("Title", gate.Utils.stringFor(doc, title));
+	outputAS.add(link.firstNode(), link.lastNode(), "Citation", features);
+
+	gate.AnnotationSet link2 = (gate.AnnotationSet) bindings.get("link2");
+	String sectionNum2 = gate.Utils.stringFor(doc, bindings.get("number2"));
+	String sectionRef2 = "part-" + sectionNum2;
+	gate.FeatureMap features2 = Factory.newFeatureMap();
+	features2.put("Class", docType);
+	features2.put("Year", docYear);
+	features2.put("Number", docNum);
+	features2.put("SectionRef", sectionRef2);
+	features2.put("Title", gate.Utils.stringFor(doc, title));
+	outputAS.add(link2.firstNode(), link2.lastNode(), "Citation", features2);
+
+}
+
+Rule: Schedule
+Priority: 1
+( ( { Token.string ==~ "[Ss]chedule" }
+    ( { Token.string ==~ "[A-Z]" } { Token.string ==~ "[1-9]" } ) :number ) :link
+  { Token.string == "to" }
+  ( { Token.string == "the" } )?
+  ( { Lookup.majorType == "title", Lookup.minorType == "ukpga" } ) :title
+) --> {
+
+	gate.AnnotationSet link = (gate.AnnotationSet) bindings.get("link");
+
+	String sectionNum = gate.Utils.stringFor(doc, bindings.get("number"));
+	String sectionRef = "schedule-" + sectionNum;
+
+	gate.Annotation title = (gate.Annotation) bindings.get("title").iterator().next();
+	String docType = "UnitedKingdomPublicGeneralAct";
+	String docYear = (String) title.getFeatures().get("year");
+	String docNum = (String) title.getFeatures().get("number");
+//	String docId = (String) title.getFeatures().get("id");
+
+	gate.FeatureMap features = Factory.newFeatureMap();
+	features.put("Class", docType);
+	features.put("Year", docYear);
+	features.put("Number", docNum);
+	features.put("SectionRef", sectionRef);
+	features.put("Title", gate.Utils.stringFor(doc, title));
+	outputAS.add(link.firstNode(), link.lastNode(), "Citation", features);
+
+}

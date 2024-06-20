@@ -7,9 +7,9 @@ import gate.creole.ResourceInstantiationException;
 import gate.creole.SerialAnalyserController;
 import gate.util.GateException;
 import uk.gov.legislation.ClmlBeautifier;
+import uk.gov.legislation.cites.gate.gazetteers.TitleGazetteers;
 import uk.gov.legislation.cites.gate.inject.Functions;
 
-import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
 public class CiteEnricher {
@@ -45,6 +45,9 @@ public class CiteEnricher {
 
         // add tokenizer
         sac.add((ProcessingResource) Factory.createResource("gate.creole.tokeniser.DefaultTokeniser"));
+
+        // add title gazetteer
+        TitleGazetteers.add(sac);
 
         // add custom JAPE grammars
         Steps.addAll(sac);

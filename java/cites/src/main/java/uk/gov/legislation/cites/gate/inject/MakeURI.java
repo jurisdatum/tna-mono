@@ -12,12 +12,16 @@ public class MakeURI implements Function<Annotation, String> {
         String longType = (String) features.get("Class");
         Object year = features.get("Year"); // can be either String or Integer
         Object number = features.get("Number");
+        String section = (String) features.get("SectionRef");
         if (number == null)
             return null;
         String shortType = shortTypeFromLong(longType);
         if (shortType == null)
             return null;
-        return "http://www.legislation.gov.uk/id/" + shortType + "/" + year + "/" + number;
+        String start = "http://www.legislation.gov.uk/id/" + shortType + "/" + year + "/" + number;
+        if (section == null)
+            return start;
+        return start + "/" + pathComponentFromInternalId(section);
     }
 
     private static String shortTypeFromLong(String longType) {
@@ -91,6 +95,13 @@ public class MakeURI implements Function<Annotation, String> {
             default:
                 return null;
         }
+    }
+
+    private static String pathComponentFromInternalId(String section) {
+        int i = section.indexOf("crossheading");
+        if (i == -1)
+            return section.replace('-', '/');
+        return section.substring(0, i).replace('-', '/') + section.substring(i);
     }
 
 }
