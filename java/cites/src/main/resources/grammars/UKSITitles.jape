@@ -29,7 +29,10 @@ Priority: 1
 	String docType = "UnitedKingdomStatutoryInstrument";
 	String docYear = (String) title.getFeatures().get("year");
 	String docNum = (String) title.getFeatures().get("number");
-//	String docId = (String) title.getFeatures().get("id");
+	String docId = (String) title.getFeatures().get("id");
+
+	java.util.function.BiFunction<String, String, String> expandId =
+		(java.util.function.BiFunction<String, String, String>) this.ctx.getController().getFeatures().get("expandId");
 
 	gate.FeatureMap features = Factory.newFeatureMap();
 	features.put("Class", docType);
@@ -37,6 +40,7 @@ Priority: 1
 	features.put("Number", docNum);
 	features.put("SectionRef", sectionRef);
 	features.put("Title", gate.Utils.stringFor(doc, title));
+	features.put("URI", expandId.apply(docId, sectionRef));
 	outputAS.add(link.firstNode(), link.lastNode(), "Citation", features);
 
 }

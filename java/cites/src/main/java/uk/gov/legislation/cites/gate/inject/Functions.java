@@ -11,6 +11,7 @@ public class Functions {
         sac.getFeatures().put("isWithinCitation", new IsWithinCitation());
         sac.getFeatures().put("normalizeYear", new NormalizeYear());
         sac.getFeatures().put("makeURI", new MakeURI());
+        sac.getFeatures().put("expandId", new ExpandId());
     }
 
 }

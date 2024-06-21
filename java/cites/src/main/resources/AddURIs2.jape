@@ -3,6 +3,10 @@ Phase: AddURIs2
 Rule: CitationSubRef
 ( { CitationSubRef } ) :subref  --> {
 	gate.Annotation subref = (gate.Annotation) bindings.get("subref").iterator().next();
+	String already = (String) subref.getFeatures().get("URI");
+	if (already != null && !already.isEmpty())
+		return;
+
 	String citeId = (String) subref.getFeatures().get("CitationRef");
 
 	gate.FeatureMap constraint = Factory.newFeatureMap();

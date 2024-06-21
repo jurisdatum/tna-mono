@@ -97,7 +97,7 @@ public class MakeURI implements Function<Annotation, String> {
         }
     }
 
-    private static String pathComponentFromInternalId(String section) {
+    static String pathComponentFromInternalId(String section) {
         int i = section.indexOf("crossheading");
         if (i == -1)
             return section.replace('-', '/');
