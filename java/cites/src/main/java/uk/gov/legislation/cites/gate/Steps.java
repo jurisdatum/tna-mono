@@ -49,8 +49,16 @@ class Steps {
     }
 
     private static void subRefs(SerialAnalyserController sac) throws ResourceInstantiationException {
-        copyAnnotations(sac, CiteEnricher.NewMarkups, null);
-        addTransducer(sac,"/SubRefs.jape");
+        String combined = "CombinedForSubRefs";
+        copyAnnotations(sac, null, combined);
+        copyAnnotations(sac, CiteEnricher.OriginalMarkups, combined);
+        copyAnnotations(sac, CiteEnricher.NewMarkups, combined);
+        FeatureMap features = Factory.newFeatureMap();
+        features.put("grammarURL", Steps.class.getResource("/SubRefs.jape"));
+        features.put("inputASName", combined);
+        features.put("outputASName", CiteEnricher.NewMarkups);
+        LanguageAnalyser transducer = (LanguageAnalyser) Factory.createResource("gate.creole.Transducer", features);
+        sac.add(transducer);
     }
 
     private static void addNamespaceCheck(SerialAnalyserController sac) throws ResourceInstantiationException {

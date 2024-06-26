@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Legislation xmlns="http://www.legislation.gov.uk/namespaces/legislation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" NumberOfProvisions="2" SchemaVersion="1.0" xsi:schemaLocation="http://www.legislation.gov.uk/namespaces/legislation http://www.legislation.gov.uk/schema/legislation.xsd">
+   <ukm:Metadata xmlns:atom="http://www.w3.org/2005/Atom" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dct="http://purl.org/dc/terms/" xmlns:ukm="http://www.legislation.gov.uk/namespaces/metadata">
+      <dc:identifier>http://www.legislation.gov.uk/uksi/1990/2387/made</dc:identifier>
+      <dc:title>The Glasgow College of Technology and Robert Gordon’s Institute of Technology (Change of Name) Regulations 1990</dc:title>
+      <dc:subject>Specialist schools</dc:subject>
+      <dc:publisher>King's Printer of Acts of Parliament</dc:publisher>
+      <dc:modified>2011-07-04</dc:modified>
+      <dc:subject scheme="SIheading">EDUCATION, SCOTLAND</dc:subject>
+      <dc:description>These Regulations re-name Glasgow College of Technology as “Glasgow Polytechnic” and Robert Gordon’s Institute of Technology as “The Robert Gordon Institute of Technology” and make consequential amendments to relevant Regulations.</dc:description>
+      <atom:link href="http://www.legislation.gov.uk/uksi/1990/2387/made/data.xml" rel="self" type="application/xml"/>
+      <atom:link href="http://www.legislation.gov.uk/uksi/1990/2387/resources" rel="http://www.legislation.gov.uk/def/navigation/resources" title="More Resources"/>
+      <atom:link href="http://www.legislation.gov.uk/uksi/1990/2387/made" rel="http://www.legislation.gov.uk/def/navigation/act" title="whole act"/>
+      <atom:link href="http://www.legislation.gov.uk/uksi/1990/2387/introduction/made" rel="http://www.legislation.gov.uk/def/navigation/introduction" title="introduction"/>
+      <atom:link href="http://www.legislation.gov.uk/uksi/1990/2387/note/made" rel="http://www.legislation.gov.uk/def/navigation/note" title="note"/>
+      <atom:link href="http://www.legislation.gov.uk/uksi/1990/2387/body/made" rel="http://www.legislation.gov.uk/def/navigation/body" title="body"/>
+      <atom:link href="http://www.legislation.gov.uk/uksi/1990/2387/made/data.rdf" rel="alternate" title="RDF/XML" type="application/rdf+xml"/>
+      <atom:link href="http://www.legislation.gov.uk/uksi/1990/2387/made/data.akn" rel="alternate" title="AKN" type="application/akn+xml"/>
+      <atom:link href="http://www.legislation.gov.uk/uksi/1990/2387/made/data.xht" rel="alternate" title="HTML snippet" type="application/xhtml+xml"/>
+      <atom:link href="http://www.legislation.gov.uk/uksi/1990/2387/made/data.htm" rel="alternate" title="Website (XHTML) Default View" type="text/html"/>
+      <atom:link href="http://www.legislation.gov.uk/uksi/1990/2387/made/data.pdf" rel="alternate" title="PDF" type="application/pdf"/>
+      <atom:link href="http://www.legislation.gov.uk/uksi/1990/2387/made/data.html" rel="alternate" title="HTML5 snippet" type="application/akn+xhtml"/>
+      <atom:link href="http://www.legislation.gov.uk/uksi/1990/2387/pdfs/uksi_19902387_en.pdf" rel="alternate" title="Original PDF" type="application/pdf"/>
+      <atom:link href="http://www.legislation.gov.uk/uksi/1990/2387/contents/made" hreflang="en" rel="http://purl.org/dc/terms/tableOfContents" title="Table of Contents"/>
+      <ukm:SecondaryMetadata>
+         <ukm:DocumentClassification>
+            <ukm:DocumentCategory Value="secondary"/>
+            <ukm:DocumentMainType Value="UnitedKingdomStatutoryInstrument"/>
+            <ukm:DocumentStatus Value="final"/>
+            <ukm:DocumentMinorType Value="regulation"/>
+         </ukm:DocumentClassification>
+         <ukm:Year Value="1990"/>
+         <ukm:Number Value="2387"/>
+         <ukm:AlternativeNumber Category="S" Value="201"/>
+         <ukm:Made Date="1990-11-28"/>
+         <ukm:Laid Class="UnitedKingdomParliament" Date="1990-12-10"/>
+         <ukm:ComingIntoForce>
+            <ukm:DateTime Date="1990-12-31"/>
+         </ukm:ComingIntoForce>
+         <ukm:ISBN Value="0110053877"/>
+      </ukm:SecondaryMetadata>
+      <ukm:Alternatives>
+         <ukm:Alternative Date="2023-11-22" Print="true" Size="158082" URI="http://www.legislation.gov.uk/uksi/1990/2387/pdfs/uksi_19902387_en.pdf"/>
+      </ukm:Alternatives>
+      <ukm:Statistics>
+         <ukm:TotalParagraphs Value="2"/>
+         <ukm:BodyParagraphs Value="2"/>
+         <ukm:ScheduleParagraphs Value="0"/>
+         <ukm:AttachmentParagraphs Value="0"/>
+         <ukm:TotalImages Value="0"/>
+      </ukm:Statistics>
+   </ukm:Metadata>
+   <Secondary>
+      <SecondaryPrelims>
+         <Number>1990 No. 2387 (S.201)</Number>
+         <SubjectInformation>
+            <Subject>
+               <Title>EDUCATION, SCOTLAND</Title>
+            </Subject>
+         </SubjectInformation>
+         <Title>The Glasgow College of Technology and Robert Gordon’s Institute of Technology (Change of Name) Regulations 1990</Title>
+         <MadeDate>
+            <Text>Made</Text>
+            <DateText>28th November 1990</DateText>
+         </MadeDate>
+         <LaidDate>
+            <Text>Laid before Parliament</Text>
+            <DateText>10th December 1990</DateText>
+         </LaidDate>
+         <ComingIntoForce>
+            <Text>Coming into force </Text>
+            <DateText>31st December 1990</DateText>
+         </ComingIntoForce>
+         <SecondaryPreamble>
+            <EnactingText>
+               <Para>
+                  <Text>The Secretary of State, in exercise of the powers conferred on him by section 77(1) and (4) of the Education (Scotland) Act 1980<FootnoteRef Ref="f00001"/> and of all other powers enabling him in that behalf, hereby makes the following Regulations:</Text>
+               </Para>
+            </EnactingText>
+         </SecondaryPreamble>
+      </SecondaryPrelims>
+      <Body NumberFormat="default" NumberOfProvisions="2">
+         <P1group>
+            <Title>Citation and commencement</Title>
+            <P1 id="regulation-1">
+               <Pnumber>1</Pnumber>
+               <P1para>
+                  <Text>These Regulations may be cited as the Glasgow College of Technology and Robert Gordon’s Institute of Technology (Change of Name) Regulations 1990 and shall come into force on 31st December 1990.</Text>
+               </P1para>
+            </P1>
+         </P1group>
+         <P1group>
+            <Title>Change of name of the institutions</Title>
+            <P1 id="regulation-2">
+               <Pnumber>2</Pnumber>
+               <P1para>
+                  <P2 id="regulation-2-1">
+                     <Pnumber>1</Pnumber>
+                     <P2para>
+                        <Text>Glasgow College of Technology shall be re-named and known as “Glasgow Polytechnic” and Robert Gordon’s Institute of Technology shall be re-named and known as “The Robert Gordon Institute of Technology”.</Text>
+                     </P2para>
+                  </P2>
+               </P1para>
+            </P1>
+         </P1group>
+      </Body>
+      <ExplanatoryNotes>
+         <Comment>
+            <Para>
+               <Text>(This note is not part of the Regulations)</Text>
+            </Para>
+         </Comment>
+         <P>
+            <Text>These Regulations re-name Glasgow College of Technology as “Glasgow Polytechnic” and Robert Gordon’s Institute of Technology as “The Robert Gordon Institute of Technology” and make consequential amendments to relevant Regulations.</Text>
+         </P>
+      </ExplanatoryNotes>
+   </Secondary>
+   <Footnotes>
+      <Footnote id="f00001">
+         <FootnoteText>
+            <Para>
+               <Text>
+                  <Citation Class="UnitedKingdomPublicGeneralAct" Number="0044" URI="http://www.legislation.gov.uk/id/ukpga/1980/44" Year="1980" id="c00001">1980 c. 44</Citation>; <CitationSubRef CitationRef="c00001" SectionRef="section-77-1" URI="http://www.legislation.gov.uk/id/ukpga/1980/44/section/77/1">section 77(1)</CitationSubRef> was amended by the Education (Scotland) Act <Citation Class="UnitedKingdomPublicGeneralAct" Number="0058" URI="http://www.legislation.gov.uk/id/ukpga/1981/58" Year="1981" id="c00002">1981 (c. 58)</Citation>, <CitationSubRef CitationRef="c00002" SectionRef="schedule-6-paragraph-2" URI="http://www.legislation.gov.uk/id/ukpga/1981/58/schedule/6/paragraph/2">Schedule 6, paragraph 2</CitationSubRef>.</Text>
+            </Para>
+         </FootnoteText>
+      </Footnote>
+   </Footnotes>
+</Legislation>

@@ -4,7 +4,6 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
-import uk.gov.legislation.cites.AllCiteRemover;
 import uk.gov.legislation.cites.gate.CiteEnricher;
 
 import java.io.IOException;
@@ -28,7 +27,7 @@ public class CitationsTest {
     public static Collection<Object[]> filenames() {
         return Arrays.asList(new Object[][] {
             { "nisr_2011_224" }, { "uksi_1994_935" }, { "uksi_2010_2493" }, { "wsi_2013_664" }, { "uksi_2005_1958" },
-            { "nisr_2003_439" }, { "uksi_2015_1669" }, { "ssi_2009_189" }, { "uksi_1998_768" }
+            { "nisr_2003_439" }, { "uksi_2015_1669" }, { "ssi_2009_189" }, { "uksi_1998_768" } , { "uksi_1990_2387" }
         });
     }
 
@@ -41,7 +40,6 @@ public class CitationsTest {
         byte[] original = CitationsTest.class.getResourceAsStream("/" + filename + ".original.xml").readAllBytes();
         byte[] expected = CitationsTest.class.getResourceAsStream("/" + filename + ".enriched.xml").readAllBytes();
 
-//        byte[] removed = new AllCiteRemover().remove(original);
         byte[] actual = enricher.enrich(original);
 
         String expected1 = new String(expected, StandardCharsets.UTF_8);
