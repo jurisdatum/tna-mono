@@ -20,7 +20,7 @@ class Steps {
         sac.add((LanguageAnalyser) Factory.createResource(OverlappingCiteRemover.class.getName()));
         addCiteIds(sac);
         subRefs(sac);
-        addLoneNumberStep(sac); // remove overlapping Citations after this?
+        addLoneNumberStep(sac); // this step won't add overlapping Citations
         sac.add((LanguageAnalyser) Factory.createResource(OverlappingSubRefRemover.class.getName()));
         addNamespaceCheck(sac);
         addURIs(sac);
