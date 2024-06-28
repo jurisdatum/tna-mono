@@ -5,7 +5,7 @@ Options: control = appelt
 Macro: SECTION_NUMBER
 ( { Token.kind == "number" }
   ( { Token.string ==~ "[A-Z]{1,2}" } ) ?
-  ( { Token.string == "(" } { Token.kind == "number" } { Token.string == ")" }
+  ( { Token.string == "(" } { Token.kind == "number" } ( { Token.string ==~ "[A-Z]{1,2}" } ) ? { Token.string == ")" }
     ( { Token.string == "(" } { Token.string ==~ "[a-z]{1,2}" } { Token.string == ")" } ) ? ) ?
 )
 
