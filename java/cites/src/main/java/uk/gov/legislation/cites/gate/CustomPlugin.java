@@ -4,6 +4,7 @@ import org.jdom.Document;
 import org.jdom.Element;
 import uk.gov.legislation.cites.gate.plugin.DefActGazPopulator;
 import uk.gov.legislation.cites.gate.plugin.OverlappingCiteRemover;
+import uk.gov.legislation.cites.gate.plugin.OverlappingSubRefRemover;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -14,6 +15,7 @@ public class CustomPlugin extends gate.creole.Plugin {
         EUNumberCorrector.class,
         UKTypeCorrector.class,
         OverlappingCiteRemover.class,
+        OverlappingSubRefRemover.class,
         DefActGazPopulator.class
     };
 

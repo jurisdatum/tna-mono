@@ -8,6 +8,7 @@ import gate.creole.ResourceInstantiationException;
 import gate.creole.SerialAnalyserController;
 
 import uk.gov.legislation.cites.gate.plugin.OverlappingCiteRemover;
+import uk.gov.legislation.cites.gate.plugin.OverlappingSubRefRemover;
 
 class Steps {
 
@@ -19,7 +20,8 @@ class Steps {
         sac.add((LanguageAnalyser) Factory.createResource(OverlappingCiteRemover.class.getName()));
         addCiteIds(sac);
         subRefs(sac);
-        addLoneNumberStep(sac);
+        addLoneNumberStep(sac); // remove overlapping Citations after this?
+        sac.add((LanguageAnalyser) Factory.createResource(OverlappingSubRefRemover.class.getName()));
         addNamespaceCheck(sac);
         addURIs(sac);
     }
