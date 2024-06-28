@@ -16,7 +16,7 @@ Priority: 1
   ( PARENTHETICAL ) ?
   { Token.string == "of" }
   ( { Token.string == "the" } ) ?
-  ( { Lookup.majorType == "title", Lookup.minorType == "uksi" } ) :title
+  ( { Lookup.majorType == "title" } ) :title
 ) --> {
 
 	gate.AnnotationSet link = (gate.AnnotationSet) bindings.get("link");
@@ -26,7 +26,14 @@ Priority: 1
 	String sectionRef = sectionType.toLowerCase() + "-" + sectionNum.replace("(", "-").replace(")", "");;
 
 	gate.Annotation title = (gate.Annotation) bindings.get("title").iterator().next();
-	String docType = "UnitedKingdomStatutoryInstrument";
+	String docShortType = (String) title.getFeatures().get("minorType");
+	String docType;
+	if ("uksi".equals(docShortType))
+		docType = "UnitedKingdomStatutoryInstrument";
+	else if ("ssi".equals(docShortType))
+		docType = "ScottishStatutoryInstrument";
+	else
+		return;
 	String docYear = (String) title.getFeatures().get("year");
 	String docNum = (String) title.getFeatures().get("number");
 	String docId = (String) title.getFeatures().get("id");

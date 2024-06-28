@@ -22,7 +22,7 @@ Priority: 1
   ( { Token.kind == "number" } ) :number ) :link
   { Token.string == "of" }
   ( { Token.string == "the" } ) ?
-  ( { Lookup.majorType == "title", Lookup.minorType == "ukpga" } ) :title
+  ( { Lookup.majorType == "title" } ) :title
 ) --> {
 
 	gate.AnnotationSet link = (gate.AnnotationSet) bindings.get("link");
@@ -31,7 +31,14 @@ Priority: 1
 	String sectionRef = "part-" + sectionNum;
 
 	gate.Annotation title = (gate.Annotation) bindings.get("title").iterator().next();
-	String docType = "UnitedKingdomPublicGeneralAct";
+	String docShortType = (String) title.getFeatures().get("minorType");
+	String docType;
+	if ("ukpga".equals(docShortType))
+		docType = "UnitedKingdomPublicGeneralAct";
+	else if ("asp".equals(docShortType))
+		docType = "ScottishAct";
+	else
+		return;
 	String docYear = (String) title.getFeatures().get("year");
 	String docNum = (String) title.getFeatures().get("number");
 	String docId = (String) title.getFeatures().get("id");
@@ -59,7 +66,7 @@ Priority: 1
   ( PARENTHETICAL ) ?
   { Token.string == "of" }
   ( { Token.string == "the" } ) ?
-  ( { Lookup.majorType == "title", Lookup.minorType == "ukpga" } ) :title
+  ( { Lookup.majorType == "title" } ) :title
 ) --> {
 
 	gate.AnnotationSet link = (gate.AnnotationSet) bindings.get("link");
@@ -68,7 +75,14 @@ Priority: 1
 	String sectionRef = "part-" + sectionNum;
 
 	gate.Annotation title = (gate.Annotation) bindings.get("title").iterator().next();
-	String docType = "UnitedKingdomPublicGeneralAct";
+	String docShortType = (String) title.getFeatures().get("minorType");
+	String docType;
+	if ("ukpga".equals(docShortType))
+		docType = "UnitedKingdomPublicGeneralAct";
+	else if ("asp".equals(docShortType))
+		docType = "ScottishAct";
+	else
+		return;
 	String docYear = (String) title.getFeatures().get("year");
 	String docNum = (String) title.getFeatures().get("number");
 	String docId = (String) title.getFeatures().get("id");
@@ -106,7 +120,7 @@ Priority: 1
   ( PARENTHETICAL ) ?
   { Token.string == "of" }
   ( { Token.string == "the" } ) ?
-  ( { Lookup.majorType == "title", Lookup.minorType == "ukpga" } ) :title
+  ( { Lookup.majorType == "title" } ) :title
 ) --> {
 
 	gate.AnnotationSet link = (gate.AnnotationSet) bindings.get("link");
@@ -115,7 +129,14 @@ Priority: 1
 	String sectionRef = "section-" + sectionNum.replace("(", "-").replace(")", "");
 
 	gate.Annotation title = (gate.Annotation) bindings.get("title").iterator().next();
-	String docType = "UnitedKingdomPublicGeneralAct";
+	String docShortType = (String) title.getFeatures().get("minorType");
+	String docType;
+	if ("ukpga".equals(docShortType))
+		docType = "UnitedKingdomPublicGeneralAct";
+	else if ("asp".equals(docShortType))
+		docType = "ScottishAct";
+	else
+		return;
 	String docYear = (String) title.getFeatures().get("year");
 	String docNum = (String) title.getFeatures().get("number");
 	String docId = (String) title.getFeatures().get("id");
@@ -142,11 +163,18 @@ Priority: 1
   ( ( SECTION_NUMBER ) :number2 ) :link2
   { Token.string == "of" }
   ( { Token.string == "the" } ) ?
-  ( { Lookup.majorType == "title", Lookup.minorType == "ukpga" } ) :title
+  ( { Lookup.majorType == "title" } ) :title
 ) --> {
 
 	gate.Annotation title = (gate.Annotation) bindings.get("title").iterator().next();
-	String docType = "UnitedKingdomPublicGeneralAct";
+	String docShortType = (String) title.getFeatures().get("minorType");
+	String docType;
+	if ("ukpga".equals(docShortType))
+		docType = "UnitedKingdomPublicGeneralAct";
+	else if ("asp".equals(docShortType))
+		docType = "ScottishAct";
+	else
+		return;
 	String docYear = (String) title.getFeatures().get("year");
 	String docNum = (String) title.getFeatures().get("number");
 	String docId = (String) title.getFeatures().get("id");
@@ -189,7 +217,7 @@ Priority: 1
     ( { Token.string ==~ "[A-Z]" } { Token.string ==~ "[1-9]" } ) :number ) :link
   { Token.string == "to" }
   ( { Token.string == "the" } )?
-  ( { Lookup.majorType == "title", Lookup.minorType == "ukpga" } ) :title
+  ( { Lookup.majorType == "title" } ) :title
 ) --> {
 
 	gate.AnnotationSet link = (gate.AnnotationSet) bindings.get("link");
@@ -198,7 +226,14 @@ Priority: 1
 	String sectionRef = "schedule-" + sectionNum;
 
 	gate.Annotation title = (gate.Annotation) bindings.get("title").iterator().next();
-	String docType = "UnitedKingdomPublicGeneralAct";
+	String docShortType = (String) title.getFeatures().get("minorType");
+	String docType;
+	if ("ukpga".equals(docShortType))
+		docType = "UnitedKingdomPublicGeneralAct";
+	else if ("asp".equals(docShortType))
+		docType = "ScottishAct";
+	else
+		return;
 	String docYear = (String) title.getFeatures().get("year");
 	String docNum = (String) title.getFeatures().get("number");
 	String docId = (String) title.getFeatures().get("id");
