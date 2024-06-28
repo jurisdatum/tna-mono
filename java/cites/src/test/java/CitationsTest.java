@@ -28,7 +28,7 @@ public class CitationsTest {
         return Arrays.asList(new Object[][] {
             { "nisr_2011_224" }, { "uksi_1994_935" }, { "uksi_2010_2493" }, { "wsi_2013_664" }, { "uksi_2005_1958" },
             { "nisr_2003_439" }, { "uksi_2015_1669" }, { "ssi_2009_189" }, { "uksi_1998_768" } , { "uksi_1990_2387" },
-            { "asp_2023_5" }
+            { "asp_2023_5" }, { "ssi_2024_1" }
         });
     }
 

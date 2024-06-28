@@ -1,0 +1,401 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Legislation xmlns="http://www.legislation.gov.uk/namespaces/legislation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" NumberOfProvisions="2" SchemaVersion="1.0" xsi:schemaLocation="http://www.legislation.gov.uk/namespaces/legislation http://www.legislation.gov.uk/schema/legislation.xsd">
+   <ukm:Metadata xmlns:atom="http://www.w3.org/2005/Atom" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dct="http://purl.org/dc/terms/" xmlns:ukm="http://www.legislation.gov.uk/namespaces/metadata">
+      <dc:identifier>http://www.legislation.gov.uk/ssi/2024/1/made</dc:identifier>
+      <dc:title>The Health (Tobacco, Nicotine etc. and Care) (Scotland) Act 2016 (Commencement No. 6) Regulations 2024</dc:title>
+      <dc:language>en</dc:language>
+      <dc:publisher>King's Printer for Scotland</dc:publisher>
+      <dc:modified>2024-01-11</dc:modified>
+      <dc:subject scheme="SIheading">PUBLIC HEALTH</dc:subject>
+      <dc:description>These Regulations bring into force section 17 (Advertising and brandsharing), section 18 (Free distribution and nominal pricing) and section 19 (Sponsorship) of the Health (Tobacco, Nicotine etc. and Care (Scotland) Act 2016 (“the Act”), being the remaining provisions of the Act to be commenced.</dc:description>
+      <atom:link href="http://www.legislation.gov.uk/ssi/2024/1/made/data.xml" rel="self" type="application/xml"/>
+      <atom:link href="http://www.legislation.gov.uk/ssi/2024/1/resources" rel="http://www.legislation.gov.uk/def/navigation/resources" title="More Resources"/>
+      <atom:link href="http://www.legislation.gov.uk/ssi/2024/1/policy-note" rel="http://www.legislation.gov.uk/def/navigation/policy-note" title="Policy Note"/>
+      <atom:link href="http://www.legislation.gov.uk/ssi/2024/1/policy-note/contents" rel="http://www.legislation.gov.uk/def/navigation/policy-note/toc" title="Policy Note Table of Contents"/>
+      <atom:link href="http://www.legislation.gov.uk/ssi/2024/1/made" rel="http://www.legislation.gov.uk/def/navigation/act" title="whole act"/>
+      <atom:link href="http://www.legislation.gov.uk/ssi/2024/1/introduction/made" rel="http://www.legislation.gov.uk/def/navigation/introduction" title="introduction"/>
+      <atom:link href="http://www.legislation.gov.uk/ssi/2024/1/signature/made" rel="http://www.legislation.gov.uk/def/navigation/signature" title="signature"/>
+      <atom:link href="http://www.legislation.gov.uk/ssi/2024/1/note/made" rel="http://www.legislation.gov.uk/def/navigation/note" title="note"/>
+      <atom:link href="http://www.legislation.gov.uk/ssi/2024/1/earlier-orders/made" rel="http://www.legislation.gov.uk/def/navigation/earlier-orders" title="earlier orders"/>
+      <atom:link href="http://www.legislation.gov.uk/ssi/2024/1/body/made" rel="http://www.legislation.gov.uk/def/navigation/body" title="body"/>
+      <atom:link href="http://www.legislation.gov.uk/ssi/2024/1/made/data.rdf" rel="alternate" title="RDF/XML" type="application/rdf+xml"/>
+      <atom:link href="http://www.legislation.gov.uk/ssi/2024/1/made/data.akn" rel="alternate" title="AKN" type="application/akn+xml"/>
+      <atom:link href="http://www.legislation.gov.uk/ssi/2024/1/made/data.xht" rel="alternate" title="HTML snippet" type="application/xhtml+xml"/>
+      <atom:link href="http://www.legislation.gov.uk/ssi/2024/1/made/data.htm" rel="alternate" title="Website (XHTML) Default View" type="text/html"/>
+      <atom:link href="http://www.legislation.gov.uk/ssi/2024/1/made/data.pdf" rel="alternate" title="PDF" type="application/pdf"/>
+      <atom:link href="http://www.legislation.gov.uk/ssi/2024/1/made/data.html" rel="alternate" title="HTML5 snippet" type="application/akn+xhtml"/>
+      <atom:link href="http://www.legislation.gov.uk/ssi/2024/1/pdfs/ssi_20240001_en.pdf" rel="alternate" title="Original PDF" type="application/pdf"/>
+      <atom:link href="http://www.legislation.gov.uk/ssi/2024/1/contents/made" hreflang="en" rel="http://purl.org/dc/terms/tableOfContents" title="Table of Contents"/>
+      <ukm:SecondaryMetadata>
+         <ukm:DocumentClassification>
+            <ukm:DocumentCategory Value="secondary"/>
+            <ukm:DocumentMainType Value="ScottishStatutoryInstrument"/>
+            <ukm:DocumentStatus Value="final"/>
+            <ukm:DocumentMinorType Value="regulation"/>
+         </ukm:DocumentClassification>
+         <ukm:Year Value="2024"/>
+         <ukm:Number Value="1"/>
+         <ukm:AlternativeNumber Category="C" Value="1"/>
+         <ukm:Made Date="2024-01-09"/>
+         <ukm:Laid Class="ScottishParliament" Date="2024-01-11"/>
+         <ukm:ComingIntoForce>
+            <ukm:DateTime Date="2024-01-31"/>
+         </ukm:ComingIntoForce>
+         <ukm:ISBN Value="9780111058862"/>
+      </ukm:SecondaryMetadata>
+      <ukm:Notes>
+         <ukm:Note/>
+         <ukm:Alternatives>
+            <ukm:Alternative Date="2024-01-11" Size="19117" Title="Policy Note" URI="http://www.legislation.gov.uk/ssi/2024/1/pdfs/ssipn_20240001_en_001.pdf"/>
+         </ukm:Alternatives>
+      </ukm:Notes>
+      <ukm:Alternatives>
+         <ukm:Alternative Date="2024-01-11" Print="true" Size="31716" URI="http://www.legislation.gov.uk/ssi/2024/1/pdfs/ssi_20240001_en.pdf"/>
+      </ukm:Alternatives>
+      <ukm:Statistics>
+         <ukm:TotalParagraphs Value="2"/>
+         <ukm:BodyParagraphs Value="2"/>
+         <ukm:ScheduleParagraphs Value="0"/>
+         <ukm:AttachmentParagraphs Value="0"/>
+         <ukm:TotalImages Value="0"/>
+      </ukm:Statistics>
+   </ukm:Metadata>
+   <Secondary>
+      <SecondaryPrelims>
+         <Number>2024 No. 1 (C. 1)</Number>
+         <SubjectInformation>
+            <Subject>
+               <Title>Public Health</Title>
+            </Subject>
+         </SubjectInformation>
+         <Title>The Health (Tobacco, Nicotine etc. and Care) (Scotland) Act 2016 (Commencement No. 6) Regulations 2024</Title>
+         <MadeDate>
+            <Text>Made</Text>
+            <DateText>9th January 2024</DateText>
+         </MadeDate>
+         <LaidDate>
+            <Text>Laid before the Scottish Parliament</Text>
+            <DateText>11th January 2024</DateText>
+         </LaidDate>
+         <ComingIntoForce>
+            <Text>Coming into force</Text>
+            <DateText>31st January 2024</DateText>
+         </ComingIntoForce>
+         <SecondaryPreamble>
+            <EnactingText>
+               <Para>
+                  <Text>The Scottish Ministers make the following Regulations in exercise of the powers conferred by section 36(2) of the Health (Tobacco, Nicotine etc. and Care) (Scotland) Act 2016<FootnoteRef Ref="f00001"/>.</Text>
+               </Para>
+            </EnactingText>
+         </SecondaryPreamble>
+      </SecondaryPrelims>
+      <Body NumberOfProvisions="2">
+         <P1group>
+            <Title>Citation and commencement</Title>
+            <P1 id="regulation-1">
+               <Pnumber>1</Pnumber>
+               <P1para>
+                  <Text>These Regulations may be cited as the Health (Tobacco, Nicotine etc. and Care) (Scotland) Act 2016 (Commencement No. 6) Regulations 2024 and come into force on 31 January 2024.</Text>
+               </P1para>
+            </P1>
+         </P1group>
+         <P1group>
+            <Title>Appointed day</Title>
+            <P1 id="regulation-2">
+               <Pnumber>2</Pnumber>
+               <P1para>
+                  <Text>31 January 2024 is the day appointed for the coming into force of section 17 (Advertising and brandsharing), section 18 (Free distribution and nominal pricing) and section 19 (Sponsorship) of the Health (Tobacco, Nicotine etc. and Care) (Scotland) Act 2016.</Text>
+               </P1para>
+            </P1>
+         </P1group>
+         <SignedSection>
+            <Signatory>
+               <Signee>
+                  <PersonName>JENNI MINTO</PersonName>
+                  <JobTitle>Authorised to sign by the Scottish Ministers</JobTitle>
+                  <Address>
+                     <AddressLine>St Andrew’s House,</AddressLine>
+                     <AddressLine>Edinburgh</AddressLine>
+                  </Address>
+                  <DateSigned Date="2024-01-09">
+                     <DateText>9th January 2024</DateText>
+                  </DateSigned>
+               </Signee>
+            </Signatory>
+         </SignedSection>
+      </Body>
+      <ExplanatoryNotes>
+         <Title>EXPLANATORY NOTE</Title>
+         <Comment>
+            <Para>
+               <Text>(This note is not part of the Regulations)</Text>
+            </Para>
+         </Comment>
+         <P>
+            <Text>These Regulations bring into force section 17 (Advertising and brandsharing), section 18 (Free distribution and nominal pricing) and section 19 (Sponsorship) of the Health (Tobacco, Nicotine etc. and Care (Scotland) Act 2016 (“<Term>the Act</Term>”), being the remaining provisions of the Act to be commenced.</Text>
+         </P>
+         <P>
+            <Text>Regulation 2 provides that the day appointed for these sections to come into force is 31 January 2024.</Text>
+         </P>
+         <P>
+            <Text>The Bill for the Act received Royal Assent on 6<Superior>th</Superior> April 2016. Sections 34, 35, 36 and 37 of the Act came into force the following day.</Text>
+         </P>
+      </ExplanatoryNotes>
+      <EarlierOrders>
+         <Title>NOTE AS TO EARLIER COMMENCEMENT ORDERS</Title>
+         <Comment>
+            <Para>
+               <Text>(This note is not part of the Regulations)</Text>
+            </Para>
+         </Comment>
+         <P>
+            <Text>The following provisions of the Health (Tobacco, Nicotine etc. and Care) (Scotland) Act 2016 have been brought into force by commencement regulations made before the date of these Regulations:</Text>
+            <Tabular Orientation="portrait">
+               <table xmlns="http://www.w3.org/1999/xhtml" cols="3">
+                  <colgroup>
+                     <col width="204.15pt"/>
+                     <col width="116.25pt"/>
+                     <col width="90pt"/>
+                  </colgroup>
+                  <thead>
+                     <tr>
+                        <th xmlns:fo="http://www.w3.org/1999/XSL/Format" fo:border-bottom-color="black" fo:border-bottom-style="solid" fo:border-bottom-width="0.5pt" fo:border-top-color="black" fo:border-top-style="solid" fo:border-top-width="0.5pt" colspan="1" rowspan="1">Provision</th>
+                        <th xmlns:fo="http://www.w3.org/1999/XSL/Format" fo:border-bottom-color="black" fo:border-bottom-style="solid" fo:border-bottom-width="0.5pt" fo:border-top-color="black" fo:border-top-style="solid" fo:border-top-width="0.5pt" colspan="1" rowspan="1">Date of Commencement</th>
+                        <th xmlns:fo="http://www.w3.org/1999/XSL/Format" fo:border-bottom-color="black" fo:border-bottom-style="solid" fo:border-bottom-width="0.5pt" fo:border-top-color="black" fo:border-top-style="solid" fo:border-top-width="0.5pt" colspan="1" rowspan="1">S.S.I. No.</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     <tr>
+                        <td colspan="1" rowspan="1">Section 1</td>
+                        <td colspan="1" rowspan="1">6 February 2017</td>
+                        <td colspan="1" rowspan="1">
+                           <Citation xmlns="http://www.legislation.gov.uk/namespaces/legislation" Class="ScottishStatutoryInstrument" Number="12" URI="http://www.legislation.gov.uk/id/ssi/2017/12" Year="2017" id="c00001">S.S.I. 2017/12</Citation>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td colspan="1" rowspan="1">Section 2 for the purpose of making regulations</td>
+                        <td colspan="1" rowspan="1">6 February 2017</td>
+                        <td colspan="1" rowspan="1">
+                           <Citation xmlns="http://www.legislation.gov.uk/namespaces/legislation" Class="ScottishStatutoryInstrument" Number="12" URI="http://www.legislation.gov.uk/id/ssi/2017/12" Year="2017" id="c00002">S.S.I. 2017/12</Citation>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td colspan="1" rowspan="1">Section 2 for all other purposes</td>
+                        <td colspan="1" rowspan="1">1 April 2017</td>
+                        <td colspan="1" rowspan="1">
+                           <Citation xmlns="http://www.legislation.gov.uk/namespaces/legislation" Class="ScottishStatutoryInstrument" Number="12" URI="http://www.legislation.gov.uk/id/ssi/2017/12" Year="2017" id="c00003">S.S.I. 2017/12</Citation>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td colspan="1" rowspan="1">Section 3</td>
+                        <td colspan="1" rowspan="1">1 April 2017</td>
+                        <td colspan="1" rowspan="1">
+                           <Citation xmlns="http://www.legislation.gov.uk/namespaces/legislation" Class="ScottishStatutoryInstrument" Number="12" URI="http://www.legislation.gov.uk/id/ssi/2017/12" Year="2017" id="c00004">S.S.I. 2017/12</Citation>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td colspan="1" rowspan="1">Section 4 for the purpose of making regulations</td>
+                        <td colspan="1" rowspan="1">6 February 2017</td>
+                        <td colspan="1" rowspan="1">
+                           <Citation xmlns="http://www.legislation.gov.uk/namespaces/legislation" Class="ScottishStatutoryInstrument" Number="12" URI="http://www.legislation.gov.uk/id/ssi/2017/12" Year="2017" id="c00005">S.S.I. 2017/12</Citation>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td colspan="1" rowspan="1">Section 4 for all other purposes</td>
+                        <td colspan="1" rowspan="1">1 April 2017</td>
+                        <td colspan="1" rowspan="1">
+                           <Citation xmlns="http://www.legislation.gov.uk/namespaces/legislation" Class="ScottishStatutoryInstrument" Number="12" URI="http://www.legislation.gov.uk/id/ssi/2017/12" Year="2017" id="c00006">S.S.I. 2017/12</Citation>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td colspan="1" rowspan="1">Sections 5 to 7</td>
+                        <td colspan="1" rowspan="1">1 April 2017</td>
+                        <td colspan="1" rowspan="1">
+                           <Citation xmlns="http://www.legislation.gov.uk/namespaces/legislation" Class="ScottishStatutoryInstrument" Number="12" URI="http://www.legislation.gov.uk/id/ssi/2017/12" Year="2017" id="c00007">S.S.I. 2017/12</Citation>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td colspan="1" rowspan="1">Section 8 for the purpose of making regulations</td>
+                        <td colspan="1" rowspan="1">6 February 2017</td>
+                        <td colspan="1" rowspan="1">
+                           <Citation xmlns="http://www.legislation.gov.uk/namespaces/legislation" Class="ScottishStatutoryInstrument" Number="12" URI="http://www.legislation.gov.uk/id/ssi/2017/12" Year="2017" id="c00008">S.S.I. 2017/12</Citation>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td colspan="1" rowspan="1">Section 8 for all other purposes</td>
+                        <td colspan="1" rowspan="1">1 April 2017</td>
+                        <td colspan="1" rowspan="1">
+                           <Citation xmlns="http://www.legislation.gov.uk/namespaces/legislation" Class="ScottishStatutoryInstrument" Number="12" URI="http://www.legislation.gov.uk/id/ssi/2017/12" Year="2017" id="c00009">S.S.I. 2017/12</Citation>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td colspan="1" rowspan="1">Section 9(1) for the purpose of making regulations</td>
+                        <td colspan="1" rowspan="1">6 February 2017</td>
+                        <td colspan="1" rowspan="1">
+                           <Citation xmlns="http://www.legislation.gov.uk/namespaces/legislation" Class="ScottishStatutoryInstrument" Number="12" URI="http://www.legislation.gov.uk/id/ssi/2017/12" Year="2017" id="c00010">S.S.I. 2017/12</Citation>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td colspan="1" rowspan="1">Section 9(1) for all other purposes</td>
+                        <td colspan="1" rowspan="1">1 April 2017</td>
+                        <td colspan="1" rowspan="1">
+                           <Citation xmlns="http://www.legislation.gov.uk/namespaces/legislation" Class="ScottishStatutoryInstrument" Number="12" URI="http://www.legislation.gov.uk/id/ssi/2017/12" Year="2017" id="c00011">S.S.I. 2017/12</Citation>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td colspan="1" rowspan="1">Section 9(2), (3) and (4)</td>
+                        <td colspan="1" rowspan="1">1 April 2017</td>
+                        <td colspan="1" rowspan="1">
+                           <Citation xmlns="http://www.legislation.gov.uk/namespaces/legislation" Class="ScottishStatutoryInstrument" Number="12" URI="http://www.legislation.gov.uk/id/ssi/2017/12" Year="2017" id="c00012">S.S.I. 2017/12</Citation>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td colspan="1" rowspan="1">Section 10 for the purpose of making regulations</td>
+                        <td colspan="1" rowspan="1">6 February 2017</td>
+                        <td colspan="1" rowspan="1">
+                           <Citation xmlns="http://www.legislation.gov.uk/namespaces/legislation" Class="ScottishStatutoryInstrument" Number="12" URI="http://www.legislation.gov.uk/id/ssi/2017/12" Year="2017" id="c00013">S.S.I. 2017/12</Citation>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td colspan="1" rowspan="1">Section 10 for all other purposes</td>
+                        <td colspan="1" rowspan="1">1 October 2017</td>
+                        <td colspan="1" rowspan="1">
+                           <Citation xmlns="http://www.legislation.gov.uk/namespaces/legislation" Class="ScottishStatutoryInstrument" Number="12" URI="http://www.legislation.gov.uk/id/ssi/2017/12" Year="2017" id="c00014">S.S.I. 2017/12</Citation>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td colspan="1" rowspan="1">Section 11</td>
+                        <td colspan="1" rowspan="1">1 October 2017</td>
+                        <td colspan="1" rowspan="1">
+                           <Citation xmlns="http://www.legislation.gov.uk/namespaces/legislation" Class="ScottishStatutoryInstrument" Number="12" URI="http://www.legislation.gov.uk/id/ssi/2017/12" Year="2017" id="c00015">S.S.I. 2017/12</Citation>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td colspan="1" rowspan="1">Section 12</td>
+                        <td colspan="1" rowspan="1">1 April 2017</td>
+                        <td colspan="1" rowspan="1">
+                           <Citation xmlns="http://www.legislation.gov.uk/namespaces/legislation" Class="ScottishStatutoryInstrument" Number="12" URI="http://www.legislation.gov.uk/id/ssi/2017/12" Year="2017" id="c00016">S.S.I. 2017/12</Citation>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td colspan="1" rowspan="1">Section 13</td>
+                        <td colspan="1" rowspan="1">6 February 2017</td>
+                        <td colspan="1" rowspan="1">
+                           <Citation xmlns="http://www.legislation.gov.uk/namespaces/legislation" Class="ScottishStatutoryInstrument" Number="12" URI="http://www.legislation.gov.uk/id/ssi/2017/12" Year="2017" id="c00017">S.S.I. 2017/12</Citation>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td colspan="1" rowspan="1">Section 14</td>
+                        <td colspan="1" rowspan="1">1 April 2017</td>
+                        <td colspan="1" rowspan="1">
+                           <Citation xmlns="http://www.legislation.gov.uk/namespaces/legislation" Class="ScottishStatutoryInstrument" Number="12" URI="http://www.legislation.gov.uk/id/ssi/2017/12" Year="2017" id="c00018">S.S.I. 2017/12</Citation>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td colspan="1" rowspan="1">Section 15(1) and (2)</td>
+                        <td colspan="1" rowspan="1">1 April 2017</td>
+                        <td colspan="1" rowspan="1">
+                           <Citation xmlns="http://www.legislation.gov.uk/namespaces/legislation" Class="ScottishStatutoryInstrument" Number="12" URI="http://www.legislation.gov.uk/id/ssi/2017/12" Year="2017" id="c00019">S.S.I. 2017/12</Citation>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td colspan="1" rowspan="1">Section 15(3), (4), (5), (6), (7) and (8)</td>
+                        <td colspan="1" rowspan="1">1 October 2017</td>
+                        <td colspan="1" rowspan="1">
+                           <Citation xmlns="http://www.legislation.gov.uk/namespaces/legislation" Class="ScottishStatutoryInstrument" Number="12" URI="http://www.legislation.gov.uk/id/ssi/2017/12" Year="2017" id="c00020">S.S.I. 2017/12</Citation>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td colspan="1" rowspan="1">Section 15(9), (10) and (11)</td>
+                        <td colspan="1" rowspan="1">1 April 2017</td>
+                        <td colspan="1" rowspan="1">
+                           <Citation xmlns="http://www.legislation.gov.uk/namespaces/legislation" Class="ScottishStatutoryInstrument" Number="12" URI="http://www.legislation.gov.uk/id/ssi/2017/12" Year="2017" id="c00021">S.S.I. 2017/12</Citation>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td colspan="1" rowspan="1">Section 16</td>
+                        <td colspan="1" rowspan="1">6 February 2017</td>
+                        <td colspan="1" rowspan="1">
+                           <Citation xmlns="http://www.legislation.gov.uk/namespaces/legislation" Class="ScottishStatutoryInstrument" Number="12" URI="http://www.legislation.gov.uk/id/ssi/2017/12" Year="2017" id="c00022">S.S.I. 2017/12</Citation>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td colspan="1" rowspan="1">Section 20 for the purpose of making regulations</td>
+                        <td colspan="1" rowspan="1">2 March 2022</td>
+                        <td colspan="1" rowspan="1">
+                           <Citation xmlns="http://www.legislation.gov.uk/namespaces/legislation" Class="ScottishStatutoryInstrument" Number="43" URI="http://www.legislation.gov.uk/id/ssi/2022/43" Year="2022" id="c00023">S.S.I. 2022/43</Citation>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td colspan="1" rowspan="1">Section 20 for all other purposes</td>
+                        <td colspan="1" rowspan="1">5 September 2022</td>
+                        <td colspan="1" rowspan="1">
+                           <Citation xmlns="http://www.legislation.gov.uk/namespaces/legislation" Class="ScottishStatutoryInstrument" Number="43" URI="http://www.legislation.gov.uk/id/ssi/2022/43" Year="2022" id="c00024">S.S.I. 2022/43</Citation>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td colspan="1" rowspan="1">Section 21 for the purpose of making regulations</td>
+                        <td colspan="1" rowspan="1">1 October 2017</td>
+                        <td colspan="1" rowspan="1">
+                           <Citation xmlns="http://www.legislation.gov.uk/namespaces/legislation" Class="ScottishStatutoryInstrument" Number="294" URI="http://www.legislation.gov.uk/id/ssi/2017/294" Year="2017" id="c00025">S.S.I. 2017/294</Citation>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td colspan="1" rowspan="1">Section 22 for the purpose of making regulations</td>
+                        <td colspan="1" rowspan="1">1 October 2017</td>
+                        <td colspan="1" rowspan="1">
+                           <Citation xmlns="http://www.legislation.gov.uk/namespaces/legislation" Class="ScottishStatutoryInstrument" Number="294" URI="http://www.legislation.gov.uk/id/ssi/2017/294" Year="2017" id="c00026">S.S.I. 2017/294</Citation>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td colspan="1" rowspan="1">Section 23 for the purpose of making regulations</td>
+                        <td colspan="1" rowspan="1">1 October 2017</td>
+                        <td colspan="1" rowspan="1">
+                           <Citation xmlns="http://www.legislation.gov.uk/namespaces/legislation" Class="ScottishStatutoryInstrument" Number="294" URI="http://www.legislation.gov.uk/id/ssi/2017/294" Year="2017" id="c00027">S.S.I. 2017/294</Citation>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td colspan="1" rowspan="1">Section 25(1) for the purpose of making regulations</td>
+                        <td colspan="1" rowspan="1">1 October 2017</td>
+                        <td colspan="1" rowspan="1">
+                           <Citation xmlns="http://www.legislation.gov.uk/namespaces/legislation" Class="ScottishStatutoryInstrument" Number="294" URI="http://www.legislation.gov.uk/id/ssi/2017/294" Year="2017" id="c00028">S.S.I. 2017/294</Citation>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td colspan="1" rowspan="1">Sections 21 to 25, for all other purposes</td>
+                        <td colspan="1" rowspan="1">1 April 2018</td>
+                        <td colspan="1" rowspan="1">
+                           <Citation xmlns="http://www.legislation.gov.uk/namespaces/legislation" Class="ScottishStatutoryInstrument" Number="56" URI="http://www.legislation.gov.uk/id/ssi/2018/56" Year="2018" id="c00029">S.S.I. 2018/56</Citation>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td colspan="1" rowspan="1">Sections 26 to 32</td>
+                        <td colspan="1" rowspan="1">1 October 2017</td>
+                        <td colspan="1" rowspan="1">
+                           <Citation xmlns="http://www.legislation.gov.uk/namespaces/legislation" Class="ScottishStatutoryInstrument" Number="294" URI="http://www.legislation.gov.uk/id/ssi/2017/294" Year="2017" id="c00030">S.S.I. 2017/294</Citation>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td xmlns:fo="http://www.w3.org/1999/XSL/Format" fo:border-bottom-color="black" fo:border-bottom-style="solid" fo:border-bottom-width="0.5pt" colspan="1" rowspan="1">Section 33</td>
+                        <td xmlns:fo="http://www.w3.org/1999/XSL/Format" fo:border-bottom-color="black" fo:border-bottom-style="solid" fo:border-bottom-width="0.5pt" colspan="1" rowspan="1">19 March 2018</td>
+                        <td xmlns:fo="http://www.w3.org/1999/XSL/Format" fo:border-bottom-color="black" fo:border-bottom-style="solid" fo:border-bottom-width="0.5pt" colspan="1" rowspan="1">
+                           <Citation xmlns="http://www.legislation.gov.uk/namespaces/legislation" Class="ScottishStatutoryInstrument" Number="26" URI="http://www.legislation.gov.uk/id/ssi/2018/26" Year="2018" id="c00031">S.S.I. 2018/26</Citation>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </Tabular>
+         </P>
+      </EarlierOrders>
+   </Secondary>
+   <Footnotes>
+      <Footnote id="f00001">
+         <FootnoteText>
+            <Para>
+               <Text>
+                  <Citation Class="ScottishAct" Number="14" URI="http://www.legislation.gov.uk/id/asp/2016/14" Year="2016" id="c00032">2016 asp 14</Citation>.</Text>
+            </Para>
+         </FootnoteText>
+      </Footnote>
+   </Footnotes>
+</Legislation>
