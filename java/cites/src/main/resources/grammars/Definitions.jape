@@ -2,10 +2,10 @@ Phase: Definitions
 Input: Token Lookup
 Options: control = appelt
 
-Rule: ActDefinition
+Rule: Act1
 Priority: 1
 ( { Token.string == "the" }
-  ( { Lookup.majorType == "title", Lookup.minorType == "ukpga" } ) :title
+  ( { Lookup.majorType == "title" } ) :title
   { Token.string == "(" }
   { Token.string == "“" }
   ( { Token.string == "the" }
@@ -13,6 +13,23 @@ Priority: 1
     { Token.string == "Act" } ) :term
   { Token.string == "”" }
   { Token.string == ")" }
+) --> {
+	gate.Annotation title = (gate.Annotation) bindings.get("title").iterator().next();
+	gate.AnnotationSet term = (gate.AnnotationSet) bindings.get("term");
+	System.out.println(" ***** " + gate.Utils.stringFor(doc, term) + " means the " + gate.Utils.stringFor(doc, title));
+    inputAS.add(term.firstNode(), term.lastNode(), "Lookup2", title.getFeatures());
+}
+
+Rule: Act2
+Priority: 1
+( { Token.string == "the" }
+  { Token.string == "“" }
+  ( ( { Token.string != "”" } ) [1,3]
+    { Token.string == "Act" } ) :term
+  { Token.string == "”" }
+  { Token.string == "means" }
+  ( { Token.string == "the" } ) ?
+  ( { Lookup.majorType == "title" } ) :title
 ) --> {
 	gate.Annotation title = (gate.Annotation) bindings.get("title").iterator().next();
 	gate.AnnotationSet term = (gate.AnnotationSet) bindings.get("term");
@@ -29,7 +46,7 @@ Priority: 1
   { Token.string == "”" }
   { Token.string == "means" }
   ( { Token.string == "the" } ) ?
-  ( { Lookup.majorType == "title", Lookup.minorType == "uksi" } ) :title
+  ( { Lookup.majorType == "title" } ) :title
 ) --> {
 	gate.Annotation title = (gate.Annotation) bindings.get("title").iterator().next();
 	gate.AnnotationSet term = (gate.AnnotationSet) bindings.get("term");
