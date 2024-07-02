@@ -12,6 +12,8 @@ public class MakeURI implements Function<Annotation, String> {
         String longType = (String) features.get("Class");
         Object year = features.get("Year"); // can be either String or Integer
         Object number = features.get("Number");
+        if (number instanceof String)
+            number = ((String) number).replaceFirst("^0+(?!$)", "");
         String section = (String) features.get("SectionRef");
         if (number == null)
             return null;

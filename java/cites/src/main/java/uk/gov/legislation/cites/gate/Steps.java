@@ -15,6 +15,7 @@ class Steps {
     static void addAll(SerialAnalyserController sac) throws ResourceInstantiationException {
         addMainGrammar(sac);
         addRemove(sac);
+        ofThatAct(sac);
         sac.add((LanguageAnalyser) Factory.createResource(EUNumberCorrector.class.getName()));
         sac.add((LanguageAnalyser) Factory.createResource(UKTypeCorrector.class.getName()));
         sac.add((LanguageAnalyser) Factory.createResource(OverlappingCiteRemover.class.getName()));
@@ -33,6 +34,19 @@ class Steps {
     private static void addLoneNumberStep(SerialAnalyserController sac) throws ResourceInstantiationException {
         copyAnnotations(sac, CiteEnricher.NewMarkups, null); // null for default annotation set
         addTransducer(sac,"/UKCitations3.jape");
+    }
+
+    private static void ofThatAct(SerialAnalyserController sac) throws ResourceInstantiationException {
+        String combined = "CombinedForOfThatAct";
+        copyAnnotations(sac, null, combined);
+        copyAnnotations(sac, CiteEnricher.OriginalMarkups, combined);
+        copyAnnotations(sac, CiteEnricher.NewMarkups, combined);
+        FeatureMap features = Factory.newFeatureMap();
+        features.put("grammarURL", Steps.class.getResource("/grammars/OfThatAct.jape"));
+        features.put("inputASName", combined);
+        features.put("outputASName", CiteEnricher.NewMarkups);
+        LanguageAnalyser transducer = (LanguageAnalyser) Factory.createResource("gate.creole.Transducer", features);
+        sac.add(transducer);
     }
 
     private static void addRemove(SerialAnalyserController sac) throws ResourceInstantiationException {

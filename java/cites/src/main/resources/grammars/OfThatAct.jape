@@ -1,0 +1,44 @@
+Phase: OfThatAct
+Input: Token Text Citation
+Options: control = first
+
+Macro: SUBPARAGRAPH_NUMBER
+( { Token.string == "(" } { Token.string ==~ "[ivx]+" } { Token.string == ")" } )
+
+Macro: PARAGRAPH_NUMBER
+( { Token.string == "(" } { Token.string ==~ "[a-z]{1,2}" } { Token.string == ")" } ( SUBPARAGRAPH_NUMBER ) ? )
+
+Macro: SUBSECTION_NUMBER
+( { Token.string == "(" } { Token.kind == "number" } ( { Token.string ==~ "[A-Z]{1,2}" } ) ? { Token.string == ")" } ( PARAGRAPH_NUMBER ) ? )
+
+Macro: SECTION_NUMBER
+( { Token.kind == "number" }
+  ( { Token.string ==~ "[A-Z]{1,2}" } ) ?
+  ( SUBSECTION_NUMBER ) ?
+)
+
+Rule: OfThatAct
+Priority: 1
+( ( { Citation } ) :cite
+  ( { Token, !Text, !Citation } ) *
+  ( { Token.string ==~ "[Ss]ection" }
+    ( SECTION_NUMBER ) :number ) :link
+  { Token.string == "of" }
+  { Token.string == "that" }
+  { Token.string == "Act" }
+) --> {
+
+	String sectionNum = gate.Utils.stringFor(doc, bindings.get("number"));
+	String sectionRef = "section-" + sectionNum.replace("(", "-").replace(")", "");
+
+	gate.Annotation cite = (gate.Annotation) bindings.get("cite").iterator().next();
+
+	gate.FeatureMap features = Factory.newFeatureMap();
+	features.put("Class", cite.getFeatures().get("Class"));
+	features.put("Year", cite.getFeatures().get("Year"));
+	features.put("Number", cite.getFeatures().get("Number"));
+	features.put("SectionRef", sectionRef);
+
+	gate.AnnotationSet link = (gate.AnnotationSet) bindings.get("link");
+	outputAS.add(link.firstNode(), link.lastNode(), "Citation", features);
+}
